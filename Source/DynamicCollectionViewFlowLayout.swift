@@ -104,8 +104,8 @@ public class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
     override public func prepareForCollectionViewUpdates(updateItems: [UICollectionViewUpdateItem]) {
         super.prepareForCollectionViewUpdates(updateItems)
 
-        updateItems.filter { $0.updateAction == .Insert && layoutAttributesForItemAtIndexPath($0.indexPathAfterUpdate) == nil } .forEach {
-            setupAttributesForIndexPath($0.indexPathAfterUpdate)
+        updateItems.filter { $0.updateAction == .Insert && layoutAttributesForItemAtIndexPath($0.indexPathAfterUpdate!) == nil } .forEach {
+            setupAttributesForIndexPath($0.indexPathAfterUpdate!)
         }
     }
 

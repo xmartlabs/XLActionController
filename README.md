@@ -375,7 +375,7 @@ After the dismissal animation completes, `dismissView` calls `onDidDismissView` 
 > `onWillDismissView`, `performCustomDismissingAnimation`, `onDidDismissView` won't be invoked if you override `dismissView` implementation.
 
 
-**To show how simple and powerful XLActionController is and give several examples of how to extend ActionController we have mimicked the [Skype](Example/CustomActionControllers/Skype.swift), [Tweetbot](Example/CustomActionControllers/Tweetbot.swift), [Twitter](Example/CustomActionControllers/Twitter.swift), [Youtube](Example/CustomActionControllers/Youtube.swift), [Periscope](Example/CustomActionControllers/Periscope.swift) and [Spotify](xample/CustomActionControllers/Spotify.swift)  action controllers.**
+**To show how simple and powerful XLActionController is and give several examples of how to extend ActionController we have mimicked the [Skype](Example/CustomActionControllers/Skype.swift), [Tweetbot](Example/CustomActionControllers/Tweetbot.swift), [Twitter](Example/CustomActionControllers/Twitter.swift), [Youtube](Example/CustomActionControllers/Youtube.swift), [Periscope](Example/CustomActionControllers/Periscope.swift) and [Spotify](Example/CustomActionControllers/Spotify.swift)  action controllers.**
 
 
 ## Requirements
