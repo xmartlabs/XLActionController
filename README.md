@@ -39,7 +39,7 @@ By [XMARTLABS](http://xmartlabs.com).
  </tr>
  </table>
 
-The action sheet controllers shown above were entirely created using XLActionController and are included in the [Examples](/Examples/CustomActionControllers).
+The action sheet controllers shown above were entirely created using XLActionController and are included in the [Examples](/Example/CustomActionControllers).
 To run the Example project: clone XLActionController repository, open XLActionController workspace and run the Example project.
 
 The code snippet below shows how to present the Tweetbot action sheet controller:
@@ -407,15 +407,15 @@ platform :ios, '8.0'
 use_frameworks!
 
 # This will install just the library's core, won't include any examples
-pod 'XLActionController'
+pod 'XLActionController', :gith => 'https://github.com/xmartlabs/XLActionController#extensibility'
 
 # Uncomment depending on the examples that you want to install
-#pod 'XLActionController/Periscope'
-#pod 'XLActionController/Skype'
-#pod 'XLActionController/Spotify'
-#pod 'XLActionController/Tweetbot'
-#pod 'XLActionController/Twitter'
-#pod 'XLActionController/Youtube'
+#pod 'XLActionController/Periscope', :gith => 'https://github.com/xmartlabs/XLActionController#extensibility'
+#pod 'XLActionController/Skype', :gith => 'https://github.com/xmartlabs/XLActionController#extensibility'
+#pod 'XLActionController/Spotify', :gith => 'https://github.com/xmartlabs/XLActionController#extensibility'
+#pod 'XLActionController/Tweetbot', :gith => 'https://github.com/xmartlabs/XLActionController#extensibility'
+#pod 'XLActionController/Twitter', :gith => 'https://github.com/xmartlabs/XLActionController#extensibility'
+#pod 'XLActionController/Youtube', :gith => 'https://github.com/xmartlabs/XLActionController#extensibility'
 
 ```
 
