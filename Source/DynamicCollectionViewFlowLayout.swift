@@ -93,7 +93,11 @@ public class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
         return animator.itemsInRect(rect) as? [UICollectionViewLayoutAttributes]
     }
     
-    override public func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
+    override public func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath?) -> UICollectionViewLayoutAttributes? {
+        guard let indexPath = indexPath else {
+            return nil
+        }
+        
         guard let animator = dynamicAnimator else {
             return super.layoutAttributesForItemAtIndexPath(indexPath)
         }
@@ -103,9 +107,9 @@ public class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
 
     override public func prepareForCollectionViewUpdates(updateItems: [UICollectionViewUpdateItem]) {
         super.prepareForCollectionViewUpdates(updateItems)
-
-        updateItems.filter { $0.updateAction == .Insert && layoutAttributesForItemAtIndexPath($0.indexPathAfterUpdate!) == nil } .forEach {
-            setupAttributesForIndexPath($0.indexPathAfterUpdate!)
+        
+        updateItems.filter { $0.updateAction == .Insert && layoutAttributesForItemAtIndexPath($0.indexPathAfterUpdate) == nil } .forEach {
+            setupAttributesForIndexPath($0.indexPathAfterUpdate)
         }
     }
 
@@ -129,12 +133,8 @@ public class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
         return top
     }
     
-    func setupAttributesForIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
-        guard let animator = dynamicAnimator else {
-            return nil
-        }
-        
-        guard let collectionView = collectionView else {
+    func setupAttributesForIndexPath(indexPath: NSIndexPath?) -> UICollectionViewLayoutAttributes? {
+        guard let indexPath = indexPath, animator = dynamicAnimator, collectionView = collectionView else {
             return nil
         }
         

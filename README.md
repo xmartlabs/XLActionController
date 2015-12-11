@@ -382,7 +382,7 @@ After the dismissal animation completes, `dismissView` calls `onDidDismissView` 
 ## Requirements
 
 * iOS 8.0+
-* Xcode 7.2+
+* Xcode 7.0+
 
 ## Getting involved
 
