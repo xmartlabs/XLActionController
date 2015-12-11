@@ -23,7 +23,9 @@
 // THE SOFTWARE.
 
 import Foundation
+#if XLACTIONCONTROLLER_EXAMPLE
 import XLActionController
+#endif
 
 public class TweetbotCell: ActionCell {
     

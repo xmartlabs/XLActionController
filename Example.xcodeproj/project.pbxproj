@@ -507,6 +507,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Example/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-DXLACTIONCONTROLLER_EXAMPLE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -518,6 +519,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Example/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-DXLACTIONCONTROLLER_EXAMPLE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

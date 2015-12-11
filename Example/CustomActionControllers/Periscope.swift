@@ -23,7 +23,10 @@
 // THE SOFTWARE.
 
 import Foundation
+#if XLACTIONCONTROLLER_EXAMPLE
 import XLActionController
+#endif
+
 public class PeriscopeCell: ActionCell {
     
     public override init(frame: CGRect) {
