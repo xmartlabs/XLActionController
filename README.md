@@ -408,15 +408,15 @@ platform :ios, '8.0'
 use_frameworks!
 
 # This will install just the library's core, won't include any examples
-pod 'XLActionController', :gith => 'https://github.com/xmartlabs/XLActionController#extensibility'
+pod 'XLActionController'
 
 # Uncomment depending on the examples that you want to install
-#pod 'XLActionController/Periscope', :gith => 'https://github.com/xmartlabs/XLActionController#extensibility'
-#pod 'XLActionController/Skype', :gith => 'https://github.com/xmartlabs/XLActionController#extensibility'
-#pod 'XLActionController/Spotify', :gith => 'https://github.com/xmartlabs/XLActionController#extensibility'
-#pod 'XLActionController/Tweetbot', :gith => 'https://github.com/xmartlabs/XLActionController#extensibility'
-#pod 'XLActionController/Twitter', :gith => 'https://github.com/xmartlabs/XLActionController#extensibility'
-#pod 'XLActionController/Youtube', :gith => 'https://github.com/xmartlabs/XLActionController#extensibility'
+#pod 'XLActionController/Periscope'
+#pod 'XLActionController/Skype'
+#pod 'XLActionController/Spotify'
+#pod 'XLActionController/Tweetbot'
+#pod 'XLActionController/Twitter'
+#pod 'XLActionController/Youtube'
 
 ```
 
