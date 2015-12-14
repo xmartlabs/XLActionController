@@ -42,11 +42,11 @@ public class ActionCell: UICollectionViewCell, SeparatorCellType {
         actionImageView?.image = image
 
         if let _ = image {
-            actionTitleLabelConstraintToContainer?.priority = 750
-            actionTitleLabelConstraintToImageView?.priority = 1000
+            actionTitleLabelConstraintToContainer?.priority = UILayoutPriorityDefaultHigh
+            actionTitleLabelConstraintToImageView?.priority = UILayoutPriorityRequired
         } else {
-            actionTitleLabelConstraintToContainer?.priority = 1000
-            actionTitleLabelConstraintToImageView?.priority = 750
+            actionTitleLabelConstraintToContainer?.priority = UILayoutPriorityRequired
+            actionTitleLabelConstraintToImageView?.priority = UILayoutPriorityDefaultHigh
         }
     }
     
