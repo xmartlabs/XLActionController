@@ -86,6 +86,10 @@ public class PeriscopeActionController: ActionController<PeriscopeCell, String, 
     
     public override init(nibName nibNameOrNil: String? = nil, bundle nibBundleOrNil: NSBundle? = nil) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        
+        collectionViewLayout.minimumLineSpacing = -0.5
+        collectionViewLayout.sectionInset = UIEdgeInsets(top: -0.5, left: 0, bottom: 0, right: 0)
+
         settings.behavior.hideOnScrollDown = false
         settings.animation.scale = nil
         settings.animation.present.duration = 0.6
