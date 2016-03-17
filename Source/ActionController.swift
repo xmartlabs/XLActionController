@@ -129,13 +129,13 @@ public class ActionController<ActionViewType: UICollectionViewCell, ActionDataTy
         collectionView.scrollEnabled = self.settings.behavior.scrollEnabled
         collectionView.showsVerticalScrollIndicator = false
         if self.settings.behavior.hideOnTap {
-            let tapRecognizer = UITapGestureRecognizer(target: self, action: "tapGestureDidRecognize:")
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ActionController.tapGestureDidRecognize(_:)))
             collectionView.backgroundView = UIView(frame: collectionView.bounds)
             collectionView.backgroundView?.userInteractionEnabled = true
             collectionView.backgroundView?.addGestureRecognizer(tapRecognizer)
         }
         if self.settings.behavior.hideOnScrollDown && !self.settings.behavior.scrollEnabled {
-            let swipeGesture = UISwipeGestureRecognizer(target: self, action: "swipeGestureDidRecognize:")
+            let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(ActionController.swipeGestureDidRecognize(_:)))
             swipeGesture.direction = .Down
             collectionView.addGestureRecognizer(swipeGesture)
         }
@@ -266,7 +266,7 @@ public class ActionController<ActionViewType: UICollectionViewCell, ActionDataTy
                     cancel.backgroundColor = settings.cancelView.backgroundColor
                     let cancelButton: UIButton = {
                         let cancelButton = UIButton(frame: CGRectMake(0, 0, 100, settings.cancelView.height))
-                        cancelButton.addTarget(self, action: "cancelButtonDidTouch:", forControlEvents: .TouchUpInside)
+                        cancelButton.addTarget(self, action: #selector(ActionController.cancelButtonDidTouch(_:)), forControlEvents: .TouchUpInside)
                         cancelButton.setTitle(settings.cancelView.title, forState: .Normal)
                         cancelButton.translatesAutoresizingMaskIntoConstraints = false
                         return cancelButton
