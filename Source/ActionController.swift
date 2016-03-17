@@ -73,7 +73,7 @@ public enum HeaderSpec<HeaderType: UICollectionReusableView, HeaderDataType> {
 
 private enum ReusableViewIds: String {
     case Cell = "Cell"
-    case Header = "Heeder"
+    case Header = "Header"
     case SectionHeader = "SectionHeader"
 }
 
