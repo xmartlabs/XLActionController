@@ -214,7 +214,7 @@ public class SkypeActionController: ActionController<SkypeCell, String, UICollec
     
     private func startAnimation() {
         if displayLink == nil {
-            self.displayLink = CADisplayLink(target: self, selector: #selector(SkypeActionController.update(_:)))
+            self.displayLink = CADisplayLink(target: self, selector: "update:")
             self.displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSDefaultRunLoopMode)
         }
         animationCount += 1
