@@ -129,13 +129,13 @@ public class ActionController<ActionViewType: UICollectionViewCell, ActionDataTy
         collectionView.scrollEnabled = self.settings.behavior.scrollEnabled
         collectionView.showsVerticalScrollIndicator = false
         if self.settings.behavior.hideOnTap {
-            let tapRecognizer = UITapGestureRecognizer(target: self, action: "tapGestureDidRecognize:")
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ActionController.tapGestureDidRecognize(_:)))
             collectionView.backgroundView = UIView(frame: collectionView.bounds)
             collectionView.backgroundView?.userInteractionEnabled = true
             collectionView.backgroundView?.addGestureRecognizer(tapRecognizer)
         }
         if self.settings.behavior.hideOnScrollDown && !self.settings.behavior.scrollEnabled {
-            let swipeGesture = UISwipeGestureRecognizer(target: self, action: "swipeGestureDidRecognize:")
+            let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(ActionController.swipeGestureDidRecognize(_:)))
             swipeGesture.direction = .Down
             collectionView.addGestureRecognizer(swipeGesture)
         }
@@ -266,7 +266,7 @@ public class ActionController<ActionViewType: UICollectionViewCell, ActionDataTy
                     cancel.backgroundColor = settings.cancelView.backgroundColor
                     let cancelButton: UIButton = {
                         let cancelButton = UIButton(frame: CGRectMake(0, 0, 100, settings.cancelView.height))
-                        cancelButton.addTarget(self, action: "cancelButtonDidTouch:", forControlEvents: .TouchUpInside)
+                        cancelButton.addTarget(self, action: #selector(ActionController.cancelButtonDidTouch(_:)), forControlEvents: .TouchUpInside)
                         cancelButton.setTitle(settings.cancelView.title, forState: .Normal)
                         cancelButton.translatesAutoresizingMaskIntoConstraints = false
                         return cancelButton
@@ -644,11 +644,14 @@ public class DynamicsActionController<ActionViewType: UICollectionViewCell, Acti
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        for sectionIndex in 0..<_sections.count {
-            var rowIndex = 0
-            let indexPaths = _sections[sectionIndex].actions.map { _ in return NSIndexPath(forRow: rowIndex++, inSection: sectionIndex) }
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(sectionIndex) * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
-                self._dynamicSectionIndex = sectionIndex
+        for (index, section) in _sections.enumerate() {
+            var rowIndex = -1
+            let indexPaths = section.actions.map({ _ -> NSIndexPath in
+                rowIndex += 1
+                return NSIndexPath(forRow: rowIndex, inSection: index)
+            })
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(index) * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
+                self._dynamicSectionIndex = index
                 self.collectionView.performBatchUpdates({
                     if indexPaths.count > 0 {
                         self.collectionView.insertItemsAtIndexPaths(indexPaths)
