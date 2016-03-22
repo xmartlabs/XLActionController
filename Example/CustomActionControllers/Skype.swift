@@ -217,11 +217,11 @@ public class SkypeActionController: ActionController<SkypeCell, String, UICollec
             self.displayLink = CADisplayLink(target: self, selector: "update:")
             self.displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSDefaultRunLoopMode)
         }
-        animationCount++
+        animationCount += 1
     }
     
     private func finishAnimation() {
-        animationCount--
+        animationCount -= 1
         if animationCount == 0 {
             displayLink.invalidate()
             displayLink = nil

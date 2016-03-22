@@ -37,7 +37,7 @@ public struct Action<T> {
     public private(set) var data: T?
     public var enabled: Bool
     public private(set) var style = ActionStyle.Default
-    private (set) var handler: (Action<T> -> Void)?
+    public private (set) var handler: (Action<T> -> Void)?
 
     public init(_ data: T?, style: ActionStyle, handler: (Action<T> -> Void)?) {
         enabled = true
