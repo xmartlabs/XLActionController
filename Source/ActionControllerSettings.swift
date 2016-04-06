@@ -92,6 +92,14 @@ public struct ActionControllerSettings {
           * A float that determines the cells' height when using UIDynamics to animate items. Its default value is `50`.
           */
         public var cellHeightWhenDynamicsIsUsed: CGFloat = 50
+        /**
+         * A Boolean value that determines whether collectionView's backgroundView is shown. Its default value is `false`.
+         */
+        public var fillBackgroundColor = false
+        /**
+         * The background view's background color. Its default value is `UIColor(white: 0.95, alpha: 1)`.
+         */
+        public var backgroundColor = UIColor(white: 0.95, alpha: 1)
     }
   
     /** Struct that contains properties to configure the animation when presenting the action controller */
