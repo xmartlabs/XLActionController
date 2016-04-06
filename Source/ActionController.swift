@@ -268,6 +268,7 @@ public class ActionController<ActionViewType: UICollectionViewCell, ActionDataTy
                         let cancelButton = UIButton(frame: CGRectMake(0, 0, 100, settings.cancelView.height))
                         cancelButton.addTarget(self, action: #selector(ActionController.cancelButtonDidTouch(_:)), forControlEvents: .TouchUpInside)
                         cancelButton.setTitle(settings.cancelView.title, forState: .Normal)
+                        cancelButton.setTitleColor(settings.cancelView.titleColor, forState: .Normal)
                         cancelButton.translatesAutoresizingMaskIntoConstraints = false
                         return cancelButton
                     }()

@@ -60,14 +60,17 @@ public struct ActionControllerSettings {
     /** Struct that contains properties to configure the cancel view */
     public struct CancelViewStyle {
         /**
-         * A Boolean value that determines whether cancel view is shown. Its default value is `false`. Its default
-         * value is `false`.
+         * A Boolean value that determines whether cancel view is shown. Its default value is `false`.
          */
         public var showCancel = false
         /**
          * The cancel view's title. Its default value is "Cancel".
          */
         public var title: String? = "Cancel"
+        /**
+         * The cancel view's title color. Its default value is `UIColor.blackColor()`.
+         */
+        public var titleColor = UIColor.blackColor()
         /**
          * The cancel view's height. Its default value is `60`.
          */
