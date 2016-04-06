@@ -60,14 +60,17 @@ public struct ActionControllerSettings {
     /** Struct that contains properties to configure the cancel view */
     public struct CancelViewStyle {
         /**
-         * A Boolean value that determines whether cancel view is shown. Its default value is `false`. Its default
-         * value is `false`.
+         * A Boolean value that determines whether cancel view is shown. Its default value is `false`.
          */
         public var showCancel = false
         /**
          * The cancel view's title. Its default value is "Cancel".
          */
         public var title: String? = "Cancel"
+        /**
+         * The cancel view's title color. Its default value is `UIColor.blackColor()`.
+         */
+        public var titleColor = UIColor.blackColor()
         /**
          * The cancel view's height. Its default value is `60`.
          */
@@ -89,6 +92,14 @@ public struct ActionControllerSettings {
           * A float that determines the cells' height when using UIDynamics to animate items. Its default value is `50`.
           */
         public var cellHeightWhenDynamicsIsUsed: CGFloat = 50
+        /**
+         * A Boolean value that determines whether collectionView's backgroundView is shown. Its default value is `false`.
+         */
+        public var fillBackgroundColor = false
+        /**
+         * The background view's background color. Its default value is `UIColor(white: 0.95, alpha: 1)`.
+         */
+        public var backgroundColor = UIColor(white: 0.95, alpha: 1)
     }
   
     /** Struct that contains properties to configure the animation when presenting the action controller */

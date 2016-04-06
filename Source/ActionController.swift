@@ -111,6 +111,8 @@ public class ActionController<ActionViewType: UICollectionViewCell, ActionDataTy
     
     public var contentHeight: CGFloat = 0.0
 
+    public var collectionViewBackgroundView: UIView?
+    
     lazy public var backgroundView: UIView = { [unowned self] in
         let backgroundView = UIView()
         backgroundView.autoresizingMask = UIViewAutoresizing.FlexibleHeight.union(.FlexibleWidth)
@@ -256,6 +258,15 @@ public class ActionController<ActionViewType: UICollectionViewCell, ActionDataTy
         collectionView.frame = view.bounds
         collectionView.frame.origin.y += contentHeight + (settings.cancelView.showCancel ? settings.cancelView.height : 0)
         collectionViewLayout.footerReferenceSize = CGSizeMake(320, 0)
+        
+        // add collectionView's backgroundView
+        if settings.collectionView.fillBackgroundColor {
+            let bgView = UIView()
+            bgView.backgroundColor = settings.collectionView.backgroundColor
+            bgView.frame = CGRect(x: 0, y: view.frame.size.height - collectionView.frame.origin.y, width: view.frame.size.width, height: collectionView.frame.origin.y)
+            view.insertSubview(bgView, aboveSubview: backgroundView)
+            self.collectionViewBackgroundView = bgView
+        }
         // -
         
         if settings.cancelView.showCancel {
@@ -268,6 +279,7 @@ public class ActionController<ActionViewType: UICollectionViewCell, ActionDataTy
                         let cancelButton = UIButton(frame: CGRectMake(0, 0, 100, settings.cancelView.height))
                         cancelButton.addTarget(self, action: #selector(ActionController.cancelButtonDidTouch(_:)), forControlEvents: .TouchUpInside)
                         cancelButton.setTitle(settings.cancelView.title, forState: .Normal)
+                        cancelButton.setTitleColor(settings.cancelView.titleColor, forState: .Normal)
                         cancelButton.translatesAutoresizingMaskIntoConstraints = false
                         return cancelButton
                     }()
@@ -501,6 +513,7 @@ public class ActionController<ActionViewType: UICollectionViewCell, ActionDataTy
     
     public func onWillPresentView() {
         backgroundView.alpha = 0.0
+        collectionViewBackgroundView?.frame.origin.y = view.bounds.size.height
         cancelView?.frame.origin.y = view.bounds.size.height
         // Override this to add custom behavior previous to start presenting view animated.
         // Tip: you could start a new animation from this method
@@ -508,6 +521,7 @@ public class ActionController<ActionViewType: UICollectionViewCell, ActionDataTy
     
     public func performCustomPresentationAnimation(presentedView: UIView, presentingView: UIView) {
         backgroundView.alpha = 1.0
+        collectionViewBackgroundView?.frame.origin.y = view.frame.size.height - collectionView.frame.origin.y
         cancelView?.frame.origin.y = view.bounds.size.height - settings.cancelView.height
         collectionView.frame = view.bounds
         // Override this to add custom animations. This method is performed within the presentation animation block
@@ -524,6 +538,7 @@ public class ActionController<ActionViewType: UICollectionViewCell, ActionDataTy
     
     public func performCustomDismissingAnimation(presentedView: UIView, presentingView: UIView) {
         backgroundView.alpha = 0.0
+        collectionViewBackgroundView?.frame.origin.y = view.bounds.size.height
         cancelView?.frame.origin.y = view.bounds.size.height
         collectionView.frame.origin.y = contentHeight + (settings.cancelView.showCancel ? settings.cancelView.height : 0) + settings.animation.dismiss.offset
         // Override this to add custom animations. This method is performed within the presentation animation block
