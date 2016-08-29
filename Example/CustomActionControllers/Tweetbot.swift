@@ -45,9 +45,9 @@ public class TweetbotCell: ActionCell {
     
     func initialize() {
         actionTitleLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
-        actionTitleLabel?.textColor = .whiteColor()
-        actionTitleLabel?.textAlignment = .Center
-        backgroundColor = .darkGrayColor()
+        actionTitleLabel?.textColor = .white
+        actionTitleLabel?.textAlignment = .center
+        backgroundColor = .darkGray
         let backgroundView = UIView()
         backgroundView.backgroundColor = UIColor(red: 0.31, green: 0.42, blue: 0.54, alpha: 1.0)
         selectedBackgroundView = backgroundView
@@ -55,10 +55,12 @@ public class TweetbotCell: ActionCell {
 }
 
 public class TweetbotActionController: DynamicsActionController<TweetbotCell, String, UICollectionReusableView, Void, UICollectionReusableView, Void> {
-    
-    public override init(nibName nibNameOrNil: String? = nil, bundle nibBundleOrNil: NSBundle? = nil) {
+    required public init?(coder aDecoder: NSCoder) {
+      super.init(coder: aDecoder)
+    }
+    public override init(nibName nibNameOrNil: String? = nil, bundle nibBundleOrNil: Bundle? = nil) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        backgroundView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.5)
+        backgroundView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         settings.animation.present.duration = 0.5
         settings.animation.dismiss.duration = 0.5
         settings.behavior.bounces = true
@@ -66,34 +68,36 @@ public class TweetbotActionController: DynamicsActionController<TweetbotCell, St
         collectionView.contentInset = UIEdgeInsets(top: 0.0, left: 12.0, bottom: 6.0, right: 12.0)
         (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 6.0, right: 0.0)
         
-        cellSpec = .NibFile(nibName: "TweetbotCell", bundle: NSBundle(forClass: TweetbotCell.self), height: { _  in 50 })
+        cellSpec = .nibFile(nibName: "TweetbotCell", bundle: Bundle(for: TweetbotCell.self), height: { _  in 50 })
         
         onConfigureCellForAction = { [weak self] cell, action, indexPath in
             
             cell.setup(action.data, detail: nil, image: nil)
             let actions = self?.sectionForIndex(indexPath.section)?.actions
             let actionsCount = actions!.count
-            cell.separatorView?.hidden = indexPath.item == (self?.collectionView.numberOfItemsInSection(indexPath.section))! - 1
-            cell.backgroundColor = action.style == .Cancel ? UIColor(white: 0.23, alpha: 1.0) : .darkGrayColor()
+            cell.separatorView?.isHidden = indexPath.item == (self?.collectionView.numberOfItems(inSection: indexPath.section))! - 1
+            cell.backgroundColor = action.style == .cancel ? UIColor(white: 0.23, alpha: 1.0) : .darkGray
             cell.alpha = action.enabled ? 1.0 : 0.5
             
             var corners = UIRectCorner()
             if indexPath.item == 0 {
-                corners = UIRectCorner.TopLeft.union(.TopRight)
+                corners = UIRectCorner.topLeft.union(.topRight)
             }
             if indexPath.item == actionsCount - 1 {
-                corners = corners.union(.BottomLeft).union(.BottomRight)
+                corners = corners.union(.bottomLeft).union(.bottomRight)
             }
             
-            if corners == UIRectCorner.AllCorners {
+            if corners == UIRectCorner.allCorners {
                 cell.layer.mask = nil
                 cell.layer.cornerRadius = 8.0
             } else {
                 let borderMask = CAShapeLayer()
                 borderMask.frame = cell.bounds
-                borderMask.path = UIBezierPath(roundedRect: cell.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: 8.0, height: 8.0)).CGPath
+                borderMask.path = UIBezierPath(roundedRect: cell.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: 8.0, height: 8.0)).cgPath
                 cell.layer.mask = borderMask
             }
         }
     }
+  
+  
 }
