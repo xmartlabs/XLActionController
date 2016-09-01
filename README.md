@@ -58,7 +58,7 @@ actionController.addAction(Action("View Retweets", style: .Default, handler: { a
 actionController.addAction(Action("View in Favstar", style: .Default, handler: { action in
   // do something useful
 }))
-actionController.addAction(Action("Translate", style: .Default, handler: { action in
+actionController.addAction(Action("Translate", style: .Default, executeImmediatelyOnTouch: true, handler: { action in
   // do something useful
 }))
 
@@ -69,6 +69,8 @@ presentViewController(actionController, animated: true, completion: nil)
 ```
 
 As you may have noticed, the library usage looks pretty similar to UIAlertController.
+
+Actions' handlers are executed after the alert controller is dismissed from screen. If you want, you can change this passing `true` to the action's constructor to the argument `executeImmediatelyOnTouch`.
 
 > Behind the scenes XLActionController uses a UICollectionView to display the action sheet.
 

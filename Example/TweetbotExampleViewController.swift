@@ -49,7 +49,7 @@ class TweetBotExampleViewController: UIViewController {
         }))
         actionController.addAction(Action("View in Favstar", style: .Default, handler: { action in
         }))
-        actionController.addAction(Action("Translate", style: .Default, handler: { action in
+        actionController.addAction(Action("Translate", style: .Default, executeImmediatelyOnTouch: true, handler: { action in
         }))
         actionController.addSection(Section())
         actionController.addAction(Action("Cancel", style: .Cancel, handler:nil))

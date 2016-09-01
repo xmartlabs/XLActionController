@@ -201,7 +201,11 @@ public class ActionController<ActionViewType: UICollectionViewCell, ActionDataTy
     }
     
     public func dismiss() {
-        self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+        dismiss(nil)
+    }
+
+    public func dismiss(completion: (() -> ())?) {
+        self.presentingViewController?.dismissViewControllerAnimated(true, completion: completion)
     }
     
     // MARK: - View controller behavior
@@ -378,10 +382,17 @@ public class ActionController<ActionViewType: UICollectionViewCell, ActionDataTy
     }
     
     public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if let action = self.actionForIndexPath(actionIndexPathFor(indexPath)) {
+        let action = self.actionForIndexPath(actionIndexPathFor(indexPath))
+
+        if let action = action where action.executeImmediatelyOnTouch {
             action.handler?(action)
         }
-        self.dismiss()
+
+        self.dismiss() {
+            if let action = action where !action.executeImmediatelyOnTouch {
+                action.handler?(action)
+            }
+        }
     }
 
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
@@ -714,4 +725,5 @@ public class DynamicsActionController<ActionViewType: UICollectionViewCell, Acti
     public override func performCustomDismissingAnimation(presentedView: UIView, presentingView: UIView) {
         // Nothing to do in this case
     }
+
 }
