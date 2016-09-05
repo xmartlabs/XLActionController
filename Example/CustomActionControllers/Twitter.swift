@@ -28,7 +28,9 @@ import XLActionController
 #endif
 
 public class TwitterCell: ActionCell {
-    
+
+    @IBOutlet weak var imageViewWidthConstraint: NSLayoutConstraint!
+
     public override init(frame: CGRect) {
         super.init(frame: frame)
         initialize()
@@ -42,7 +44,15 @@ public class TwitterCell: ActionCell {
         super.awakeFromNib()
         initialize()
     }
-    
+
+    public override func setup(title: String?, detail: String?, image: UIImage?) {
+        super.setup(title, detail: detail, image: image)
+
+        imageViewWidthConstraint.constant = image == nil ? 0 : 36
+
+        setNeedsLayout()
+    }
+
     func initialize() {
         backgroundColor = .whiteColor()
         actionImageView?.clipsToBounds = true
@@ -102,7 +112,6 @@ public class TwitterActionController: ActionController<TwitterCell, ActionData, 
             header.label.text = title
         }
         onConfigureCellForAction = { [weak self] cell, action, indexPath in
-            
             cell.setup(action.data?.title, detail: action.data?.subtitle, image: action.data?.image)
             cell.separatorView?.hidden = indexPath.item == (self?.collectionView.numberOfItemsInSection(indexPath.section))! - 1
             cell.alpha = action.enabled ? 1.0 : 0.5
