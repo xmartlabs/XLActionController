@@ -26,7 +26,7 @@ import UIKit
 import XLActionController
 
 class SkypeExampleViewController: UIViewController {
-    
+
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
@@ -35,11 +35,9 @@ class SkypeExampleViewController: UIViewController {
     @IBAction func backButtonDidTouch(sender: UIButton) {
         navigationController?.popViewControllerAnimated(true)
     }
-    
+
     @IBAction func tapGestureDidRecognize(sender: UITapGestureRecognizer) {
-        
         let actionController = SkypeActionController()
-        
         actionController.addAction(Action("Take photo", style: .Default, handler: { action in
         }))
         actionController.addAction(Action("Choose existing photo", style: .Default, handler: { action in
@@ -47,8 +45,8 @@ class SkypeExampleViewController: UIViewController {
         actionController.addAction(Action("Remove profile picture", style: .Default, handler: { action in
         }))
         actionController.addAction(Action("Cancel", style: .Cancel, handler: nil))
-        
+
         presentViewController(actionController, animated: true, completion: nil)
-        
     }
+
 }

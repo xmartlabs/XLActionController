@@ -73,7 +73,7 @@ public class SkypeActionController: ActionController<SkypeCell, String, UICollec
         settings.animation.present.springVelocity = 0.0
         settings.animation.present.damping = 0.7
         settings.statusBar.style = .Default
-        
+
         onConfigureCellForAction = { cell, action, indexPath in
             cell.actionTitleLabel.text = action.data
             cell.actionTitleLabel.textColor = .whiteColor()
@@ -183,7 +183,7 @@ public class SkypeActionController: ActionController<SkypeCell, String, UICollec
         animator.addBehavior(gravityBehavior)
     }
     
-    //MARK : Private Helpers
+    // MARK: - Private Helpers
     
     private var diff = CGFloat(0)
     private var displayLink: CADisplayLink!
@@ -192,17 +192,15 @@ public class SkypeActionController: ActionController<SkypeCell, String, UICollec
     private lazy var animator: UIDynamicAnimator = { [unowned self] in
         let animator = UIDynamicAnimator(referenceView: self.view)
         return animator
-        }()
+    }()
     
     private lazy var gravityBehavior: UIGravityBehavior = { [unowned self] in
         let gravityBehavior = UIGravityBehavior(items: [self.collectionView])
         gravityBehavior.magnitude = 2.0
         return gravityBehavior
-        }()
-    
-    
+    }()
+
     @objc private func update(displayLink: CADisplayLink) {
-        
         let normalRectLayer = normalAnimationRect.layer.presentationLayer()
         let springRectLayer = springAnimationRect.layer.presentationLayer()
         
@@ -227,7 +225,6 @@ public class SkypeActionController: ActionController<SkypeCell, String, UICollec
             displayLink = nil
         }
     }
-    
     
     private class ContextView: UIView {
         let topSpace = CGFloat(25)

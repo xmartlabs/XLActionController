@@ -111,6 +111,8 @@ public class ActionController<ActionViewType: UICollectionViewCell, ActionDataTy
     
     public var contentHeight: CGFloat = 0.0
 
+    public var cancelView: UIView?
+
     lazy public var backgroundView: UIView = { [unowned self] in
         let backgroundView = UIView()
         backgroundView.autoresizingMask = UIViewAutoresizing.FlexibleHeight.union(.FlexibleWidth)
@@ -201,7 +203,15 @@ public class ActionController<ActionViewType: UICollectionViewCell, ActionDataTy
     }
     
     public func dismiss() {
-        self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+        dismiss(nil)
+    }
+
+    public func dismiss(completion: (() -> ())?) {
+        disableActions = true
+        presentingViewController?.dismissViewControllerAnimated(true) { [weak self] in
+            self?.disableActions = false
+            completion?()
+        }
     }
     
     // MARK: - View controller behavior
@@ -374,14 +384,21 @@ public class ActionController<ActionViewType: UICollectionViewCell, ActionDataTy
     }
     
     public func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return actionForIndexPath(actionIndexPathFor(indexPath))?.enabled == true
+        return !disableActions && actionForIndexPath(actionIndexPathFor(indexPath))?.enabled == true
     }
     
     public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if let action = self.actionForIndexPath(actionIndexPathFor(indexPath)) {
+        let action = self.actionForIndexPath(actionIndexPathFor(indexPath))
+
+        if let action = action where action.executeImmediatelyOnTouch {
             action.handler?(action)
         }
-        self.dismiss()
+
+        self.dismiss() {
+            if let action = action where !action.executeImmediatelyOnTouch {
+                action.handler?(action)
+            }
+        }
     }
 
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
@@ -581,8 +598,6 @@ public class ActionController<ActionViewType: UICollectionViewCell, ActionDataTy
         return hasHeader() ? section - 1 : section
     }
 
-    // MARK: - Private properties
-    
     private func setUpContentInsetForHeight(height: CGFloat) {
         let currentInset = collectionView.contentInset
         let bottomInset = settings.cancelView.showCancel ? settings.cancelView.height : currentInset.bottom
@@ -596,8 +611,12 @@ public class ActionController<ActionViewType: UICollectionViewCell, ActionDataTy
         
         collectionView.contentInset = UIEdgeInsets(top: topInset, left: currentInset.left, bottom: bottomInset, right: currentInset.right)
     }
-    public var cancelView: UIView?
+
+    // MARK: - Private properties
+
+    private var disableActions = false
     private var isPresenting = false
+
     private var _dynamicSectionIndex: Int?
     private var _headerData: RawData<HeaderDataType>?
     private var _sections = [Section<ActionDataType, SectionHeaderDataType>]()
@@ -714,4 +733,5 @@ public class DynamicsActionController<ActionViewType: UICollectionViewCell, Acti
     public override func performCustomDismissingAnimation(presentedView: UIView, presentingView: UIView) {
         // Nothing to do in this case
     }
+
 }
