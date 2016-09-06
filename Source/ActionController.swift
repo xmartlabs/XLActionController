@@ -113,7 +113,7 @@ public class ActionController<ActionViewType: UICollectionViewCell, ActionDataTy
 
     public var cancelView: UIView?
 
-    lazy public var backgroundView: UIView = { [unowned self] in
+    lazy public var backgroundView: UIView = {
         let backgroundView = UIView()
         backgroundView.autoresizingMask = UIViewAutoresizing.FlexibleHeight.union(.FlexibleWidth)
         backgroundView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.5)
@@ -148,7 +148,7 @@ public class ActionController<ActionViewType: UICollectionViewCell, ActionDataTy
         let collectionViewLayout = DynamicCollectionViewFlowLayout()
         collectionViewLayout.useDynamicAnimator = self.settings.behavior.useDynamics
         collectionViewLayout.minimumInteritemSpacing = 0.0
-        collectionViewLayout.minimumLineSpacing = 0.0
+        collectionViewLayout.minimumLineSpacing = 0
         return collectionViewLayout
     }()
     

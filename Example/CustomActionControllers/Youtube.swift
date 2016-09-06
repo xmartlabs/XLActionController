@@ -83,6 +83,9 @@ public class YoutubeActionController: ActionController<YoutubeCell, ActionData, 
     
     public override init(nibName nibNameOrNil: String? = nil, bundle nibBundleOrNil: NSBundle? = nil) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        
+        collectionViewLayout.minimumLineSpacing = -0.5
+        
         settings.behavior.hideOnScrollDown = false
         settings.animation.scale = nil
         settings.animation.present.duration = 0.6
