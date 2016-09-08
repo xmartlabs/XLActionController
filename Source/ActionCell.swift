@@ -40,20 +40,7 @@ public class ActionCell: UICollectionViewCell, SeparatorCellType {
         actionTitleLabel?.text = title
         actionDetailLabel?.text = detail
         actionImageView?.image = image
-
-        if let _ = image {
-            actionTitleLabelConstraintToContainer?.priority = UILayoutPriorityDefaultHigh
-            actionTitleLabelConstraintToImageView?.priority = UILayoutPriorityRequired
-        } else {
-            actionTitleLabelConstraintToContainer?.priority = UILayoutPriorityRequired
-            actionTitleLabelConstraintToImageView?.priority = UILayoutPriorityDefaultHigh
-        }
     }
-    
-    
-    @IBOutlet private weak var actionTitleLabelConstraintToContainer: NSLayoutConstraint?
-    @IBOutlet private weak var actionTitleLabelConstraintToImageView: NSLayoutConstraint?
-    
     
     public func showSeparator() {
         separatorView?.alpha = 1.0
