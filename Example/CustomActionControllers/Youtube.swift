@@ -27,11 +27,11 @@ import Foundation
 import XLActionController
 #endif
 
-public class YoutubeCell: ActionCell {
+open class YoutubeCell: ActionCell {
     
-    public lazy var animatableBackgroundView: UIView = { [weak self] in
-        let view = UIView(frame: self?.frame ?? CGRectZero)
-        view.backgroundColor = UIColor.redColor().colorWithAlphaComponent(0.40)
+    open lazy var animatableBackgroundView: UIView = { [weak self] in
+        let view = UIView(frame: self?.frame ?? CGRect.zero)
+        view.backgroundColor = UIColor.red.withAlphaComponent(0.40)
         return view
     }()
     
@@ -44,7 +44,7 @@ public class YoutubeCell: ActionCell {
         super.init(coder: aDecoder)
     }
     
-    public override func awakeFromNib() {
+    open override func awakeFromNib() {
         super.awakeFromNib()
         initialize()
     }
@@ -52,36 +52,36 @@ public class YoutubeCell: ActionCell {
     func initialize() {
         actionTitleLabel?.textColor = UIColor(white: 0.098, alpha: 1.0)
         let backgroundView = UIView()
-        backgroundView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.0)
+        backgroundView.backgroundColor = UIColor.black.withAlphaComponent(0.0)
         backgroundView.addSubview(animatableBackgroundView)
         selectedBackgroundView = backgroundView
     }
 
-    public override var highlighted: Bool {
+    open override var isHighlighted: Bool {
         didSet {
-            if highlighted {
-                animatableBackgroundView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.0)
+            if isHighlighted {
+                animatableBackgroundView.backgroundColor = UIColor.black.withAlphaComponent(0.0)
                 animatableBackgroundView.frame = CGRect(x: 0, y: 0, width: 30, height: frame.height)
                 animatableBackgroundView.center = CGPoint(x: frame.width * 0.5, y: frame.height * 0.5)
                 
-                UIView.animateWithDuration(0.5) { [weak self] in
+                UIView.animate(withDuration: 0.5) { [weak self] in
                     guard let me  = self else {
                         return
                     }
 
                     me.animatableBackgroundView.frame = CGRect(x: 0, y: 0, width: me.frame.width, height: me.frame.height)
-                    me.animatableBackgroundView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.08)
+                    me.animatableBackgroundView.backgroundColor = UIColor.black.withAlphaComponent(0.08)
                 }
             } else {
-                animatableBackgroundView.backgroundColor = animatableBackgroundView.backgroundColor?.colorWithAlphaComponent(0.0)
+                animatableBackgroundView.backgroundColor = animatableBackgroundView.backgroundColor?.withAlphaComponent(0.0)
             }
         }
     }
 }
 
-public class YoutubeActionController: ActionController<YoutubeCell, ActionData, UICollectionReusableView, Void, UICollectionReusableView, Void> {
+open class YoutubeActionController: ActionController<YoutubeCell, ActionData, UICollectionReusableView, Void, UICollectionReusableView, Void> {
     
-    public override init(nibName nibNameOrNil: String? = nil, bundle nibBundleOrNil: NSBundle? = nil) {
+    public override init(nibName nibNameOrNil: String? = nil, bundle nibBundleOrNil: Bundle? = nil) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
         collectionViewLayout.minimumLineSpacing = -0.5
@@ -91,16 +91,20 @@ public class YoutubeActionController: ActionController<YoutubeCell, ActionData, 
         settings.animation.present.duration = 0.6
         settings.animation.dismiss.duration = 0.6
         settings.animation.dismiss.offset = 30
-        settings.animation.dismiss.options = .CurveLinear
+        settings.animation.dismiss.options = .curveLinear
         
-        cellSpec = .NibFile(nibName: "YoutubeCell", bundle: NSBundle(forClass: YoutubeCell.self), height: { _  in 46 })
+        cellSpec = .nibFile(nibName: "YoutubeCell", bundle: Bundle(for: YoutubeCell.self), height: { _  in 46 })
         
         onConfigureCellForAction = { cell, action, indexPath in
             cell.setup(action.data?.title, detail: action.data?.subtitle, image: action.data?.image)
             cell.alpha = action.enabled ? 1.0 : 0.5
             
-            UIView.animateWithDuration(0.30) {
+            UIView.animate(withDuration: 0.30) {
             }
         }
+    }
+  
+    required public init?(coder aDecoder: NSCoder) {
+      fatalError("init(coder:) has not been implemented")
     }
 }

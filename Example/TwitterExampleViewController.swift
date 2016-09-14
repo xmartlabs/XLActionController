@@ -27,27 +27,27 @@ import XLActionController
 
 class TwitterExampleViewController: UIViewController {
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
 
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
     }
 
-    @IBAction func backButtonDidTouch(sender: UIButton) {
-        navigationController?.popViewControllerAnimated(true)
+    @IBAction func backButtonDidTouch(_ sender: UIButton) {
+        _ = navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func tapGestureDidRecognize(sender: UITapGestureRecognizer) {
+    @IBAction func tapGestureDidRecognize(_ sender: UITapGestureRecognizer) {
         let actionController = TwitterActionController()
-        actionController.addAction(Action(ActionData(title: "Xmartlabs", subtitle: "@xmartlabs", image: UIImage(named: "tw-xmartlabs")!), style: .Default, handler: { action in
+        actionController.addAction(Action(ActionData(title: "Xmartlabs", subtitle: "@xmartlabs", image: UIImage(named: "tw-xmartlabs")!), style: .default, handler: { action in
         }))
-        actionController.addAction(Action(ActionData(title: "Miguel", subtitle: "@remer88", image: UIImage(named: "tw-remer")!), style: .Default, handler: { action in
+        actionController.addAction(Action(ActionData(title: "Miguel", subtitle: "@remer88", image: UIImage(named: "tw-remer")!), style: .default, handler: { action in
         }))
         actionController.headerData = "Accounts"
-        presentViewController(actionController, animated: true, completion: nil)
+        present(actionController, animated: true, completion: nil)
     }
     
 }

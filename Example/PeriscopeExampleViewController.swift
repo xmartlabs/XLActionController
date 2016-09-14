@@ -27,27 +27,27 @@ import XLActionController
 
 class PeriscopeExampleViewController: UIViewController {
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
 
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
     }
     
-    @IBAction func backButtonDidTouch(sender: UIButton) {
-        self.navigationController?.popViewControllerAnimated(true)
+    @IBAction func backButtonDidTouch(_ sender: UIButton) {
+        _ = self.navigationController?.popViewController(animated: true)
     }
 
-    @IBAction func tapGestureDidRecognize(sender: UITapGestureRecognizer) {
+    @IBAction func tapGestureDidRecognize(_ sender: UITapGestureRecognizer) {
         let actionController = PeriscopeActionController()
         actionController.headerData = "Are you sure you want to block?"
-        actionController.addAction(Action("Block user", style: .Destructive, handler: { action in
+        actionController.addAction(Action("Block user", style: .destructive, handler: { action in
         }))
         actionController.addSection(PeriscopeSection())
-        actionController.addAction(Action("Cancel", style: .Cancel, handler: { action in
+        actionController.addAction(Action("Cancel", style: .cancel, handler: { action in
         }))
-        presentViewController(actionController, animated: true, completion: nil)
+        present(actionController, animated: true, completion: nil)
     }
 }

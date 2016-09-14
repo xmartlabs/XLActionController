@@ -27,9 +27,9 @@ import UIKit
 
 public struct ActionData {
     
-    public private(set) var title: String?
-    public private(set) var subtitle: String?
-    public private(set) var image: UIImage?
+    public fileprivate(set) var title: String?
+    public fileprivate(set) var subtitle: String?
+    public fileprivate(set) var image: UIImage?
     
     public init(title: String) {
         self.title = title

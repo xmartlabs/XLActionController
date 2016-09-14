@@ -44,7 +44,7 @@ public class PeriscopeCell: ActionCell {
     }
     
     func initialize() {
-        backgroundColor = .whiteColor()
+        backgroundColor = .white
         let backgroundView = UIView()
         backgroundView.backgroundColor = UIColor(white: 0.0, alpha: 0.15)
         selectedBackgroundView = backgroundView
@@ -66,8 +66,8 @@ public class PeriscopeHeader: UICollectionReusableView {
         let label = UILabel()
         label.textColor = UIColor(red: 171/255.0, green: 187/255.0, blue: 191/255.0, alpha: 1.0)
         label.numberOfLines = 0
-        label.lineBreakMode = .ByWordWrapping
-        label.font = .systemFontOfSize(17.0)
+        label.lineBreakMode = .byWordWrapping
+        label.font = .systemFont(ofSize: 17.0)
         return label
     }()
     
@@ -83,8 +83,12 @@ public class PeriscopeHeader: UICollectionReusableView {
 }
 
 public class PeriscopeActionController: ActionController<PeriscopeCell, String, PeriscopeHeader, String, UICollectionReusableView, Void> {
-    
-    public override init(nibName nibNameOrNil: String? = nil, bundle nibBundleOrNil: NSBundle? = nil) {
+
+    required public init?(coder aDecoder: NSCoder) {
+      super.init(coder: aDecoder)
+    }
+
+    public override init(nibName nibNameOrNil: String? = nil, bundle nibBundleOrNil: Bundle? = nil) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
         collectionViewLayout.minimumLineSpacing = -0.5
@@ -94,16 +98,16 @@ public class PeriscopeActionController: ActionController<PeriscopeCell, String, 
         settings.animation.scale = nil
         settings.animation.present.duration = 0.6
         settings.animation.dismiss.duration = 0.5
-        settings.animation.dismiss.options = .CurveEaseIn
+        settings.animation.dismiss.options = .curveEaseIn
         settings.animation.dismiss.offset = 30
         
-        cellSpec = .NibFile(nibName: "PeriscopeCell", bundle: NSBundle(forClass: PeriscopeCell.self), height: { _ in 60})
-        sectionHeaderSpec = .CellClass(height: { _ in 5 })
-        headerSpec = .CellClass(height: { [weak self] (headerData: String) in
+        cellSpec = .nibFile(nibName: "PeriscopeCell", bundle: Bundle(for: PeriscopeCell.self), height: { _ in 60})
+        sectionHeaderSpec = .cellClass(height: { _ in 5 })
+        headerSpec = .cellClass(height: { [weak self] (headerData: String) in
             guard let me = self else { return 0 }
-            let label = UILabel(frame: CGRectMake(0, 0, me.view.frame.width - 40, CGFloat.max))
+          let label = UILabel(frame: CGRect(x: 0, y: 0, width: me.view.frame.width - 40, height: CGFloat.greatestFiniteMagnitude))
             label.numberOfLines = 0
-            label.font = .systemFontOfSize(17.0)
+            label.font = .systemFont(ofSize: 17.0)
             label.text = headerData
             label.sizeToFit()
             return label.frame.size.height + 20
@@ -112,19 +116,19 @@ public class PeriscopeActionController: ActionController<PeriscopeCell, String, 
         
         onConfigureHeader = { [weak self] header, headerData in
             guard let me = self else { return }
-            header.label.frame = CGRectMake(0, 0, me.view.frame.size.width - 40, CGFloat.max)
+          header.label.frame = CGRect(x: 0, y: 0, width: me.view.frame.size.width - 40, height: CGFloat.greatestFiniteMagnitude)
             header.label.text = headerData
             header.label.sizeToFit()
-            header.label.center = CGPointMake(header.frame.size.width  / 2, header.frame.size.height / 2)
+          header.label.center = CGPoint(x: header.frame.size.width  / 2, y:header.frame.size.height / 2)
         }
         onConfigureSectionHeader = { sectionHeader, sectionHeaderData in
             sectionHeader.backgroundColor = UIColor(white: 0.95, alpha: 1.0)
         }
         onConfigureCellForAction = { [weak self] cell, action, indexPath in
             cell.setup(action.data, detail: nil, image: nil)
-            cell.separatorView?.hidden = indexPath.item == self!.collectionView.numberOfItemsInSection(indexPath.section) - 1
+            cell.separatorView?.isHidden = indexPath.item == self!.collectionView.numberOfItems(inSection: indexPath.section) - 1
             cell.alpha = action.enabled ? 1.0 : 0.5
-            cell.actionTitleLabel?.textColor = action.style == .Destructive ? UIColor(red: 210/255.0, green: 77/255.0, blue: 56/255.0, alpha: 1.0) : UIColor(red: 0.28, green: 0.64, blue: 0.76, alpha: 1.0)
+            cell.actionTitleLabel?.textColor = action.style == .destructive ? UIColor(red: 210/255.0, green: 77/255.0, blue: 56/255.0, alpha: 1.0) : UIColor(red: 0.28, green: 0.64, blue: 0.76, alpha: 1.0)
         }
     }
 }

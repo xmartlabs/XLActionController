@@ -27,7 +27,7 @@ import Foundation
 import XLActionController
 #endif
 
-public class TwitterCell: ActionCell {
+open class TwitterCell: ActionCell {
 
     @IBOutlet weak var imageViewWidthConstraint: NSLayoutConstraint!
 
@@ -40,12 +40,12 @@ public class TwitterCell: ActionCell {
         super.init(coder: aDecoder)
     }
     
-    public override func awakeFromNib() {
+    open override func awakeFromNib() {
         super.awakeFromNib()
         initialize()
     }
 
-    public override func setup(title: String?, detail: String?, image: UIImage?) {
+    open override func setup(_ title: String?, detail: String?, image: UIImage?) {
         super.setup(title, detail: detail, image: image)
 
         imageViewWidthConstraint.constant = image == nil ? 0 : 36
@@ -54,7 +54,7 @@ public class TwitterCell: ActionCell {
     }
 
     func initialize() {
-        backgroundColor = .whiteColor()
+        backgroundColor = .white
         actionImageView?.clipsToBounds = true
         actionImageView?.layer.cornerRadius = 5.0
         let backgroundView = UIView()
@@ -63,33 +63,33 @@ public class TwitterCell: ActionCell {
     }
 }
 
-public class TwitterActionControllerHeader: UICollectionReusableView {
+open class TwitterActionControllerHeader: UICollectionReusableView {
     
     lazy var label: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .Center
-        label.backgroundColor = .whiteColor()
-        label.font = UIFont.boldSystemFontOfSize(17)
+        label.textAlignment = .center
+        label.backgroundColor = .white
+        label.font = UIFont.boldSystemFont(ofSize: 17)
         return label
     }()
     
     lazy var bottomLine: UIView = {
         let bottomLine = UIView()
         bottomLine.translatesAutoresizingMaskIntoConstraints = false
-        bottomLine.backgroundColor = .lightGrayColor()
+        bottomLine.backgroundColor = .lightGray
         return bottomLine
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .whiteColor()
+        backgroundColor = .white
         addSubview(label)
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[label]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["label": label]))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[label]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["label": label]))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[label]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["label": label]))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[label]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["label": label]))
         addSubview(bottomLine)
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[line(1)]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["line": bottomLine]))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[line]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["line": bottomLine]))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[line(1)]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["line": bottomLine]))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[line]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["line": bottomLine]))
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -98,14 +98,14 @@ public class TwitterActionControllerHeader: UICollectionReusableView {
 }
 
 
-public class TwitterActionController: ActionController<TwitterCell, ActionData, TwitterActionControllerHeader, String, UICollectionReusableView, Void> {
+open class TwitterActionController: ActionController<TwitterCell, ActionData, TwitterActionControllerHeader, String, UICollectionReusableView, Void> {
     
-    public override init(nibName nibNameOrNil: String? = nil, bundle nibBundleOrNil: NSBundle? = nil) {
+    public override init(nibName nibNameOrNil: String? = nil, bundle nibBundleOrNil: Bundle? = nil) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         settings.animation.present.duration = 0.6
         settings.animation.dismiss.duration = 0.6
-        cellSpec = CellSpec.NibFile(nibName: "TwitterCell", bundle: NSBundle(forClass: TwitterCell.self), height: { _ in 56 })
-        headerSpec = .CellClass(height: { _ -> CGFloat in return 45 })
+        cellSpec = CellSpec.nibFile(nibName: "TwitterCell", bundle: Bundle(for: TwitterCell.self), height: { _ in 56 })
+        headerSpec = .cellClass(height: { _ -> CGFloat in return 45 })
         
         
         onConfigureHeader = { header, title in
@@ -113,44 +113,48 @@ public class TwitterActionController: ActionController<TwitterCell, ActionData, 
         }
         onConfigureCellForAction = { [weak self] cell, action, indexPath in
             cell.setup(action.data?.title, detail: action.data?.subtitle, image: action.data?.image)
-            cell.separatorView?.hidden = indexPath.item == (self?.collectionView.numberOfItemsInSection(indexPath.section))! - 1
+            cell.separatorView?.isHidden = indexPath.item == (self?.collectionView.numberOfItems(inSection: indexPath.section))! - 1
             cell.alpha = action.enabled ? 1.0 : 0.5
         }
     }
+  
+    required public init?(coder aDecoder: NSCoder) {
+      fatalError("init(coder:) has not been implemented")
+    }
     
-    public override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         
         collectionView.clipsToBounds = false
         let hideBottomSpaceView: UIView = {
-            let hideBottomSpaceView = UIView(frame: CGRectMake(0, 0, collectionView.bounds.width, contentHeight + 20))
-            hideBottomSpaceView.autoresizingMask = UIViewAutoresizing.FlexibleWidth.union(.FlexibleBottomMargin)
-            hideBottomSpaceView.backgroundColor = .whiteColor()
+          let hideBottomSpaceView = UIView(frame: CGRect(x: 0, y: 0, width: collectionView.bounds.width, height: contentHeight + 20))
+            hideBottomSpaceView.autoresizingMask = [.flexibleWidth, .flexibleBottomMargin]
+            hideBottomSpaceView.backgroundColor = .white
             return hideBottomSpaceView
         }()
         collectionView.addSubview(hideBottomSpaceView)
-        collectionView.sendSubviewToBack(hideBottomSpaceView)
+        collectionView.sendSubview(toBack: hideBottomSpaceView)
     }
     
-    override public func dismissView(presentedView: UIView, presentingView: UIView, animationDuration: Double, completion: ((completed: Bool) -> Void)?) {
+    override open func dismissView(_ presentedView: UIView, presentingView: UIView, animationDuration: Double, completion: ((_ completed: Bool) -> Void)?) {
         onWillDismissView()
         let animationSettings = settings.animation.dismiss
         let upTime = 0.1
-        UIView.animateWithDuration(upTime, delay: 0, options: .CurveEaseIn, animations: { [weak self] in
+        UIView.animate(withDuration: upTime, delay: 0, options: .curveEaseIn, animations: { [weak self] in
             self?.collectionView.frame.origin.y -= 10
         }, completion: { [weak self] (completed) -> Void in
-            UIView.animateWithDuration(animationDuration - upTime,
+            UIView.animate(withDuration: animationDuration - upTime,
                 delay: 0,
                 usingSpringWithDamping: animationSettings.damping,
                 initialSpringVelocity: animationSettings.springVelocity,
-                options: UIViewAnimationOptions.CurveEaseIn,
+                options: UIViewAnimationOptions.curveEaseIn,
                 animations: { [weak self] in
-                    presentingView.transform = CGAffineTransformIdentity
+                    presentingView.transform = CGAffineTransform.identity
                     self?.performCustomDismissingAnimation(presentedView, presentingView: presentingView)
                 },
                 completion: { [weak self] finished in
                     self?.onDidDismissView()
-                    completion?(completed: finished)
+                    completion?(finished)
                 })
         })
     }
