@@ -27,9 +27,9 @@ import Foundation
 import UIKit
 
 public enum ActionStyle {
-    case Default
-    case Cancel
-    case Destructive
+    case `default`
+    case cancel
+    case destructive
 }
 
 public struct Action<T> {
@@ -37,11 +37,11 @@ public struct Action<T> {
     public var enabled: Bool
     public var executeImmediatelyOnTouch = false
 
-    public private(set) var data: T?
-    public private(set) var style = ActionStyle.Default
-    public private(set) var handler: (Action<T> -> Void)?
+    public fileprivate(set) var data: T?
+    public fileprivate(set) var style = ActionStyle.default
+    public fileprivate(set) var handler: ((Action<T>) -> Void)?
 
-    public init(_ data: T?, style: ActionStyle, executeImmediatelyOnTouch: Bool = false, handler: (Action<T> -> Void)?) {
+    public init(_ data: T?, style: ActionStyle, executeImmediatelyOnTouch: Bool = false, handler: ((Action<T>) -> Void)?) {
         enabled = true
         self.executeImmediatelyOnTouch = executeImmediatelyOnTouch
         self.data = data

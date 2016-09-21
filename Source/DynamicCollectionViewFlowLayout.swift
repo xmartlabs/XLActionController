@@ -24,33 +24,33 @@
 
 import UIKit
 
-public class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
+open class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
 
 
     // MARK: - Properties definition 
     
-    public var dynamicAnimator: UIDynamicAnimator?
-    public var itemsAligment = UIControlContentHorizontalAlignment.Center
+    open var dynamicAnimator: UIDynamicAnimator?
+    open var itemsAligment = UIControlContentHorizontalAlignment.center
 
-    public lazy var collisionBehavior: UICollisionBehavior? = {
+    open lazy var collisionBehavior: UICollisionBehavior? = {
         let collision = UICollisionBehavior(items: [])
         return collision
     }()
 
-    public lazy var dynamicItemBehavior: UIDynamicItemBehavior? = {
+    open lazy var dynamicItemBehavior: UIDynamicItemBehavior? = {
         let dynamic = UIDynamicItemBehavior(items: [])
         dynamic.allowsRotation = false
         return dynamic
     }()
     
-    public lazy var gravityBehavior: UIGravityBehavior? = {
+    open lazy var gravityBehavior: UIGravityBehavior? = {
         let gravity = UIGravityBehavior(items: [])
-        gravity.gravityDirection = CGVectorMake(0, -1)
+        gravity.gravityDirection = CGVector(dx: 0, dy: -1)
         gravity.magnitude = 4.0
         return gravity
     }()
     
-    public var useDynamicAnimator = false {
+    open var useDynamicAnimator = false {
         didSet(newValue) {
             guard useDynamicAnimator != newValue else {
                 return
@@ -78,93 +78,91 @@ public class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
         initialize()
     }
     
-    private func initialize() {
+    fileprivate func initialize() {
         minimumInteritemSpacing = 0
         minimumLineSpacing = 0
     }
     
     // MARK: - UICollectionViewFlowLayout overrides
     
-    override public func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+    override open func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         guard let animator = dynamicAnimator else {
-            return super.layoutAttributesForElementsInRect(rect)
+            return super.layoutAttributesForElements(in: rect)
         }
         
-        return animator.itemsInRect(rect) as? [UICollectionViewLayoutAttributes]
+        return animator.items(in: rect) as? [UICollectionViewLayoutAttributes]
     }
     
-    override public func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath?) -> UICollectionViewLayoutAttributes? {
-        guard let indexPath = indexPath else {
-            return nil
-        }
+    override open func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        let indexPath = indexPath
         
         guard let animator = dynamicAnimator else {
-            return super.layoutAttributesForItemAtIndexPath(indexPath)
+            return super.layoutAttributesForItem(at: indexPath)
         }
         
-        return animator.layoutAttributesForCellAtIndexPath(indexPath) ?? setupAttributesForIndexPath(indexPath)
+        return animator.layoutAttributesForCell(at: indexPath) ?? setupAttributesForIndexPath(indexPath)
     }
 
-    override public func prepareForCollectionViewUpdates(updateItems: [UICollectionViewUpdateItem]) {
-        super.prepareForCollectionViewUpdates(updateItems)
+    override open func prepare(forCollectionViewUpdates updateItems: [UICollectionViewUpdateItem]) {
+        super.prepare(forCollectionViewUpdates: updateItems)
         
-        updateItems.filter { $0.updateAction == .Insert && layoutAttributesForItemAtIndexPath($0.indexPathAfterUpdate) == nil } .forEach {
-            setupAttributesForIndexPath($0.indexPathAfterUpdate)
+        updateItems.filter { $0.updateAction == .insert && layoutAttributesForItem(at: $0.indexPathAfterUpdate!) == nil } .forEach {
+              setupAttributesForIndexPath($0.indexPathAfterUpdate)
         }
     }
 
     // MARK: - Helpers
     
-    private func topForItemAt(indexPath indexPath: NSIndexPath) -> CGFloat {
+    fileprivate func topForItemAt(indexPath: IndexPath) -> CGFloat {
         guard let unwrappedCollectionView = collectionView else {
             return CGFloat(0.0)
         }
         
         // Top within item's section
-        var top = CGFloat(indexPath.item) * itemSize.height
+        var top = CGFloat((indexPath as NSIndexPath).item) * itemSize.height
         
-        if indexPath.section > 0 {
-            let lastItemOfPrevSection = unwrappedCollectionView.numberOfItemsInSection(indexPath.section - 1)
+        if (indexPath as NSIndexPath).section > 0 {
+            let lastItemOfPrevSection = unwrappedCollectionView.numberOfItems(inSection: (indexPath as NSIndexPath).section - 1)
             // Add previous sections height recursively. We have to add the sectionInsets and the last section's item height
-            let inset = (unwrappedCollectionView.delegate as? UICollectionViewDelegateFlowLayout)?.collectionView?(unwrappedCollectionView, layout: self, insetForSectionAtIndex: indexPath.section) ?? sectionInset
-            top += topForItemAt(indexPath: NSIndexPath(forItem: lastItemOfPrevSection - 1, inSection: indexPath.section - 1)) + inset.bottom + inset.top + itemSize.height
+            let inset = (unwrappedCollectionView.delegate as? UICollectionViewDelegateFlowLayout)?.collectionView?(unwrappedCollectionView, layout: self, insetForSectionAt: (indexPath as NSIndexPath).section) ?? sectionInset
+            top += topForItemAt(indexPath: IndexPath(item: lastItemOfPrevSection - 1, section: (indexPath as NSIndexPath).section - 1)) + inset.bottom + inset.top + itemSize.height
         }
         
         return top
     }
-    
-    func setupAttributesForIndexPath(indexPath: NSIndexPath?) -> UICollectionViewLayoutAttributes? {
-        guard let indexPath = indexPath, animator = dynamicAnimator, collectionView = collectionView else {
+    @discardableResult
+    func setupAttributesForIndexPath(_ indexPath: IndexPath?) -> UICollectionViewLayoutAttributes? {
+        guard let indexPath = indexPath, let animator = dynamicAnimator, let collectionView = collectionView else {
             return nil
         }
         
         let delegate: UICollectionViewDelegateFlowLayout = collectionView.delegate as! UICollectionViewDelegateFlowLayout
         
-        let collectionItemSize = delegate.collectionView!(collectionView, layout: self, sizeForItemAtIndexPath: indexPath)
+        let collectionItemSize = delegate.collectionView!(collectionView, layout: self, sizeForItemAt: indexPath)
         
         // UIDynamic animator will animate this item from initialFrame to finalFrame.
         
         // Items will be animated from far bottom to its final position in the collection view layout
         let originY = collectionView.frame.size.height - collectionView.contentInset.top
-        var frame = CGRectMake(0, topForItemAt(indexPath: indexPath), collectionItemSize.width, collectionItemSize.height)
-        var initialFrame = CGRectMake(0, originY + frame.origin.y, collectionItemSize.width, collectionItemSize.height)
+        var frame = CGRect(x: 0, y: topForItemAt(indexPath: indexPath), width: collectionItemSize.width, height: collectionItemSize.height)
+        var initialFrame = CGRect(x: 0, y: originY + frame.origin.y, width: collectionItemSize.width, height: collectionItemSize.height)
 
         // Calculate x position depending on alignment value
         var translationX: CGFloat
         let collectionViewContentWidth = collectionView.bounds.size.width - collectionView.contentInset.left - collectionView.contentInset.right
         switch itemsAligment {
-        case .Center:
+        case .center:
             translationX = (collectionViewContentWidth - frame.size.width) * 0.5
-        case .Fill, .Left:
+        case .fill, .left:
             translationX = 0.0
-        case .Right:
+        case .right:
             translationX = (collectionViewContentWidth - frame.size.width)
         }
 
         frame.origin.x = translationX
         initialFrame.origin.x = translationX
 
-        let attributes = UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
+        let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
         attributes.frame = initialFrame
 
         let attachmentBehavior: UIAttachmentBehavior
@@ -174,20 +172,20 @@ public class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
         let itemBehavior = UIDynamicItemBehavior(items: [attributes])
         itemBehavior.allowsRotation = false
 
-        if indexPath.item == 0 {
-            let mass = CGFloat(collectionView.numberOfItemsInSection(indexPath.section) ?? 1)
+        if (indexPath as NSIndexPath).item == 0 {
+            let mass = CGFloat(collectionView.numberOfItems(inSection: (indexPath as NSIndexPath).section))
 
             itemBehavior.elasticity = (0.70 / mass)
 
             var topMargin = CGFloat(1.5)
-            if indexPath.section > 0 {
+            if (indexPath as NSIndexPath).section > 0 {
                 topMargin -= sectionInset.top + sectionInset.bottom
             }
-            let fromPoint = CGPoint(x: CGRectGetMinX(frame), y: CGRectGetMinY(frame) + topMargin)
-            let toPoint = CGPoint(x: CGRectGetMaxX(frame), y: fromPoint.y)
-            collisionBehavior.addBoundaryWithIdentifier("top", fromPoint: fromPoint, toPoint: toPoint)
+            let fromPoint = CGPoint(x: frame.minX, y: frame.minY + topMargin)
+            let toPoint = CGPoint(x: frame.maxX, y: fromPoint.y)
+            collisionBehavior.addBoundary(withIdentifier: "top" as NSCopying, from: fromPoint, to: toPoint)
 
-            attachmentBehavior = UIAttachmentBehavior(item: attributes, attachedToAnchor:CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame)))
+            attachmentBehavior = UIAttachmentBehavior(item: attributes, attachedToAnchor:CGPoint(x: frame.midX, y: frame.midY))
             attachmentBehavior.length = 1
             attachmentBehavior.damping = 0.30 * sqrt(mass)
             attachmentBehavior.frequency = 5.0
@@ -195,13 +193,13 @@ public class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
         } else {
             itemBehavior.elasticity = 0.0
 
-            let fromPoint = CGPoint(x: CGRectGetMinX(frame), y: CGRectGetMinY(frame))
-            let toPoint = CGPoint(x: CGRectGetMaxX(frame), y: fromPoint.y)
-            collisionBehavior.addBoundaryWithIdentifier("top", fromPoint: fromPoint, toPoint: toPoint)
+            let fromPoint = CGPoint(x: frame.minX, y: frame.minY)
+            let toPoint = CGPoint(x: frame.maxX, y: fromPoint.y)
+            collisionBehavior.addBoundary(withIdentifier: "top" as NSCopying, from: fromPoint, to: toPoint)
 
-            let prevPath = NSIndexPath(forItem: indexPath.item - 1, inSection: indexPath.section)
-            let prevItemAttributes = layoutAttributesForItemAtIndexPath(prevPath)!
-            attachmentBehavior = UIAttachmentBehavior(item: attributes, attachedToItem: prevItemAttributes)
+            let prevPath = IndexPath(item: (indexPath as NSIndexPath).item - 1, section: (indexPath as NSIndexPath).section)
+            let prevItemAttributes = layoutAttributesForItem(at: prevPath)!
+            attachmentBehavior = UIAttachmentBehavior(item: attributes, attachedTo: prevItemAttributes)
             attachmentBehavior.length = itemSize.height
             attachmentBehavior.damping = 0.0
             attachmentBehavior.frequency = 0.0
@@ -214,22 +212,22 @@ public class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
         return attributes
     }
 
-    public override func shouldInvalidateLayoutForBoundsChange(newBounds: CGRect) -> Bool {
+    open override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         guard let animator = dynamicAnimator else {
-            return super.shouldInvalidateLayoutForBoundsChange(newBounds)
+            return super.shouldInvalidateLayout(forBoundsChange: newBounds)
         }
 
         guard let unwrappedCollectionView = collectionView else {
-            return super.shouldInvalidateLayoutForBoundsChange(newBounds)
+            return super.shouldInvalidateLayout(forBoundsChange: newBounds)
         }
         
         animator.behaviors
             .filter { $0 is UIAttachmentBehavior || $0 is UICollisionBehavior || $0 is UIDynamicItemBehavior}
             .forEach { animator.removeBehavior($0) }
         
-        for section in 0..<unwrappedCollectionView.numberOfSections() {
-            for item in 0..<unwrappedCollectionView.numberOfItemsInSection(section) {
-                let indexPath = NSIndexPath(forItem: item, inSection: section)
+        for section in 0..<unwrappedCollectionView.numberOfSections {
+            for item in 0..<unwrappedCollectionView.numberOfItems(inSection: section) {
+                let indexPath = IndexPath(item: item, section: section)
                 setupAttributesForIndexPath(indexPath)
             }
         }

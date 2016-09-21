@@ -29,24 +29,24 @@ public protocol SeparatorCellType: NSObjectProtocol {
     func hideSeparator()
 }
 
-public class ActionCell: UICollectionViewCell, SeparatorCellType {
+open class ActionCell: UICollectionViewCell, SeparatorCellType {
 
-    @IBOutlet public weak var actionTitleLabel: UILabel?
-    @IBOutlet public weak var actionImageView: UIImageView?
-    @IBOutlet public weak var actionDetailLabel: UILabel?
-    @IBOutlet public weak var separatorView: UIView?
+    @IBOutlet open weak var actionTitleLabel: UILabel?
+    @IBOutlet open weak var actionImageView: UIImageView?
+    @IBOutlet open weak var actionDetailLabel: UILabel?
+    @IBOutlet open weak var separatorView: UIView?
 
-    public func setup(title: String?, detail: String?, image: UIImage?) {
+    open func setup(_ title: String?, detail: String?, image: UIImage?) {
         actionTitleLabel?.text = title
         actionDetailLabel?.text = detail
         actionImageView?.image = image
     }
     
-    public func showSeparator() {
+    open func showSeparator() {
         separatorView?.alpha = 1.0
     }
     
-    public func hideSeparator() {
+    open func hideSeparator() {
         separatorView?.alpha = 0.0
     }
 }
