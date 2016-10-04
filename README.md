@@ -385,7 +385,8 @@ After the dismissal animation completes, `dismissView` calls `onDidDismissView` 
 ## Requirements
 
 * iOS 8.0+
-* Xcode 7.3+
+* Xcode 8.0+
+* Swift 3
 
 ## Getting involved
 
@@ -410,17 +411,18 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 use_frameworks!
 
-# This will install just the library's core, won't include any examples
-pod 'XLActionController'
+target '<Your App Target>' do
+  # This will install just the library's core, won't include any examples
+  pod 'XLActionController'
 
-# Uncomment depending on the examples that you want to install
-#pod 'XLActionController/Periscope'
-#pod 'XLActionController/Skype'
-#pod 'XLActionController/Spotify'
-#pod 'XLActionController/Tweetbot'
-#pod 'XLActionController/Twitter'
-#pod 'XLActionController/Youtube'
-
+  # Uncomment depending on the examples that you want to install
+  #pod 'XLActionController/Periscope'
+  #pod 'XLActionController/Skype'
+  #pod 'XLActionController/Spotify'
+  #pod 'XLActionController/Tweetbot'
+  #pod 'XLActionController/Twitter'
+  #pod 'XLActionController/Youtube'
+end
 ```
 
 Then run the following command:
@@ -437,7 +439,7 @@ dependency manager for Cocoa.
 Specify XLActionController into your project's Carthage:
 
 ```
-github "xmartlabs/XLActionController" ~> 2.0
+github "xmartlabs/XLActionController" ~> 3.0
 ```
 
 ### Manually as Embedded Framework
