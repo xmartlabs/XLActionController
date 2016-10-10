@@ -457,7 +457,7 @@ public class ActionController<ActionViewType: UICollectionViewCell, ActionDataTy
         
         if isPresenting {
             toView.autoresizingMask = UIViewAutoresizing.FlexibleHeight.union(.FlexibleWidth)
-            containerView?.addSubview(toView)
+            containerView.addSubview(toView)
             
             transitionContext.completeTransition(true)
             presentView(toView, presentingView: fromView, animationDuration: settings.animation.present.duration, completion: nil)
