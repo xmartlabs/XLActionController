@@ -29,8 +29,6 @@ import XLActionController
 
 open class TwitterCell: ActionCell {
 
-    @IBOutlet weak var imageViewWidthConstraint: NSLayoutConstraint!
-
     public override init(frame: CGRect) {
         super.init(frame: frame)
         initialize()
@@ -43,14 +41,6 @@ open class TwitterCell: ActionCell {
     open override func awakeFromNib() {
         super.awakeFromNib()
         initialize()
-    }
-
-    open override func setup(_ title: String?, detail: String?, image: UIImage?) {
-        super.setup(title, detail: detail, image: image)
-
-        imageViewWidthConstraint.constant = image == nil ? 0 : 36
-
-        setNeedsLayout()
     }
 
     func initialize() {
