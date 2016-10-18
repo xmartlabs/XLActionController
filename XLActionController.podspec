@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name     = 'XLActionController'
-  spec.version  = '3.0.0'
+  spec.version  = '3.0.1'
   spec.license  = 'MIT'
   spec.summary  = 'Fully customizable and extensible action sheet controller written in Swift 3'
   spec.homepage = 'https://github.com/xmartlabs/XLActionController'

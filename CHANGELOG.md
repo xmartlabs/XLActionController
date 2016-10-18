@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ### master branch
 
+### [3.0.1](https://github.com/xmartlabs/XLActionController/releases/tag/3.0.1)
+
+* Fixed crash when using ActionCell.xib, [PR #31](https://github.com/xmartlabs/XLActionController/pull/31).
+
 ### [Swift 3 Support](https://github.com/xmartlabs/XLActionController/releases/tag/3.0.0)
 
 * Swift 3 and Xcode 8 support, [PR #24](https://github.com/xmartlabs/XLActionController/pull/24)
