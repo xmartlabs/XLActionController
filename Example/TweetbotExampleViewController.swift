@@ -27,34 +27,34 @@ import XLActionController
 
 class TweetBotExampleViewController: UIViewController {
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
 
-    override var preferredStatusBarStyle : UIStatusBarStyle {
-        return .lightContent
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return .LightContent
     }
     
-    @IBAction func backButtonDidTouch(_ sender: UIButton) {
-        _ = navigationController?.popViewController(animated: true)
+    @IBAction func backButtonDidTouch(sender: UIButton) {
+        navigationController?.popViewControllerAnimated(true)
     }
     
-    @IBAction func tapGestureDidRecognize(_ sender: UITapGestureRecognizer) {
+    @IBAction func tapGestureDidRecognize(sender: UITapGestureRecognizer) {
         let actionController = TweetbotActionController()
         
-        actionController.addAction(Action("View Details", style: .default, handler: { action in
+        actionController.addAction(Action("View Details", style: .Default, handler: { action in
         }))
-        actionController.addAction(Action("View Retweets", style: .default, handler: { action in
+        actionController.addAction(Action("View Retweets", style: .Default, handler: { action in
         }))
-        actionController.addAction(Action("View in Favstar", style: .default, handler: { action in
+        actionController.addAction(Action("View in Favstar", style: .Default, handler: { action in
         }))
-        actionController.addAction(Action("Translate", style: .default, executeImmediatelyOnTouch: true, handler: { action in
+        actionController.addAction(Action("Translate", style: .Default, executeImmediatelyOnTouch: true, handler: { action in
         }))
         actionController.addSection(Section())
-        actionController.addAction(Action("Cancel", style: .cancel, handler:nil))
+        actionController.addAction(Action("Cancel", style: .Cancel, handler:nil))
         
-        present(actionController, animated: true, completion: nil)
+        presentViewController(actionController, animated: true, completion: nil)
     }
 
 }

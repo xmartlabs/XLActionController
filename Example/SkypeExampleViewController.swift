@@ -27,26 +27,26 @@ import XLActionController
 
 class SkypeExampleViewController: UIViewController {
 
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
 
-    @IBAction func backButtonDidTouch(_ sender: UIButton) {
-        _ = navigationController?.popViewController(animated: true)
+    @IBAction func backButtonDidTouch(sender: UIButton) {
+        _ = navigationController?.popViewControllerAnimated(true)
     }
 
-    @IBAction func tapGestureDidRecognize(_ sender: UITapGestureRecognizer) {
+    @IBAction func tapGestureDidRecognize(sender: UITapGestureRecognizer) {
         let actionController = SkypeActionController()
-        actionController.addAction(Action("Take photo", style: .default, handler: { action in
+        actionController.addAction(Action("Take photo", style: .Default, handler: { action in
         }))
-        actionController.addAction(Action("Choose existing photo", style: .default, handler: { action in
+        actionController.addAction(Action("Choose existing photo", style: .Default, handler: { action in
         }))
-        actionController.addAction(Action("Remove profile picture", style: .default, handler: { action in
+        actionController.addAction(Action("Remove profile picture", style: .Default, handler: { action in
         }))
-        actionController.addAction(Action("Cancel", style: .cancel, handler: nil))
+        actionController.addAction(Action("Cancel", style: .Cancel, handler: nil))
 
-        present(actionController, animated: true, completion: nil)
+        presentViewController(actionController, animated: true, completion: nil)
     }
 
 }

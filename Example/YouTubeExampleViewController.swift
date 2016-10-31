@@ -27,27 +27,26 @@ import XLActionController
 
 class YouTubeExampleViewController: UIViewController {
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
 
-    @IBAction func backButtonDidTouch(_ sender: UIButton) {
-        _ = navigationController?.popViewController(animated: true)
+    @IBAction func backButtonDidTouch(sender: UIButton) {
+        _ = navigationController?.popViewControllerAnimated(true)
     }
     
-    @IBAction func tapGestureDidRecognize(_ sender: UITapGestureRecognizer) {
-        
+    @IBAction func tapGestureDidRecognize(sender: UITapGestureRecognizer) {
         let actionController = YoutubeActionController()
         
-        actionController.addAction(Action(ActionData(title: "Add to Watch Later", image: UIImage(named: "yt-add-to-watch-later-icon")!), style: .default, handler: { action in
+        actionController.addAction(Action(ActionData(title: "Add to Watch Later", image: UIImage(named: "yt-add-to-watch-later-icon")!), style: .Default, handler: { action in
         }))
-        actionController.addAction(Action(ActionData(title: "Add to Playlist...", image: UIImage(named: "yt-add-to-playlist-icon")!), style: .default, handler: { action in
+        actionController.addAction(Action(ActionData(title: "Add to Playlist...", image: UIImage(named: "yt-add-to-playlist-icon")!), style: .Default, handler: { action in
         }))
-        actionController.addAction(Action(ActionData(title: "Share...", image: UIImage(named: "yt-share-icon")!), style: .default, handler: { action in
+        actionController.addAction(Action(ActionData(title: "Share...", image: UIImage(named: "yt-share-icon")!), style: .Default, handler: { action in
         }))
-        actionController.addAction(Action(ActionData(title: "Cancel", image: UIImage(named: "yt-cancel-icon")!), style: .cancel, handler: nil))
+        actionController.addAction(Action(ActionData(title: "Cancel", image: UIImage(named: "yt-cancel-icon")!), style: .Cancel, handler: nil))
         
-        present(actionController, animated: true, completion: nil)
+        presentViewController(actionController, animated: true, completion: nil)
     }    
 }
