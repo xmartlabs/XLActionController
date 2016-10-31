@@ -3,9 +3,9 @@
 <p align="left">
 <a href="https://travis-ci.org/xmartlabs/XLActionController"><img src="https://travis-ci.org/xmartlabs/XLActionController.svg?branch=master" alt="Build status" /></a>
 <img src="https://img.shields.io/badge/platform-iOS-blue.svg?style=flat" alt="Platform iOS" />
-<a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/swift2-compatible-4BC51D.svg?style=flat" alt="Swift 2 compatible" /></a>
+<a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/swift3-compatible-4BC51D.svg?style=flat" alt="Swift 3 compatible" /></a>
 <a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible" /></a>
-<a href="https://cocoapods.org/pods/XLActionController"><img src="https://img.shields.io/badge/pod-2.0.0-blue.svg" alt="CocoaPods compatible" /></a>
+<a href="https://cocoapods.org/pods/XLActionController"><img src="https://img.shields.io/badge/pod-3.0.1-blue.svg" alt="CocoaPods compatible" /></a>
 <a href="https://raw.githubusercontent.com/xmartlabs/XLActionController/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License: MIT" /></a>
 <a href="https://codebeat.co/projects/github-com-xmartlabs-xlactioncontroller"><img alt="codebeat badge" src="https://codebeat.co/badges/24f48197-136d-44cc-b072-6703644d13b6" /></a>
 </p>
@@ -49,23 +49,23 @@ The code snippet below shows how to present the Tweetbot action sheet controller
 ```swift
 let actionController = TweetbotActionController()
 
-actionController.addAction(Action("View Details", style: .Default, handler: { action in
+actionController.addAction(Action("View Details", style: .default, handler: { action in
   // do something useful
 }))
-actionController.addAction(Action("View Retweets", style: .Default, handler: { action in
+actionController.addAction(Action("View Retweets", style: .default, handler: { action in
   // do something useful
 }))
-actionController.addAction(Action("View in Favstar", style: .Default, handler: { action in
+actionController.addAction(Action("View in Favstar", style: .default, handler: { action in
   // do something useful
 }))
-actionController.addAction(Action("Translate", style: .Default, executeImmediatelyOnTouch: true, handler: { action in
+actionController.addAction(Action("Translate", style: .default, executeImmediatelyOnTouch: true, handler: { action in
   // do something useful
 }))
 
 actionController.addSection(Section())
-actionController.addAction(Action("Cancel", style: .Cancel, handler:nil))
+actionController.addAction(Action("Cancel", style: .cancel, handler:nil))
 
-presentViewController(actionController, animated: true, completion: nil)
+present(actionController, animated: true, completion: nil)
 ```
 
 As you may have noticed, the library usage looks pretty similar to UIAlertController.
@@ -86,14 +86,14 @@ let actionSheet = TwitterActionController()
 // set up a header title
 actionSheet.headerData = "Accounts"
 // Add some actions, note that the first parameter of `Action` initializer is `ActionData`.
-actionSheet.addAction(Action(ActionData(title: "Xmartlabs", subtitle: "@xmartlabs", image: UIImage(named: "tw-xmartlabs")!), style: .Default, handler: { action in
+actionSheet.addAction(Action(ActionData(title: "Xmartlabs", subtitle: "@xmartlabs", image: UIImage(named: "tw-xmartlabs")!), style: .default, handler: { action in
    // do something useful
 }))
-actionSheet.addAction(Action(ActionData(title: "Miguel", subtitle: "@remer88", image: UIImage(named: "tw-remer")!), style: .Default, handler: { action in
+actionSheet.addAction(Action(ActionData(title: "Miguel", subtitle: "@remer88", image: UIImage(named: "tw-remer")!), style: .default, handler: { action in
    // do something useful
 }))
 // present actionSheet like any other view controller
-presentViewController(actionSheet, animated: true, completion: nil)
+present(actionSheet, animated: true, completion: nil)
 ```
 <img src="Media/demo_twitter.gif" width="200"/>
 
@@ -113,12 +113,12 @@ uiActionController.message = "Various Artists"
 
 ```swift
 // XLActionController:
-let xlAction = Action(ActionData(title: "Save Full Album", image: UIImage(named: "sp-add-icon")!), style: .Default, handler: { action in })
+let xlAction = Action(ActionData(title: "Save Full Album", image: UIImage(named: "sp-add-icon")!), style: .default, handler: { action in })
 // notice that we are able to pass an image in addition to the title
 xlActionController.addAction(xlAction)
 
 // vs UIAlertController:
-let uiAction = UIAlertAction(title: "Xmartlabs", style: .Default, handler: { action in }))
+let uiAction = UIAlertAction(title: "Xmartlabs", style: .default, handler: { action in }))
 uiActionController.addAction(uiAction)
 ```
 
@@ -156,24 +156,24 @@ XLActionController provides extension points to specify a whole new look and fee
 public class PeriscopeActionController: ActionController<PeriscopeCell, String, PeriscopeHeader, String, UICollectionReusableView, Void> {
 
     // override init in order to customize behavior and animations
-    public override init(nibName nibNameOrNil: String? = nil, bundle nibBundleOrNil: NSBundle? = nil) {
+    public override init(nibName nibNameOrNil: String? = nil, bundle nibBundleOrNil: Bundle? = nil) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // customizing behavior and present/dismiss animations
         settings.behavior.hideOnScrollDown = false
         settings.animation.scale = nil
         settings.animation.present.duration = 0.6
         settings.animation.dismiss.duration = 0.5
-        settings.animation.dismiss.options = .CurveEaseIn
+        settings.animation.dismiss.options = .curveEaseIn
         settings.animation.dismiss.offset = 30
 
         // providing a specific collection view cell which will be used to display each action, height parameter expects a block that returns the cell height for a particular action.
-        cellSpec = .NibFile(nibName: "PeriscopeCell", bundle: NSBundle(forClass: PeriscopeCell.self), height: { _ in 60})
+        cellSpec = .nibFile(nibName: "PeriscopeCell", bundle: Bundle(for: PeriscopeCell.self), height: { _ in 60})
         // providing a specific view that will render each section header.
-        sectionHeaderSpec = .CellClass(height: { _ in 5 })
+        sectionHeaderSpec = .cellClass(height: { _ in 5 })
         // providing a specific view that will render the action sheet header. We calculate its height according the text that should be displayed.
-        headerSpec = .CellClass(height: { [weak self] (headerData: String) in
+        headerSpec = .cellClass(height: { [weak self] (headerData: String) in
             guard let me = self else { return 0 }
-            let label = UILabel(frame: CGRectMake(0, 0, me.view.frame.width - 40, CGFloat.max))
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: me.view.frame.width - 40, height: CGFloat.greatestFiniteMagnitude))
             label.numberOfLines = 0
             label.font = .systemFontOfSize(17.0)
             label.text = headerData
@@ -185,10 +185,10 @@ public class PeriscopeActionController: ActionController<PeriscopeCell, String, 
         // block used to setup the header. Header view and the header are passed as block parameters
         onConfigureHeader = { [weak self] header, headerData in
             guard let me = self else { return }
-            header.label.frame = CGRectMake(0, 0, me.view.frame.size.width - 40, CGFloat.max)
+            header.label.frame = CGRect(x: 0, y: 0, width: me.view.frame.size.width - 40, height: CGFloat.greatestFiniteMagnitude)
             header.label.text = headerData
             header.label.sizeToFit()
-            header.label.center = CGPointMake(header.frame.size.width  / 2, header.frame.size.height / 2)
+            header.label.center = CGPoint(x: header.frame.size.width  / 2, y: header.frame.size.height / 2)
         }
         // block used to setup the section header
         onConfigureSectionHeader = { sectionHeader, sectionHeaderData in
@@ -197,9 +197,9 @@ public class PeriscopeActionController: ActionController<PeriscopeCell, String, 
         // block used to setup the collection view cell
         onConfigureCellForAction = { [weak self] cell, action, indexPath in
             cell.setup(action.data, detail: nil, image: nil)
-            cell.separatorView?.hidden = indexPath.item == self!.collectionView.numberOfItemsInSection(indexPath.section) - 1
+            cell.separatorView?.isHidden = indexPath.item == self!.collectionView.numberOfItems(inSection: indexPath.section) - 1
             cell.alpha = action.enabled ? 1.0 : 0.5
-            cell.actionTitleLabel?.textColor = action.style == .Destructive ? UIColor(red: 210/255.0, green: 77/255.0, blue: 56/255.0, alpha: 1.0) : UIColor(red: 0.28, green: 0.64, blue: 0.76, alpha: 1.0)
+            cell.actionTitleLabel?.textColor = action.style == .destructive ? UIColor(red: 210/255.0, green: 77/255.0, blue: 56/255.0, alpha: 1.0) : UIColor(red: 0.28, green: 0.64, blue: 0.76, alpha: 1.0)
         }
     }
 }
@@ -260,7 +260,7 @@ Struct that contains all properties related to presentation & dismissal animatio
 
 ```swift
 // Used to scale the presenting view controller when the action controller is being presented. If `nil` is set, then the presenting view controller won't be scaled. `(0.9, 0.9)` by default.
-settings.animation.scale: CGSize? = CGSizeMake(0.9, 0.9)
+settings.animation.scale: CGSize? = CGSize(width: 0.9, height: 0.9)
 ```
 
 #### Present animation settings
@@ -269,12 +269,12 @@ settings.animation.scale: CGSize? = CGSizeMake(0.9, 0.9)
 // damping value for the animation block. `1.0` by default.
 settings.animation.present.damping: CGFloat
 // delay for the animation block. `0.0` by default.
-settings.animation.present.delay: NSTimeInterval
+settings.animation.present.delay: TimeInterval
 // Indicates the animation duration. `0.7` by default.
-settings.animation.present.duration: NSTimeInterval
+settings.animation.present.duration: TimeInterval
 // Used as `springVelocity` for the animation block. `0.0` by default.
 settings.animation.present.springVelocity: CGFloat
-// Present animation options. `UIViewAnimationOptions.CurveEaseOut` by default.
+// Present animation options. `UIViewAnimationOptions.curveEaseOut` by default.
 settings.animation.present.options: UIViewAnimationOptions
 ```
 
@@ -284,12 +284,12 @@ settings.animation.present.options: UIViewAnimationOptions
 // damping value for the animation block. `1.0` by default.
 settings.animation.dismiss.damping: CGFloat
 // Used as delay for the animation block. `0.0` by default.
-settings.animation.dismiss.delay: NSTimeInterval
+settings.animation.dismiss.delay: TimeInterval
 // animation duration. `0.7` by default.
-settings.animation.dismiss.duration: NSTimeInterval
+settings.animation.dismiss.duration: TimeInterval
 // springVelocity for the animation block. `0.0` by default
 settings.animation.dismiss.springVelocity: CGFloat
-// dismiss animation options. `UIViewAnimationOptions.CurveEaseIn` by default
+// dismiss animation options. `UIViewAnimationOptions.curveEaseIn` by default
 settings.animation.dismiss.options: UIViewAnimationOptions
 ```
 
@@ -314,7 +314,7 @@ settings.cancelView.showCancel: Bool
 settings.cancelView.title: String?
  // Cancel view's height. `60` by default.
 settings.cancelView.height: CGFloat
- // Cancel view's background color. `UIColor.blackColor().colorWithAlphaComponent(0.8)` by default.
+ // Cancel view's background color. `UIColor.black.withAlphaComponent(0.8)` by default.
 settings.cancelView.backgroundColor: UIColor
 ```
 
@@ -326,24 +326,24 @@ If tweaking previous settings is not enough to make the animations work like you
 #### Presentation
 
 ```swift
-public func presentView(presentedView: UIView, presentingView: UIView, animationDuration: Double, completion: ((completed: Bool) -> Void)?)
+open func presentView(_ presentedView: UIView, presentingView: UIView, animationDuration: Double, completion: ((_ completed: Bool) -> Void)?)
 ```
 The function above is responsible for making the present animation. It encapsulates how the presentation is performed and invokes `onWillPresentView`, `performCustomPresentationAnimation` and `onDidPresentView` to allow you to change a specific point of the animation.
 
 >Typically we don't need to override `presentView` function because overriding either `onWillPresentView`, `performCustomPresentationAnimation` or `onDidPresentView` is enough.
 
 ```swift
-public func onWillPresentView()
+open func onWillPresentView()
 ```
 `onWillPresentView` is called before the animation block starts. Any change here won't be animated. It's intended to set the initial animated properties values.
 
 ```swift
-public func performCustomPresentationAnimation(presentedView: UIView, presentingView: UIView) {
+open func performCustomPresentationAnimation(_ presentedView: UIView, presentingView: UIView)
 ```
 `performCustomPresentationAnimation` is called from within the main animation block.
 
 ```swift
-public func onDidPresentView()
+open func onDidPresentView()
 ```
 After the present animation is completed, `presentView` calls `onDidPresentView` from within completion callback.
 
@@ -354,7 +354,7 @@ After the present animation is completed, `presentView` calls `onDidPresentView`
 Dismissal animation can be customized in the same way as presentation animation.
 
 ```swift
-public func dismissView(presentedView: UIView, presentingView: UIView, animationDuration: Double, completion: ((completed: Bool) -> Void)?)
+open func dismissView(_ presentedView: UIView, presentingView: UIView, animationDuration: Double, completion: ((_ completed: Bool) -> Void)?)
 ```
 
 The function above is responsible for making the dismissal animation. It encapsulates how the dismissal animation is performed and invokes `onWillDismissView`, `performCustomDismissingAnimation` and `onDidDismissView` to allow you to change an specific point of the animation.
@@ -362,17 +362,17 @@ The function above is responsible for making the dismissal animation. It encapsu
 >Typically we don't need to override `dismissView` method because overriding either onWillDismissView`, `performCustomDismissingAnimation` or `onDidDismissView` is enough.
 
 ```swift
-public func onWillDismissView()
+open func onWillDismissView()
 ```
 Overrides `onWillDismissView` to perform any set up before the animation begins.
 
 ```swift
-public func performCustomDismissingAnimation(presentedView: UIView, presentingView: UIView)
+open func performCustomDismissingAnimation(_ presentedView: UIView, presentingView: UIView)
 ```
 `performCustomDismissingAnimation` function is invoked from within the main animation block.
 
 ```swift
-public func onDidDismissView()
+open func onDidDismissView()
 ```
 After the dismissal animation completes, `dismissView` calls `onDidDismissView` from within completion callback.
 
