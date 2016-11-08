@@ -514,12 +514,8 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
             },
             completion: { [weak self] _ in
                 self?.onDidDismissView()
+                completion?(true)
             })
-
-        let delayTime = DispatchTime.now() + Double(Int64(animationDuration * 0.25 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
-            completion?(true)
-        }
     }
     
     open func onWillPresentView() {
