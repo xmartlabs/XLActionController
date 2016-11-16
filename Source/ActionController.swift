@@ -698,15 +698,19 @@ open class DynamicsActionController<ActionViewType: UICollectionViewCell, Action
     }
 
     // MARK: - Overrides
-    
+
     open override func dismiss() {
+        dismiss(nil)
+    }
+
+    open override func dismiss(_ completion: (() -> ())?) {
         animator.addBehavior(gravityBehavior)
-        
+
         UIView.animate(withDuration: settings.animation.dismiss.duration, animations: { [weak self] in
             self?.backgroundView.alpha = 0.0
-        }) 
-        
-        presentingViewController?.dismiss(animated: true, completion: nil)
+        })
+
+        presentingViewController?.dismiss(animated: true, completion: completion)
     }
 
     open override func dismissView(_ presentedView: UIView, presentingView: UIView, animationDuration: Double, completion: ((_ completed: Bool) -> Void)?) {
