@@ -316,8 +316,9 @@ settings.cancelView.title: String?
 settings.cancelView.height: CGFloat
  // Cancel view's background color. `UIColor.black.withAlphaComponent(0.8)` by default.
 settings.cancelView.backgroundColor: UIColor
+// Indicates if the collection view is partially hidden by the cancelView when it is pulled down.
+settings.cancelView.hideCollectionViewBehindCancelView: Bool
 ```
-
 
 ### Advanced animations
 
