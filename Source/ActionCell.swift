@@ -29,24 +29,24 @@ public protocol SeparatorCellType: NSObjectProtocol {
     func hideSeparator()
 }
 
-open class ActionCell: UICollectionViewCell, SeparatorCellType {
+public class ActionCell: UICollectionViewCell, SeparatorCellType {
 
-    @IBOutlet open weak var actionTitleLabel: UILabel?
-    @IBOutlet open weak var actionImageView: UIImageView?
-    @IBOutlet open weak var actionDetailLabel: UILabel?
-    @IBOutlet open weak var separatorView: UIView?
+    @IBOutlet public weak var actionTitleLabel: UILabel?
+    @IBOutlet public weak var actionImageView: UIImageView?
+    @IBOutlet public weak var actionDetailLabel: UILabel?
+    @IBOutlet public weak var separatorView: UIView?
 
-    @IBOutlet open weak var imageViewWidthConstraint: NSLayoutConstraint?
+    @IBOutlet public weak var imageViewWidthConstraint: NSLayoutConstraint?
 
     var imageWidth: CGFloat = 0
 
-    open override func awakeFromNib() {
+    public override func awakeFromNib() {
         super.awakeFromNib()
 
         imageWidth = imageViewWidthConstraint?.constant ?? 0
     }
 
-    open func setup(_ title: String?, detail: String?, image: UIImage?) {
+    public func setup(title: String?, detail: String?, image: UIImage?) {
         actionTitleLabel?.text = title
         actionDetailLabel?.text = detail
         actionImageView?.image = image
@@ -56,11 +56,11 @@ open class ActionCell: UICollectionViewCell, SeparatorCellType {
         setNeedsLayout()
     }
     
-    open func showSeparator() {
+    public func showSeparator() {
         separatorView?.alpha = 1.0
     }
     
-    open func hideSeparator() {
+    public func hideSeparator() {
         separatorView?.alpha = 0.0
     }
 }

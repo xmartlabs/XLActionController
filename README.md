@@ -3,9 +3,9 @@
 <p align="left">
 <a href="https://travis-ci.org/xmartlabs/XLActionController"><img src="https://travis-ci.org/xmartlabs/XLActionController.svg?branch=master" alt="Build status" /></a>
 <img src="https://img.shields.io/badge/platform-iOS-blue.svg?style=flat" alt="Platform iOS" />
-<a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/swift2-compatible-4BC51D.svg?style=flat" alt="Swift 2 compatible" /></a>
+<a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/swift2.3-compatible-4BC51D.svg?style=flat" alt="Swift 2.3 compatible" /></a>
 <a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible" /></a>
-<a href="https://cocoapods.org/pods/XLActionController"><img src="https://img.shields.io/badge/pod-2.0.0-blue.svg" alt="CocoaPods compatible" /></a>
+<a href="https://cocoapods.org/pods/XLActionController"><img src="https://img.shields.io/badge/Cocoapods-compatible-4BC51D.svg" alt="CocoaPods compatible" /></a>
 <a href="https://raw.githubusercontent.com/xmartlabs/XLActionController/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License: MIT" /></a>
 <a href="https://codebeat.co/projects/github-com-xmartlabs-xlactioncontroller"><img alt="codebeat badge" src="https://codebeat.co/badges/24f48197-136d-44cc-b072-6703644d13b6" /></a>
 </p>
@@ -13,6 +13,8 @@
 By [XMARTLABS](http://xmartlabs.com).
 
 **XLActionController** is an extensible library to quickly create any custom action sheet controller.
+
+⚠️ This readme describes XLActionController 2.3 which is compatible with **Swift 2.3** ⚠️ 
 
 ## Examples
 
@@ -386,7 +388,7 @@ After the dismissal animation completes, `dismissView` calls `onDidDismissView` 
 
 * iOS 8.0+
 * Xcode 8.0+
-* Swift 3
+* Swift 2.3
 
 ## Getting involved
 
@@ -413,15 +415,15 @@ use_frameworks!
 
 target '<Your App Target>' do
   # This will install just the library's core, won't include any examples
-  pod 'XLActionController'
+  pod 'XLActionController', branch: 'Swift2.3'
 
   # Uncomment depending on the examples that you want to install
-  #pod 'XLActionController/Periscope'
-  #pod 'XLActionController/Skype'
-  #pod 'XLActionController/Spotify'
-  #pod 'XLActionController/Tweetbot'
-  #pod 'XLActionController/Twitter'
-  #pod 'XLActionController/Youtube'
+  #pod 'XLActionController/Periscope', branch: 'Swift2.3'
+  #pod 'XLActionController/Skype', branch: 'Swift2.3'
+  #pod 'XLActionController/Spotify', branch: 'Swift2.3'
+  #pod 'XLActionController/Tweetbot', branch: 'Swift2.3'
+  #pod 'XLActionController/Twitter', branch: 'Swift2.3'
+  #pod 'XLActionController/Youtube', branch: 'Swift2.3'
 end
 ```
 
@@ -439,7 +441,7 @@ dependency manager for Cocoa.
 Specify XLActionController into your project's Carthage:
 
 ```
-github "xmartlabs/XLActionController" ~> 3.0
+github "xmartlabs/XLActionController" ~> 2.3
 ```
 
 ### Manually as Embedded Framework

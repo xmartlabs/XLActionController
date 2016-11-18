@@ -75,7 +75,7 @@ public struct ActionControllerSettings {
         /**
          * The cancel view's background color. Its default value is `UIColor.blackColor().colorWithAlphaComponent(0.8)`.
          */
-        public var backgroundColor = UIColor.black.withAlphaComponent(0.8)
+        public var backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.8)
     }
 
     /** Struct that contains properties to configure the collection view's style */
@@ -102,12 +102,12 @@ public struct ActionControllerSettings {
           * A float value that is used as delay for the animation block. Its default value is `0.0`.
           * @see: animateWithDuration:delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:
           */
-        public var delay = TimeInterval(0.0)
+        public var delay = NSTimeInterval(0.0)
         /** 
           * A float value that determines the animation duration. Its default value is `0.7`.
           * @see: animateWithDuration:delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:
           */
-        public var duration = TimeInterval(0.7)
+        public var duration = NSTimeInterval(0.7)
         /** 
           * A float value that is used as `springVelocity` for the animation block. Its default value is `0.0`.
           * @see: animateWithDuration:delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:
@@ -117,7 +117,7 @@ public struct ActionControllerSettings {
           * A mask of options indicating how you want to perform the animations. Its default value is `UIViewAnimationOptions.CurveEaseOut`.
           * @see: animateWithDuration:delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:
           */
-        public var options = UIViewAnimationOptions.curveEaseOut
+        public var options = UIViewAnimationOptions.CurveEaseOut
     }
     
     /** Struct that contains properties to configure the animation when dismissing the action controller */
@@ -131,12 +131,12 @@ public struct ActionControllerSettings {
          * A float value that is used as delay for the animation block. Its default value is `0.0`.
          * @see: animateWithDuration:delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:
          */
-        public var delay = TimeInterval(0.0)
+        public var delay = NSTimeInterval(0.0)
         /**
          * A float value that determines the animation duration. Its default value is `0.7`.
          * @see: animateWithDuration:delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:
          */
-        public var duration = TimeInterval(0.7)
+        public var duration = NSTimeInterval(0.7)
         /**
          * A float value that is used as `springVelocity` for the animation block. Its default value is `0.0`.
          * @see: animateWithDuration:delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:
@@ -146,7 +146,7 @@ public struct ActionControllerSettings {
          * A mask of options indicating how you want to perform the animations. Its default value is `UIViewAnimationOptions.CurveEaseIn`.
          * @see: animateWithDuration:delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:
          */
-        public var options = UIViewAnimationOptions.curveEaseIn
+        public var options = UIViewAnimationOptions.CurveEaseIn
         /**
          * A float value that makes the action controller's to be animated until the bottomof the screen plus this value.
          */
@@ -178,7 +178,7 @@ public struct ActionControllerSettings {
          * A value that determines the style of the device’s status bar when the action controller is visible. Its
          * default value is `UIStatusBarStyle.LightContent`.
          */
-        public var style = UIStatusBarStyle.lightContent
+        public var style = UIStatusBarStyle.LightContent
     }
     
     /** Stores the behavior's properties values */

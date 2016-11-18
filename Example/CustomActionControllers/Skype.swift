@@ -27,7 +27,7 @@ import Foundation
 import XLActionController
 #endif
 
-open class SkypeCell: UICollectionViewCell {
+public class SkypeCell: UICollectionViewCell {
     
     @IBOutlet weak var actionTitleLabel: UILabel!
     
@@ -40,14 +40,14 @@ open class SkypeCell: UICollectionViewCell {
         super.init(coder: aDecoder)
     }
     
-    open override func awakeFromNib() {
+    public override func awakeFromNib() {
         super.awakeFromNib()
         initialize()
     }
     
     func initialize() {
-        backgroundColor = .clear
-        actionTitleLabel?.textColor = .darkGray
+        backgroundColor = .clearColor()
+        actionTitleLabel?.textColor = .darkGrayColor()
         let backgroundView = UIView()
         backgroundView.backgroundColor = backgroundColor
         selectedBackgroundView = backgroundView
@@ -55,28 +55,32 @@ open class SkypeCell: UICollectionViewCell {
 }
 
 
-open class SkypeActionController: ActionController<SkypeCell, String, UICollectionReusableView, Void, UICollectionReusableView, Void> {
+public class SkypeActionController: ActionController<SkypeCell, String, UICollectionReusableView, Void, UICollectionReusableView, Void> {
     
-    fileprivate var contextView: ContextView!
-    fileprivate var normalAnimationRect: UIView!
-    fileprivate var springAnimationRect: UIView!
+    private var contextView: ContextView!
+    private var normalAnimationRect: UIView!
+    private var springAnimationRect: UIView!
     
     let topSpace = CGFloat(40)
-    
-    public override init(nibName nibNameOrNil: String? = nil, bundle nibBundleOrNil: Bundle? = nil) {
+
+    public convenience init() {
+        self.init(nibName: nil, bundle: nil)
+    }
+
+    public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
-        cellSpec = .nibFile(nibName: "SkypeCell", bundle: Bundle(for: SkypeCell.self), height: { _ in 60 })
+        cellSpec = .NibFile(nibName: "SkypeCell", bundle: NSBundle(forClass: SkypeCell.self), height: { _ in 60 })
         settings.animation.scale = nil
         settings.animation.present.duration = 0.5
-        settings.animation.present.options = [.curveEaseOut, .allowUserInteraction]
+        settings.animation.present.options = [.CurveEaseOut, .AllowUserInteraction]
         settings.animation.present.springVelocity = 0.0
         settings.animation.present.damping = 0.7
-        settings.statusBar.style = .default
+        settings.statusBar.style = .Default
 
         onConfigureCellForAction = { cell, action, indexPath in
             cell.actionTitleLabel.text = action.data
-            cell.actionTitleLabel.textColor = .white
+            cell.actionTitleLabel.textColor = .whiteColor()
             cell.alpha = action.enabled ? 1.0 : 0.5
         }
     }
@@ -85,27 +89,27 @@ open class SkypeActionController: ActionController<SkypeCell, String, UICollecti
       super.init(coder: aDecoder)
     }
     
-    open override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         contextView = ContextView(frame: CGRect(x: 0, y: -topSpace, width: collectionView.bounds.width, height: contentHeight + topSpace + 20))
-        contextView.autoresizingMask = [.flexibleWidth, .flexibleBottomMargin]
+        contextView.autoresizingMask = [.FlexibleWidth, .FlexibleBottomMargin]
         collectionView.clipsToBounds = false
         collectionView.addSubview(contextView)
-        collectionView.sendSubview(toBack: contextView)
+        collectionView.sendSubviewToBack(contextView)
         
         
         normalAnimationRect = UIView(frame: CGRect(x: 0, y: view.bounds.height/2, width: 30, height: 30))
-        normalAnimationRect.isHidden = true
+        normalAnimationRect.hidden = true
         view.addSubview(normalAnimationRect)
         
         springAnimationRect = UIView(frame: CGRect(x: 40, y: view.bounds.height/2, width: 30, height: 30))
-        springAnimationRect.isHidden = true
+        springAnimationRect.hidden = true
         view.addSubview(springAnimationRect)
         
-        backgroundView.backgroundColor = UIColor.black.withAlphaComponent(0.65)
+        backgroundView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.65)
     }
     
-    override open func onWillPresentView() {
+    override public func onWillPresentView() {
         super.onWillPresentView()
         
         collectionView.frame.origin.y = contentHeight + (topSpace - contextView.topSpace)
@@ -115,36 +119,36 @@ open class SkypeActionController: ActionController<SkypeCell, String, UICollecti
         let initTime = 0.1
         let animationDuration = settings.animation.present.duration - 0.1
         
-        let options: UIViewAnimationOptions = [.curveEaseOut, .allowUserInteraction]
-        UIView.animate(withDuration: initTime, delay: settings.animation.present.delay, options: options, animations: { [weak self] in
+        let options: UIViewAnimationOptions = [.CurveEaseOut, .AllowUserInteraction]
+        UIView.animateWithDuration(initTime, delay: settings.animation.present.delay, options: options, animations: { [weak self] in
+            guard let me = self else {
+                return
+            }
+            
+            var frame = me.springAnimationRect.frame
+            frame.origin.y = frame.origin.y - initSpace
+            me.springAnimationRect.frame = frame
+        }, completion: { [weak self] finished in
+            guard let me = self where finished else {
+                self?.finishAnimation()
+                return
+            }
+            
+            UIView.animateWithDuration(animationDuration - initTime, delay: 0, options: options, animations: { [weak self] in
                 guard let me = self else {
                     return
                 }
                 
                 var frame = me.springAnimationRect.frame
-                frame.origin.y = frame.origin.y - initSpace
+                frame.origin.y -= (me.contentHeight - initSpace)
                 me.springAnimationRect.frame = frame
-            }, completion: { [weak self] finished in
-                guard let me = self , finished else {
-                    self?.finishAnimation()
-                    return
-                }
-                
-                UIView.animate(withDuration: animationDuration - initTime, delay: 0, options: options, animations: { [weak self] in
-                    guard let me = self else {
-                        return
-                    }
-                    
-                    var frame = me.springAnimationRect.frame
-                    frame.origin.y -= (me.contentHeight - initSpace)
-                    me.springAnimationRect.frame = frame
-                    }, completion: { (finish) -> Void in
-                        me.finishAnimation()
-                })
+            }, completion: { (finish) -> Void in
+                me.finishAnimation()
             })
+        })
         
         
-        UIView.animate(withDuration: animationDuration - initTime, delay: settings.animation.present.delay + initTime, options: options, animations: { [weak self] in
+        UIView.animateWithDuration(animationDuration - initTime, delay: settings.animation.present.delay + initTime, options: options, animations: { [weak self] in
             guard let me = self else {
                 return
             }
@@ -156,12 +160,12 @@ open class SkypeActionController: ActionController<SkypeCell, String, UICollecti
     }
     
     
-    override open func dismissView(_ presentedView: UIView, presentingView: UIView, animationDuration: Double, completion: ((_ completed: Bool) -> Void)?) {
+    public override func dismissView(presentedView: UIView, presentingView: UIView, animationDuration: Double, completion: ((Bool) -> Void)?) {
         finishAnimation()
         finishAnimation()
         
         let animationSettings = settings.animation.dismiss
-        UIView.animate(withDuration: animationDuration,
+        UIView.animateWithDuration(animationDuration,
             delay: animationSettings.delay,
             usingSpringWithDamping: animationSettings.damping,
             initialSpringVelocity: animationSettings.springVelocity,
@@ -189,42 +193,42 @@ open class SkypeActionController: ActionController<SkypeCell, String, UICollecti
     
     // MARK: - Private Helpers
     
-    fileprivate var diff = CGFloat(0)
-    fileprivate var displayLink: CADisplayLink!
-    fileprivate var animationCount = 0
+    private var diff = CGFloat(0)
+    private var displayLink: CADisplayLink!
+    private var animationCount = 0
     
-    fileprivate lazy var animator: UIDynamicAnimator = { [unowned self] in
+    private lazy var animator: UIDynamicAnimator = { [unowned self] in
         let animator = UIDynamicAnimator(referenceView: self.view)
         return animator
     }()
     
-    fileprivate lazy var gravityBehavior: UIGravityBehavior = { [unowned self] in
+    private lazy var gravityBehavior: UIGravityBehavior = { [unowned self] in
         let gravityBehavior = UIGravityBehavior(items: [self.collectionView])
         gravityBehavior.magnitude = 2.0
         return gravityBehavior
     }()
 
-    @objc fileprivate func update(_ displayLink: CADisplayLink) {
-        let normalRectLayer = normalAnimationRect.layer.presentation()
-        let springRectLayer = springAnimationRect.layer.presentation()
+    @objc private func update(displayLink: CADisplayLink) {
+        let normalRectLayer = normalAnimationRect.layer.presentationLayer()
+        let springRectLayer = springAnimationRect.layer.presentationLayer()
         
-        guard let normalRectFrame = (normalRectLayer?.value(forKey: "frame") as AnyObject).cgRectValue,
-          let springRectFrame = (springRectLayer?.value(forKey: "frame") as AnyObject).cgRectValue else {
+        guard let normalRectFrame = normalRectLayer?.valueForKey("frame")?.CGRectValue,
+          let springRectFrame = springRectLayer?.valueForKey("frame")?.CGRectValue else {
             return
         }
         contextView.diff = normalRectFrame.origin.y - springRectFrame.origin.y
         contextView.setNeedsDisplay()
     }
     
-    fileprivate func startAnimation() {
+    private func startAnimation() {
         if displayLink == nil {
             self.displayLink = CADisplayLink(target: self, selector: #selector(SkypeActionController.update(_:)))
-            self.displayLink.add(to: RunLoop.main, forMode: RunLoopMode.defaultRunLoopMode)
+            self.displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSDefaultRunLoopMode)
         }
         animationCount += 1
     }
     
-    fileprivate func finishAnimation() {
+    private func finishAnimation() {
         animationCount -= 1
         if animationCount == 0 {
             displayLink.invalidate()
@@ -232,34 +236,35 @@ open class SkypeActionController: ActionController<SkypeCell, String, UICollecti
         }
     }
     
-    fileprivate class ContextView: UIView {
+    private class ContextView: UIView {
         let topSpace = CGFloat(25)
         var diff = CGFloat(0)
         
         override init(frame: CGRect) {
             super.init(frame: frame)
-            backgroundColor = .clear
+            backgroundColor = .clearColor()
         }
         
         required init?(coder aDecoder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
-        
-        override func draw(_ rect: CGRect) {
+
+        override func drawRect(rect: CGRect) {
             let path = UIBezierPath()
             
-            path.move(to: CGPoint(x: 0, y: frame.height))
-            path.addLine(to: CGPoint(x: frame.width, y: frame.height))
-            path.addLine(to: CGPoint(x: frame.width, y: topSpace))
-            path.addQuadCurve(to: CGPoint(x: 0, y: topSpace), controlPoint: CGPoint(x: frame.width/2, y: topSpace - diff))
-            path.close()
+            path.moveToPoint(CGPoint(x: 0, y: frame.height))
+            path.addLineToPoint(CGPoint(x: frame.width, y: frame.height))
+            path.addLineToPoint(CGPoint(x: frame.width, y: topSpace))
+            path.addQuadCurveToPoint(CGPoint(x: 0, y: topSpace), controlPoint: CGPoint(x: frame.width/2, y: topSpace - diff))
+            path.closePath()
 
             guard let context = UIGraphicsGetCurrentContext() else {
               return
             }
-            context.addPath(path.cgPath)
+
+            CGContextAddPath(context, path.CGPath)
             UIColor(colorLiteralRed: 18/255.0, green: 165/255.0, blue: 244/255.0, alpha: 1.0).set()
-            context.fillPath()
+            CGContextFillPath(context)
         }
     }
 }

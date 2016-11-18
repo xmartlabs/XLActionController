@@ -32,7 +32,7 @@ class MainViewController: UITableViewController {
         navigationItem.title = "XLActionController's Examples"
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
