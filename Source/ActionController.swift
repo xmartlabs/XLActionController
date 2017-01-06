@@ -438,6 +438,10 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         return CGSize.zero
     }
     
+    open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets.zero
+    }
+    
     // MARK: - UIViewControllerTransitioningDelegate
     
     open func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
