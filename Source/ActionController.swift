@@ -220,6 +220,8 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     open override func viewDidLoad() {
         super.viewDidLoad()
 
+        modalPresentationCapturesStatusBarAppearance = settings.statusBar.modalPresentationCapturesStatusBarAppearance
+
         // background view
         view.addSubview(backgroundView)
 

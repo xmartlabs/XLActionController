@@ -184,6 +184,14 @@ public struct ActionControllerSettings {
          * default value is `UIStatusBarStyle.LightContent`.
          */
         public var style = UIStatusBarStyle.lightContent
+        /**
+         * A boolean value that determines whether the action controller takes over control of status bar appearance from the presenting 
+         * view controller. Its default value is `true`.
+         *
+         * For more information refer to `UIViewController.modalPresentationCapturesStatusBarAppearance`, 
+         * https://developer.apple.com/reference/uikit/uiviewcontroller/1621453-modalpresentationcapturesstatusb
+         */
+        public var modalPresentationCapturesStatusBarAppearance = true
     }
     
     /** Stores the behavior's properties values */

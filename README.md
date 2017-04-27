@@ -300,6 +300,8 @@ settings.animation.dismiss.options: UIViewAnimationOptions
 settings.statusBar.showStatusBar: Bool
 // Determines the style of the device’s status bar when the action controller is visible. `UIStatusBarStyle.LightContent` by default.
 settings.statusBar.style: UIStatusBarStyle
+// Determines whether the action controller takes over control of status bar appearance from the presenting view controller. `true` by default.
+settings.statusBar.modalPresentationCapturesStatusBarAppearance: Bool
 ```
 
 #### Cancel view style
