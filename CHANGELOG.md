@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ### master branch
 
+* Added customizable background color to the Skype action controller, [PR #52](https://github.com/xmartlabs/XLActionController/pull/52) 
+
 ### [3.0.1](https://github.com/xmartlabs/XLActionController/releases/tag/3.0.1)
 
 * Fixed crash when using ActionCell.xib, [PR #31](https://github.com/xmartlabs/XLActionController/pull/31).
