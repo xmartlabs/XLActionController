@@ -68,6 +68,14 @@ public struct ActionControllerSettings {
          * The cancel view's title. Its default value is "Cancel".
          */
         public var title: String? = "Cancel"
+		/**
+		* The title label's font. Has a default value
+		*/
+		public var titleFont: UIFont? = UIFont.boldSystemFont(ofSize: 16)
+		/**
+		* The title label's text color. Has a default value
+		*/
+		public var titleColor: UIColor? = .white
         /**
          * The cancel view's height. Its default value is `60`.
          */
