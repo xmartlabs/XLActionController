@@ -179,11 +179,28 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
             section.actions.append(action)
         }
     }
-
+    
     @discardableResult
     open func addSection(_ section: Section<ActionDataType, SectionHeaderDataType>) -> Section<ActionDataType, SectionHeaderDataType> {
         _sections.append(section)
         return section
+    }
+    
+    public typealias ClosureAction = ((Action<ActionDataType>) -> Bool)
+    
+    open func removeAction(closure: ClosureAction) {
+        if let section = _sections.last {
+            guard let index = section.actions.index(where: { (item) -> Bool in
+                closure(item)
+            }) else { return }
+            section.actions.remove(at: index)
+        }
+    }
+    
+    open func removeAction(_ actionPosition: Int) {
+        if let section = _sections.last {
+            section.actions.remove(at: actionPosition)
+        }
     }
     
     // MARK: - Helpers
