@@ -1,7 +1,7 @@
-//  YouTubeExampleViewController.swift
+//  YouTubeExampleViewControllerWithDispatch.swift
 //  XLActionController ( https://github.com/xmartlabs/XLActionController )
 //
-//  Copyright (c) 2015 Xmartlabs ( http://xmartlabs.com )
+//  Copyright (c) 2017 Xmartlabs ( http://xmartlabs.com )
 //
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,28 +25,52 @@
 import UIKit
 import XLActionController
 
-class YouTubeExampleViewController: UIViewController {
+class YoutubeDispatchExampleViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
-
+    
     @IBAction func backButtonDidTouch(_ sender: UIButton) {
         _ = navigationController?.popViewController(animated: true)
     }
     
     @IBAction func tapGestureDidRecognize(_ sender: UITapGestureRecognizer) {
         let actionController = YoutubeActionController()
-        
         actionController.addAction(Action(ActionData(title: "Add to Watch Later", image: UIImage(named: "yt-add-to-watch-later-icon")!), style: .default, handler: { action in
         }))
         actionController.addAction(Action(ActionData(title: "Add to Playlist...", image: UIImage(named: "yt-add-to-playlist-icon")!), style: .default, handler: { action in
         }))
-        actionController.addAction(Action(ActionData(title: "Share...", image: UIImage(named: "yt-share-icon")!), style: .default, handler: { action in
-        }))
-        actionController.addAction(Action(ActionData(title: "Cancel", image: UIImage(named: "yt-cancel-icon")!), style: .cancel, handler: nil))
         
         present(actionController, animated: true, completion: nil)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+            actionController.addAction(Action(ActionData(title: "Share...", image: UIImage(named: "yt-share-icon")!), style: .default, handler: { action in
+            }))
+            actionController.addAction(Action(ActionData(title: "Cancel", image: UIImage(named: "yt-cancel-icon")!), style: .cancel, handler: nil))
+            actionController.collectionView.reloadData()
+            actionController.collectionView.contentInset = UIEdgeInsets(top: 485, left: 0, bottom: 0, right: 0)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+                actionController.removeAction(2)
+                actionController.collectionView.reloadData()
+                actionController.collectionView.contentInset = UIEdgeInsets(top: 531, left: 0, bottom: 0, right: 0)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+                    actionController.removeAction(closure: { action in action.data?.title == "Add to Watch Later" })
+                    actionController.collectionView.reloadData()
+                    actionController.collectionView.contentInset = UIEdgeInsets(top: 577, left: 0, bottom: 0, right: 0)
+                    
+                    // This option is not going to be removed because it doesn't exist anymore
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+                        actionController.removeAction(closure: { action in action.data?.title == "Add to Watch Later" })
+                        actionController.collectionView.reloadData()
+                        actionController.collectionView.contentInset = UIEdgeInsets(top: 577, left: 0, bottom: 0, right: 0)
+                    })
+                })
+            })
+        })
     }
+    
 }

@@ -211,8 +211,28 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="gv9-zC-sSQ" kind="show" id="GwF-DX-eZf"/>
+                                            <segue destination="Dxe-73-ZN6" kind="show" id="Pqr-wm-IsA"/>
                                         </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="5FZ-0B-c45" style="IBUITableViewCellStyleDefault" id="7LW-ZT-N3q">
+                                        <rect key="frame" x="0.0" y="264" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7LW-ZT-N3q" id="XUR-iH-EOi">
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Skype" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5FZ-0B-c45">
+                                                    <rect key="frame" x="15" y="0.0" width="325" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <variation key="widthClass=compact">
+                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    </variation>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -504,6 +524,64 @@
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1653" y="2644"/>
+        </scene>
+        <!--Youtube Dispatch Example View Controller-->
+        <scene sceneID="ECh-2R-wgi">
+            <objects>
+                <viewController id="Dxe-73-ZN6" customClass="YoutubeDispatchExampleViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="rh3-qg-DwK"/>
+                        <viewControllerLayoutGuide type="bottom" id="DR7-qW-49h"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ue1-2S-ckm">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="yt-background" translatesAutoresizingMaskIntoConstraints="NO" id="8Q9-No-7Sp">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="O5l-X5-Hky" appends="YES" id="Ewu-g7-kf1"/>
+                                </connections>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sXB-iP-aNd">
+                                <rect key="frame" x="0.0" y="20" width="80" height="65"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="65" id="O3D-SP-whJ"/>
+                                    <constraint firstAttribute="width" constant="80" id="dfM-5j-fjD"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="lf1-WQ-J2F"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="65" id="lr2-zA-dVM"/>
+                                </constraints>
+                                <state key="normal" title="back">
+                                    <color key="titleColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="0.34999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="backButtonDidTouch:" destination="Dxe-73-ZN6" eventType="touchUpInside" id="EbS-mf-krj"/>
+                                    <action selector="backButtonDidTouch:" destination="bxZ-fa-T41" eventType="touchUpInside" id="KbW-dH-Ou1"/>
+                                    <action selector="backButtonDidTouch:" destination="KM0-oZ-gHb" eventType="touchUpInside" id="rYe-Kr-Klm"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="sXB-iP-aNd" firstAttribute="leading" secondItem="Ue1-2S-ckm" secondAttribute="leading" id="R5b-Sf-hjJ"/>
+                            <constraint firstItem="8Q9-No-7Sp" firstAttribute="top" secondItem="Ue1-2S-ckm" secondAttribute="top" id="RGr-QQ-2Ad"/>
+                            <constraint firstAttribute="trailing" secondItem="8Q9-No-7Sp" secondAttribute="trailing" id="Zeq-QH-agb"/>
+                            <constraint firstItem="DR7-qW-49h" firstAttribute="top" secondItem="8Q9-No-7Sp" secondAttribute="bottom" id="cHq-FS-dyp"/>
+                            <constraint firstItem="8Q9-No-7Sp" firstAttribute="leading" secondItem="Ue1-2S-ckm" secondAttribute="leading" id="eMl-8a-XCk"/>
+                            <constraint firstItem="sXB-iP-aNd" firstAttribute="top" secondItem="rh3-qg-DwK" secondAttribute="bottom" id="eaN-3L-jO4"/>
+                        </constraints>
+                    </view>
+                    <nil key="simulatedTopBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pZD-k5-jBQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="O5l-X5-Hky">
+                    <connections>
+                        <action selector="tapGestureDidRecognize:" destination="Dxe-73-ZN6" id="80c-kB-lLI"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="70" y="1900"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="EH6-4r-feb">

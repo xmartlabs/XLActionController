@@ -15,7 +15,7 @@
 		28B3B8451BFA668F007337A2 /* DynamicCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B3B83A1BFA668F007337A2 /* DynamicCollectionViewFlowLayout.swift */; };
 		28B3B8471BFA668F007337A2 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B3B83C1BFA668F007337A2 /* Action.swift */; };
 		28B3B84C1BFA6E39007337A2 /* XLActionController.h in Headers */ = {isa = PBXBuildFile; fileRef = 28B3B84B1BFA6E39007337A2 /* XLActionController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		28E191721BFA618F00066B1C /* XLActionController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28E191671BFA618E00066B1C /* XLActionController.framework */; };
+		9A1303611EC106B200D69281 /* XLActionController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28E191671BFA618E00066B1C /* XLActionController.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +41,7 @@
 		28E1916C1BFA618F00066B1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28E191711BFA618F00066B1C /* XLActionControllerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XLActionControllerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		28E191781BFA618F00066B1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9A13035F1EC0FF9300D69281 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,7 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28E191721BFA618F00066B1C /* XLActionController.framework in Frameworks */,
+				9A1303611EC106B200D69281 /* XLActionController.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,6 +70,7 @@
 				28E191691BFA618E00066B1C /* Source */,
 				28E191751BFA618F00066B1C /* Tests */,
 				28E191681BFA618E00066B1C /* Products */,
+				9A13035E1EC0FF9300D69281 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -110,6 +112,14 @@
 				28B3B8371BFA668F007337A2 /* ActionCell.xib */,
 			);
 			path = Resource;
+			sourceTree = "<group>";
+		};
+		9A13035E1EC0FF9300D69281 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9A13035F1EC0FF9300D69281 /* XCTest.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -178,6 +188,7 @@
 					};
 					28E191701BFA618F00066B1C = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = 6F2G55XL63;
 						LastSwiftMigration = 0800;
 					};
 				};
@@ -401,7 +412,7 @@
 		28E1917F1BFA618F00066B1C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 6F2G55XL63;
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.XLActionControllerTests;
@@ -414,7 +425,7 @@
 		28E191801BFA618F00066B1C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 6F2G55XL63;
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.XLActionControllerTests;

@@ -27,6 +27,9 @@
 		28B3B8801BFA8566007337A2 /* TwitterExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B3B87C1BFA8566007337A2 /* TwitterExampleViewController.swift */; };
 		28B3B8821BFA856B007337A2 /* YouTubeExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B3B8811BFA856B007337A2 /* YouTubeExampleViewController.swift */; };
 		28B3B88F1BFA8A09007337A2 /* XLActionController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28B3B8891BFA858D007337A2 /* XLActionController.framework */; };
+		9A1303641EC1F6EF00D69281 /* XLActionController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28B3B8891BFA858D007337A2 /* XLActionController.framework */; };
+		9A1303651EC1F71100D69281 /* XLActionController.framework in Resources */ = {isa = PBXBuildFile; fileRef = 28B3B8891BFA858D007337A2 /* XLActionController.framework */; };
+		9A1303691EC20A8D00D69281 /* YoutubeDispatchExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1303681EC20A8D00D69281 /* YoutubeDispatchExampleViewController.swift */; };
 		B297A9161C0E17AA00AF9559 /* Periscope.swift in Sources */ = {isa = PBXBuildFile; fileRef = B297A9151C0E17AA00AF9559 /* Periscope.swift */; };
 		B297A91B1C0E191600AF9559 /* Skype.swift in Sources */ = {isa = PBXBuildFile; fileRef = B297A91A1C0E191600AF9559 /* Skype.swift */; };
 		B297A9201C0E193B00AF9559 /* Spotify.swift in Sources */ = {isa = PBXBuildFile; fileRef = B297A91F1C0E193B00AF9559 /* Spotify.swift */; };
@@ -104,6 +107,7 @@
 		28B3B87C1BFA8566007337A2 /* TwitterExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterExampleViewController.swift; sourceTree = "<group>"; };
 		28B3B8811BFA856B007337A2 /* YouTubeExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YouTubeExampleViewController.swift; sourceTree = "<group>"; };
 		28B3B8831BFA858D007337A2 /* XLActionController.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = XLActionController.xcodeproj; sourceTree = "<group>"; };
+		9A1303681EC20A8D00D69281 /* YoutubeDispatchExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeDispatchExampleViewController.swift; sourceTree = "<group>"; };
 		B297A9151C0E17AA00AF9559 /* Periscope.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Periscope.swift; sourceTree = "<group>"; };
 		B297A91A1C0E191600AF9559 /* Skype.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Skype.swift; sourceTree = "<group>"; };
 		B297A91F1C0E193B00AF9559 /* Spotify.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spotify.swift; sourceTree = "<group>"; };
@@ -126,6 +130,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A1303641EC1F6EF00D69281 /* XLActionController.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,6 +182,7 @@
 				28650D231C0DD21A008C1F27 /* CustomActionControllers */,
 				B297A9351C0E26E300AF9559 /* MainViewController.swift */,
 				28B3B8811BFA856B007337A2 /* YouTubeExampleViewController.swift */,
+				9A1303681EC20A8D00D69281 /* YoutubeDispatchExampleViewController.swift */,
 				28B3B8791BFA8566007337A2 /* PeriscopeExampleViewController.swift */,
 				28B3B87A1BFA8566007337A2 /* SpotifyExampleViewController.swift */,
 				28B3B87B1BFA8566007337A2 /* TweetbotExampleViewController.swift */,
@@ -263,11 +269,13 @@
 				TargetAttributes = {
 					28B3B8551BFA7EEC007337A2 = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = 6F2G55XL63;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Manual;
 					};
 					28B3B8691BFA7EEC007337A2 = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = 6F2G55XL63;
 						LastSwiftMigration = 0800;
 						TestTargetID = 28B3B8551BFA7EEC007337A2;
 					};
@@ -336,6 +344,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A1303651EC1F71100D69281 /* XLActionController.framework in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,6 +382,7 @@
 				B297A9361C0E26E300AF9559 /* MainViewController.swift in Sources */,
 				28B3B87E1BFA8566007337A2 /* SpotifyExampleViewController.swift in Sources */,
 				B297A9271C0E198200AF9559 /* Twitter.swift in Sources */,
+				9A1303691EC20A8D00D69281 /* YoutubeDispatchExampleViewController.swift in Sources */,
 				B297A9201C0E193B00AF9559 /* Spotify.swift in Sources */,
 				B297A92A1C0E19A500AF9559 /* Youtube.swift in Sources */,
 				28B3B87F1BFA8566007337A2 /* TweetbotExampleViewController.swift in Sources */,
@@ -527,6 +537,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Example/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "-DXLACTIONCONTROLLER_EXAMPLE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.Example;
@@ -544,6 +555,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Example/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "-DXLACTIONCONTROLLER_EXAMPLE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.Example;
@@ -557,7 +569,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 6F2G55XL63;
 				INFOPLIST_FILE = Example/UITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.ExampleUITests;
@@ -573,7 +585,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 6F2G55XL63;
 				INFOPLIST_FILE = Example/UITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.ExampleUITests;
