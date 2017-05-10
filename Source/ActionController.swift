@@ -190,7 +190,6 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
             section.actions.append(action)
         }
     }
-    
     @discardableResult
     open func addSection(_ section: Section<ActionDataType, SectionHeaderDataType>) -> Section<ActionDataType, SectionHeaderDataType> {
         _sections.append(section)
@@ -284,22 +283,8 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
                 collectionView.register(UINib(nibName: nibName, bundle: bundle), forSupplementaryViewOfKind:UICollectionElementKindSectionHeader, withReuseIdentifier: ReusableViewIds.SectionHeader.rawValue)
             }
         }
-        
         view.addSubview(collectionView)
-        
-        // calculate content Inset
-        collectionView.layoutSubviews()
-        if let section = _sections.last, !settings.behavior.useDynamics {
-            let lastSectionIndex = _sections.count - 1
-            let layoutAtts = collectionViewLayout.layoutAttributesForItem(at: IndexPath(item: section.actions.count - 1, section: hasHeader() ? lastSectionIndex + 1 : lastSectionIndex))
-            contentHeight = layoutAtts!.frame.origin.y + layoutAtts!.frame.size.height
-
-            if settings.cancelView.showCancel && !settings.cancelView.hideCollectionViewBehindCancelView {
-                contentHeight += settings.cancelView.height
-            }
-        }
-
-        setUpContentInsetForHeight(view.frame.height)
+        calculateContentInset()
         
         // set up collection view initial position taking into account top content inset
         collectionView.frame = view.bounds
@@ -313,6 +298,21 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         }
     }
 
+    open func calculateContentInset() {
+        // calculate content Inset
+        collectionView.layoutSubviews()
+        if let section = _sections.last, !settings.behavior.useDynamics {
+            let lastSectionIndex = _sections.count - 1
+            let layoutAtts = collectionViewLayout.layoutAttributesForItem(at: IndexPath(item: section.actions.count - 1, section: hasHeader() ? lastSectionIndex + 1 : lastSectionIndex))
+            contentHeight = layoutAtts!.frame.origin.y + layoutAtts!.frame.size.height
+            
+            if settings.cancelView.showCancel && !settings.cancelView.hideCollectionViewBehindCancelView {
+                contentHeight += settings.cancelView.height
+            }
+        }
+        setUpContentInsetForHeight(view.frame.height)
+    }
+    
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         backgroundView.frame = view.bounds
