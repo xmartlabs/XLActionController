@@ -98,7 +98,9 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         set { _headerData = RawData(data: newValue) }
         get { return _headerData?.data }
     }
-
+    
+    public typealias PropertiesComply = ((Action<ActionDataType>) -> Bool)
+    
     open var settings: ActionControllerSettings = ActionControllerSettings.defaultSettings()
     
     open var cellSpec: CellSpec<ActionViewType, ActionDataType>
@@ -177,29 +179,37 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
             let section = Section<ActionDataType, SectionHeaderDataType>()
             addSection(section)
             section.actions.append(action)
+            if self.presentingViewController != nil {
+                collectionView.reloadData()
+            }
         }
     }
     @discardableResult
     open func addSection(_ section: Section<ActionDataType, SectionHeaderDataType>) -> Section<ActionDataType, SectionHeaderDataType> {
         _sections.append(section)
+        if self.presentingViewController != nil {
+            collectionView.reloadData()
+        }
         return section
     }
     
-    public typealias ClosureAction = ((Action<ActionDataType>) -> Bool)
-    
-    open func removeAction(closure: ClosureAction) {
-        if let section = _sections.last {
-            guard let index = section.actions.index(where: { (item) -> Bool in
-                closure(item)
-            }) else { return }
-            section.actions.remove(at: index)
+    open func removeAction(where: PropertiesComply) {
+        _sections.forEach { section in
+            section.actions.forEach { _ in
+                guard let index = section.actions.index(where: { `where`($0) }) else { return }
+                section.actions.remove(at: index)
+                
+                collectionView.reloadData()
+                self.calculateContentInset()
+            }
         }
     }
     
-    open func removeAction(_ actionPosition: Int) {
-        if let section = _sections.last {
-            section.actions.remove(at: actionPosition)
-        }
+    open func removeAction(indexPath: IndexPath) {
+        _sections[indexPath.section].actions.remove(at: indexPath.row)
+        
+        collectionView.reloadData()
+        self.calculateContentInset()
     }
     
     // MARK: - Helpers

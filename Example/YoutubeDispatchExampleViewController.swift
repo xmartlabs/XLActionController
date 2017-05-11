@@ -45,27 +45,21 @@ class YoutubeDispatchExampleViewController: UIViewController {
         present(actionController, animated: true, completion: nil)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+            actionController.addSection(Section())
             actionController.addAction(Action(ActionData(title: "Share...", image: UIImage(named: "yt-share-icon")!), style: .default, handler: { action in
             }))
             actionController.addAction(Action(ActionData(title: "Cancel", image: UIImage(named: "yt-cancel-icon")!), style: .cancel, handler: nil))
-            actionController.collectionView.reloadData()
             actionController.calculateContentInset()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-                actionController.removeAction(2)
-                actionController.collectionView.reloadData()
-                actionController.calculateContentInset()
+                actionController.removeAction(where: { action in action.data?.title == "Add to Watch Later" })
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-                    actionController.removeAction(closure: { action in action.data?.title == "Add to Watch Later" })
-                    actionController.collectionView.reloadData()
-                    actionController.calculateContentInset()
-                    
+                    actionController.removeAction(indexPath: IndexPath(item: 0, section: 1))
+                
                     // This option is not going to be removed because it doesn't exist anymore
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-                        actionController.removeAction(closure: { action in action.data?.title == "Add to Watch Later" })
-                        actionController.collectionView.reloadData()
-                        actionController.calculateContentInset()
+                        actionController.removeAction(where: { action in action.data?.title == "Add to Watch Later" })
                     })
                 })
             })
