@@ -269,13 +269,11 @@
 				TargetAttributes = {
 					28B3B8551BFA7EEC007337A2 = {
 						CreatedOnToolsVersion = 7.1;
-						DevelopmentTeam = 6F2G55XL63;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Manual;
 					};
 					28B3B8691BFA7EEC007337A2 = {
 						CreatedOnToolsVersion = 7.1;
-						DevelopmentTeam = 6F2G55XL63;
 						LastSwiftMigration = 0800;
 						TestTargetID = 28B3B8551BFA7EEC007337A2;
 					};
@@ -569,7 +567,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 6F2G55XL63;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Example/UITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.ExampleUITests;
@@ -585,7 +583,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 6F2G55XL63;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Example/UITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.ExampleUITests;
