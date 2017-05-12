@@ -42,20 +42,21 @@ class YoutubeDispatchExampleViewController: UIViewController {
         }))
         actionController.addAction(Action(ActionData(title: "Add to Playlist...", image: UIImage(named: "yt-add-to-playlist-icon")!), style: .default, handler: { action in
         }))
+        
         present(actionController, animated: true, completion: nil)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
             actionController.addSection(Section())
             actionController.addAction(Action(ActionData(title: "Share...", image: UIImage(named: "yt-share-icon")!), style: .default, handler: { action in
             }))
-            actionController.addAction(Action(ActionData(title: "Cancel", image: UIImage(named: "yt-cancel-icon")!), style: .cancel, handler: nil))
+//            actionController.addAction(Action(ActionData(title: "Cancel", image: UIImage(named: "yt-cancel-icon")!), style: .cancel, handler: nil))
             actionController.calculateContentInset()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
                 actionController.removeAction(where: { action in action.data?.title == "Add to Watch Later" })
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-                    actionController.removeAction(indexPath: IndexPath(item: 0, section: 1))
+                    actionController.removeAction(indexPath: IndexPath(item: 0, section: 0))
                 
                     // This option is not going to be removed because it doesn't exist anymore
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {

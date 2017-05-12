@@ -88,7 +88,7 @@ open class TwitterActionControllerHeader: UICollectionReusableView {
 }
 
 
-open class TwitterActionController: ActionController<TwitterCell, ActionData, TwitterActionControllerHeader, String, UICollectionReusableView, Void> {
+open class TwitterActionController: ActionController<TwitterCell, ActionData, TwitterActionControllerHeader, String, UICollectionReusableView, Void, UICollectionReusableView> {
     
     public override init(nibName nibNameOrNil: String? = nil, bundle nibBundleOrNil: Bundle? = nil) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -97,6 +97,7 @@ open class TwitterActionController: ActionController<TwitterCell, ActionData, Tw
         cellSpec = CellSpec.nibFile(nibName: "TwitterCell", bundle: Bundle(for: TwitterCell.self), height: { _ in 56 })
         headerSpec = .cellClass(height: { _ -> CGFloat in return 45 })
         
+        cancelSpec = .nibFile(nibName: "CancelCell", bundle: Bundle(for: CancelCell.self), height: { _ in 46 })
         
         onConfigureHeader = { header, title in
             header.label.text = title
@@ -104,6 +105,10 @@ open class TwitterActionController: ActionController<TwitterCell, ActionData, Tw
         onConfigureCellForAction = { [weak self] cell, action, indexPath in
             cell.setup(action.data?.title, detail: action.data?.subtitle, image: action.data?.image)
             cell.separatorView?.isHidden = indexPath.item == (self?.collectionView.numberOfItems(inSection: indexPath.section))! - 1
+            cell.alpha = action.enabled ? 1.0 : 0.5
+        }
+        
+        onConfigureCancelForAction = { cell, action, indexPath in
             cell.alpha = action.enabled ? 1.0 : 0.5
         }
     }

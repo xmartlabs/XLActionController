@@ -82,7 +82,7 @@ public class PeriscopeHeader: UICollectionReusableView {
     }
 }
 
-public class PeriscopeActionController: ActionController<PeriscopeCell, String, PeriscopeHeader, String, UICollectionReusableView, Void> {
+public class PeriscopeActionController: ActionController<PeriscopeCell, String, PeriscopeHeader, String, UICollectionReusableView, Void, UICollectionReusableView> {
 
     required public init?(coder aDecoder: NSCoder) {
       super.init(coder: aDecoder)

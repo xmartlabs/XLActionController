@@ -137,7 +137,7 @@ open class SpotifyHeaderView: UICollectionReusableView {
     }
 }
 
-open class SpotifyActionController: ActionController<SpotifyCell, ActionData, SpotifyHeaderView, SpotifyHeaderData, UICollectionReusableView, Void> {
+open class SpotifyActionController: ActionController<SpotifyCell, ActionData, SpotifyHeaderView, SpotifyHeaderData, UICollectionReusableView, Void, UICollectionReusableView> {
     
     fileprivate lazy var blurView: UIVisualEffectView = {
         let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
@@ -149,11 +149,12 @@ open class SpotifyActionController: ActionController<SpotifyCell, ActionData, Sp
         super.viewDidLoad()
         backgroundView.addSubview(blurView)
         
-        cancelView?.frame.origin.y = view.bounds.size.height // Starts hidden below screen
-        cancelView?.layer.shadowColor = UIColor.black.cgColor
-      cancelView?.layer.shadowOffset = CGSize( width: 0, height: -4)
-        cancelView?.layer.shadowRadius = 2
-        cancelView?.layer.shadowOpacity = 0.8
+//        cancelView?.frame.origin.y = view.bounds.size.height // Starts hidden below screen
+//        cancelView?.layer.shadowColor = UIColor.black.cgColor
+//      cancelView?.layer.shadowOffset = CGSize( width: 0, height: -4)
+//        cancelView?.layer.shadowRadius = 2
+//        cancelView?.layer.shadowOpacity = 0.8
+        
     }
     
     open override func viewWillAppear(_ animated: Bool) {
@@ -165,12 +166,14 @@ open class SpotifyActionController: ActionController<SpotifyCell, ActionData, Sp
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         settings.behavior.bounces = true
         settings.behavior.scrollEnabled = true
-        settings.cancelView.showCancel = true
+        //settings.cancelView.showCancel = true
         settings.animation.scale = nil
         settings.animation.present.springVelocity = 0.0
         
         cellSpec = .nibFile(nibName: "SpotifyCell", bundle: Bundle(for: SpotifyCell.self), height: { _ in 60 })
         headerSpec = .cellClass( height: { _ in 84 })
+        
+        cancelSpec = .nibFile(nibName: "CancelCell", bundle: Bundle(for: CancelCell.self), height: { _ in 46 })
         
         onConfigureCellForAction = { [weak self] cell, action, indexPath in
             cell.setup(action.data?.title, detail: action.data?.subtitle, image: action.data?.image)
@@ -182,18 +185,22 @@ open class SpotifyActionController: ActionController<SpotifyCell, ActionData, Sp
             header.artist.text = data.subtitle
             header.imageView.image = data.image
         }
+        
+        onConfigureCancelForAction = { cell, action, indexPath in
+            cell.alpha = action.enabled ? 1.0 : 0.5
+        }
     }
   
     required public init?(coder aDecoder: NSCoder) {
       super.init(coder: aDecoder)
     }
     
-    open override func performCustomDismissingAnimation(_ presentedView: UIView, presentingView: UIView) {
-        super.performCustomDismissingAnimation(presentedView, presentingView: presentingView)
-        cancelView?.frame.origin.y = view.bounds.size.height + 10
-    }
-    
-    open override func onWillPresentView() {
-        cancelView?.frame.origin.y = view.bounds.size.height
-    }
+//    open override func performCustomDismissingAnimation(_ presentedView: UIView, presentingView: UIView) {
+//        super.performCustomDismissingAnimation(presentedView, presentingView: presentingView)
+//        //cancelView?.frame.origin.y = view.bounds.size.height + 10
+//    }
+//    
+//    open override func onWillPresentView() {
+//       //cancelView?.frame.origin.y = view.bounds.size.height
+//    }
 }
