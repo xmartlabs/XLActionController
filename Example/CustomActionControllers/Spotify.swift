@@ -185,10 +185,6 @@ open class SpotifyActionController: ActionController<SpotifyCell, ActionData, Sp
             header.artist.text = data.subtitle
             header.imageView.image = data.image
         }
-        
-        onConfigureCancelForAction = { cell, action, indexPath in
-            cell.alpha = action.enabled ? 1.0 : 0.5
-        }
     }
   
     required public init?(coder aDecoder: NSCoder) {

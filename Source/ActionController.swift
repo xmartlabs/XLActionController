@@ -73,10 +73,10 @@ public enum HeaderSpec<HeaderType: UICollectionReusableView, HeaderDataType> {
 
 public enum CancelSpec<CancelType: UICollectionReusableView> {
     
-    case nibFile(nibName: String, bundle: Bundle?, height:((CancelType) -> CGFloat))
-    case cellClass(height:((CancelType) -> CGFloat))
+    case nibFile(nibName: String, bundle: Bundle?, height:(() -> CGFloat))
+    case cellClass(height:(() -> CGFloat))
     
-    public var height: ((CancelType) -> CGFloat) {
+    public var height: (() -> CGFloat) {
         switch self {
         case .cellClass(let heightCallback):
             return heightCallback
@@ -89,6 +89,7 @@ public enum CancelSpec<CancelType: UICollectionReusableView> {
 private enum ReusableViewIds: String {
     case Cell = "Cell"
     case Header = "Header"
+    case Cancel = "Cancel"
     case SectionHeader = "SectionHeader"
 }
 
@@ -123,7 +124,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     open var headerSpec: HeaderSpec<HeaderViewType, HeaderDataType>?
     
     open var cancelSpec: CancelSpec<CancelViewType>?
-    open var onConfigureCancelForAction: ((CancelViewType, Action<ActionDataType>, IndexPath) -> ())?
+    open var onConfigureCancelForAction: ((CancelViewType, Action<ActionDataType>?, IndexPath) -> ())?
     
     open var onConfigureHeader: ((HeaderViewType, HeaderDataType) -> ())?
     open var onConfigureSectionHeader: ((SectionHeaderViewType, SectionHeaderDataType) -> ())?
@@ -193,6 +194,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     open func addAction(_ action: Action<ActionDataType>) {
         if let section = _sections.last {
             section.actions.append(action)
+            collectionView.reloadData()
         } else {
             let section = Section<ActionDataType, SectionHeaderDataType>()
             addSection(section)
@@ -279,6 +281,16 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         case .cellClass:
             collectionView.register(ActionViewType.self, forCellWithReuseIdentifier:ReusableViewIds.Cell.rawValue)
         }
+       
+        // register section cancel
+        if let cancelSpec = cancelSpec {
+            switch cancelSpec {
+            case .cellClass:
+                collectionView.register(CancelViewType.self, forCellWithReuseIdentifier: ReusableViewIds.Cancel.rawValue)
+            case .nibFile(let nibName, let bundle, _):
+                collectionView.register(UINib(nibName: nibName, bundle: bundle), forCellWithReuseIdentifier: ReusableViewIds.Cancel.rawValue)
+            }
+        }
         
         // register main header
         if let headerSpec = headerSpec, let _ = headerData {
@@ -308,17 +320,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         collectionViewLayout.footerReferenceSize = CGSize(width: 320, height: 0)
         // -
         
-        // register section cancel
-        if let cancelSpec = cancelSpec {
-            switch cancelSpec {
-            case .cellClass:
-                collectionView.register(CancelViewType.self, forCellWithReuseIdentifier: ReusableViewIds.Cell.rawValue)
-            case .nibFile(let nibName, let bundle, _):
-                collectionView.register(UINib(nibName: nibName, bundle: bundle), forCellWithReuseIdentifier: ReusableViewIds.Cell.rawValue)
-            }
-        }
 
-        
 //        if settings.cancelView.showCancel {
 //            if cancelView == nil {
 //                cancelView = {
@@ -350,9 +352,9 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
             let layoutAtts = collectionViewLayout.layoutAttributesForItem(at: IndexPath(item: section.actions.count - 1, section: hasHeader() ? lastSectionIndex + 1 : lastSectionIndex))
             contentHeight = layoutAtts!.frame.origin.y + layoutAtts!.frame.size.height
             
-//            if settings.cancelView.showCancel && !settings.cancelView.hideCollectionViewBehindCancelView {
-//                contentHeight += settings.cancelView.height
-//            }
+            if let spec = cancelSpec, hasCancel {
+                contentHeight += spec.height()
+            }
         }
         setUpContentInsetForHeight(view.frame.height)
     }
@@ -401,8 +403,9 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     
     open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if hasHeader() && section == 0 { return 0 }
-        var rows = _sections[actionSectionIndexFor(section)].actions.count
-        if cancelSpec != nil {
+        let realSectionIndex = actionSectionIndexFor(section)
+        var rows = _sections[realSectionIndex].actions.count
+        if _sections.count == realSectionIndex + 1 && hasCancel {
             rows += 1
         }
         guard let dynamicSectionIndex = _dynamicSectionIndex else {
@@ -422,7 +425,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
                 return reusableview!
             } else {
                 let reusableview = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ReusableViewIds.SectionHeader.rawValue, for: indexPath) as? SectionHeaderViewType
-                onConfigureSectionHeader?(reusableview!,  sectionForIndex(actionSectionIndexFor((indexPath as NSIndexPath).section))!.data!)
+                onConfigureSectionHeader?(reusableview!, sectionForIndex(actionSectionIndexFor((indexPath as NSIndexPath).section))!.data!)
                 return reusableview!
             }
         }
@@ -430,14 +433,16 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     }
     
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let action = actionForIndexPath(actionIndexPathFor(indexPath))
         
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReusableViewIds.Cell.rawValue, for: indexPath) as? ActionViewType {
+        let action = actionForIndexPath(actionIndexPathFor(indexPath))
+        if let _ = action {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReusableViewIds.Cell.rawValue, for: indexPath) as! ActionViewType
             self.onConfigureCellForAction?(cell, action!, indexPath)
             return cell
         } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReusableViewIds.Cell.rawValue, for: indexPath) as! CancelViewType
-            self.onConfigureCancelForAction?(cell, action!, indexPath)
+            // check if cancel should be added
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReusableViewIds.Cancel.rawValue, for: indexPath) as! CancelViewType
+            self.onConfigureCancelForAction?(cell, action, indexPath)
             return cell as! UICollectionViewCell
         }
     }
@@ -481,7 +486,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
 
     open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let action = self.actionForIndexPath(actionIndexPathFor(indexPath)), let actionData = action.data else {
-            return CGSize.zero
+            return CGSize(width: view.frame.width, height: 46)
         }
 
         let referenceWidth = collectionView.bounds.size.width
@@ -659,6 +664,16 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     func hasHeader() -> Bool {
         return headerData != nil && headerSpec != nil
     }
+    
+    var hasCancel: Bool {
+        return cancelSpec != nil  //settings.cancel.hasCancel
+    }
+    
+    var cancelIndexPath: IndexPath? {
+        guard hasCancel else { return nil }
+        return IndexPath(item: _sections.last?.actions.count ?? 0, section: numberOfSections() - 1)
+    }
+    
     
     fileprivate func numberOfActions() -> Int {
         return _sections.flatMap({ $0.actions }).count

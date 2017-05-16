@@ -50,7 +50,7 @@ public class CancelCell: ActionCell {
     }
     
     func initialize() {
-        actionTitleLabel?.textColor = UIColor(white: 0.098, alpha: 1.0)
+        actionTitleLabel?.textColor = UIColor(white: 255, alpha: 1.0)
         let backgroundView = UIView()
         backgroundView.backgroundColor = UIColor.black.withAlphaComponent(0.0)
         backgroundView.addSubview(animatableBackgroundView)
@@ -81,30 +81,28 @@ public class CancelCell: ActionCell {
 
 open class CancelActionController: ActionController<CancelCell, ActionData, UICollectionReusableView, Void, UICollectionReusableView, Void, UICollectionReusableView> {
         
-        public override init(nibName nibNameOrNil: String? = nil, bundle nibBundleOrNil: Bundle? = nil) {
-            super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-            
-            collectionViewLayout.minimumLineSpacing = -0.5
-            
-            settings.behavior.hideOnScrollDown = false
-            settings.animation.scale = nil
-            settings.animation.present.duration = 0.6
-            settings.animation.dismiss.duration = 0.6
-            settings.animation.dismiss.offset = 30
-            settings.animation.dismiss.options = .curveLinear
-            
-            cellSpec = .nibFile(nibName: "CancelCell", bundle: Bundle(for: CancelCell.self), height: { _  in 46 })
-            
-            onConfigureCellForAction = { cell, action, indexPath in
-                cell.setup(action.data?.title, detail: action.data?.subtitle, image: action.data?.image)
-                cell.alpha = action.enabled ? 1.0 : 0.5
-                
-                UIView.animate(withDuration: 0.30) {
-                }
+    public override init(nibName nibNameOrNil: String? = nil, bundle nibBundleOrNil: Bundle? = nil) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        
+        collectionViewLayout.minimumLineSpacing = -0.5
+        
+        settings.behavior.hideOnScrollDown = false
+        settings.animation.scale = nil
+        settings.animation.present.duration = 0.6
+        settings.animation.dismiss.duration = 0.6
+        settings.animation.dismiss.offset = 30
+        settings.animation.dismiss.options = .curveLinear
+        
+        cellSpec = .nibFile(nibName: "CancelCell", bundle: Bundle(for: CancelCell.self), height: { _  in 46 })
+        
+        onConfigureCellForAction = { cell, action, indexPath in
+            cell.setup(action.data?.title, detail: action.data?.subtitle, image: action.data?.image)
+            UIView.animate(withDuration: 0.30) {
             }
         }
-        
-        required public init?(coder aDecoder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

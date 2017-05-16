@@ -94,7 +94,7 @@ open class YoutubeActionController: ActionController<YoutubeCell, ActionData, UI
         settings.animation.dismiss.options = .curveLinear
         
         cellSpec = .nibFile(nibName: "YoutubeCell", bundle: Bundle(for: YoutubeCell.self), height: { _  in 46 })
-        cancelSpec = .nibFile(nibName: "CancelCell", bundle: Bundle(for: CancelCell.self), height: { _ in 46 })
+        cancelSpec = .nibFile(nibName: "CancelCell", bundle: Bundle(for: CancelCell.self), height: { 46 })
         
         onConfigureCellForAction = { cell, action, indexPath in
             cell.setup(action.data?.title, detail: action.data?.subtitle, image: action.data?.image)
@@ -104,7 +104,7 @@ open class YoutubeActionController: ActionController<YoutubeCell, ActionData, UI
             }
         }
         onConfigureCancelForAction = { cell, action, indexPath in
-            cell.alpha = action.enabled ? 1.0 : 0.5
+            cell.backgroundColor = .red
         }
     }
   

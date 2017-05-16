@@ -106,11 +106,7 @@ open class TwitterActionController: ActionController<TwitterCell, ActionData, Tw
             cell.setup(action.data?.title, detail: action.data?.subtitle, image: action.data?.image)
             cell.separatorView?.isHidden = indexPath.item == (self?.collectionView.numberOfItems(inSection: indexPath.section))! - 1
             cell.alpha = action.enabled ? 1.0 : 0.5
-        }
-        
-        onConfigureCancelForAction = { cell, action, indexPath in
-            cell.alpha = action.enabled ? 1.0 : 0.5
-        }
+        }    
     }
   
     required public init?(coder aDecoder: NSCoder) {
