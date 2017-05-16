@@ -435,9 +435,9 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let action = actionForIndexPath(actionIndexPathFor(indexPath))
-        if let _ = action {
+        if let action = action {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReusableViewIds.Cell.rawValue, for: indexPath) as! ActionViewType
-            self.onConfigureCellForAction?(cell, action!, indexPath)
+            self.onConfigureCellForAction?(cell, action, indexPath)
             return cell
         } else {
             // check if cancel should be added
