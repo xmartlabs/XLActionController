@@ -98,9 +98,10 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         set { _headerData = RawData(data: newValue) }
         get { return _headerData?.data }
     }
-    
-    public typealias PropertiesComply = ((Action<ActionDataType>) -> Bool)
-    
+
+    public typealias IndexedAction = (indexPath: IndexPath, action: Action<ActionDataType>)
+    public typealias PropertiesComply = (IndexedAction) -> Bool
+
     open var settings: ActionControllerSettings = ActionControllerSettings.defaultSettings()
     
     open var cellSpec: CellSpec<ActionViewType, ActionDataType>
@@ -186,12 +187,15 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     open func addAction(_ action: Action<ActionDataType>) {
         if let section = _sections.last {
             section.actions.append(action)
+            collectionView.reloadData()
+            
         } else {
             let section = Section<ActionDataType, SectionHeaderDataType>()
             addSection(section)
             section.actions.append(action)
             if self.presentingViewController != nil {
                 collectionView.reloadData()
+                self.calculateContentInset()
             }
         }
     }
@@ -204,24 +208,33 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         return section
     }
     
-    open func removeAction(where: PropertiesComply) {
-        _sections.forEach { section in
-            section.actions.forEach { _ in
-                guard let index = section.actions.index(where: { `where`($0) }) else { return }
-                section.actions.remove(at: index)
-                
-                collectionView.reloadData()
-                self.calculateContentInset()
+    open func removeAction(indexPath: IndexPath) {
+        if indexPath.section < _sections.count && indexPath.row < _sections[indexPath.section].actions.count {
+            _sections[indexPath.section].actions.remove(at: indexPath.row)
+            
+            if _sections[indexPath.section].actions.isEmpty {
+                _sections.remove(at: indexPath.section)
             }
+            collectionView.reloadData()
+            self.calculateContentInset()
         }
     }
     
-    open func removeAction(indexPath: IndexPath) {
-        _sections[indexPath.section].actions.remove(at: indexPath.row)
-        
+    open func removeAction(where: PropertiesComply) {
+        _sections.enumerated().reversed().forEach { sectionIndex, section in
+            section.actions.enumerated().reversed().forEach { actionIndex, action in
+                if `where`((indexPath: IndexPath(row: actionIndex, section: sectionIndex), action: action)) {
+                    section.actions.remove(at: actionIndex)
+                }
+            }
+            if section.actions.isEmpty {
+                _sections.remove(at: sectionIndex)
+            }
+        }
         collectionView.reloadData()
         self.calculateContentInset()
     }
+
     
     // MARK: - Helpers
     
@@ -310,17 +323,33 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
 
     open func calculateContentInset() {
         // calculate content Inset
-        collectionView.layoutSubviews()
-        if let section = _sections.last, !settings.behavior.useDynamics {
-            let lastSectionIndex = _sections.count - 1
-            let layoutAtts = collectionViewLayout.layoutAttributesForItem(at: IndexPath(item: section.actions.count - 1, section: hasHeader() ? lastSectionIndex + 1 : lastSectionIndex))
-            contentHeight = layoutAtts!.frame.origin.y + layoutAtts!.frame.size.height
+        if collectionViewLayout.dynamicAnimator != nil {
             
-            if settings.cancelView.showCancel && !settings.cancelView.hideCollectionViewBehindCancelView {
-                contentHeight += settings.cancelView.height
+            collectionViewLayout.shouldInvalidateLayout(forBoundsChange: CGRect(x: 0, y: 0, width: 0, height: 0))
+            
+            contentHeight = CGFloat(numberOfActions()) * settings.collectionView.cellHeightWhenDynamicsIsUsed + (CGFloat(_sections.count) * (collectionViewLayout.sectionInset.top + collectionViewLayout.sectionInset.bottom))
+            contentHeight += collectionView.contentInset.bottom
+            
+            setUpContentInsetForHeight(view.frame.height)
+            
+            view.setNeedsLayout()
+            view.layoutIfNeeded()
+
+            
+        } else {
+            collectionView.layoutSubviews()
+            
+            if let section = _sections.last, !settings.behavior.useDynamics {
+                let lastSectionIndex = _sections.count - 1
+                let layoutAtts = collectionViewLayout.layoutAttributesForItem(at: IndexPath(item: section.actions.count - 1, section: hasHeader() ? lastSectionIndex + 1 : lastSectionIndex))
+                contentHeight = layoutAtts!.frame.origin.y + layoutAtts!.frame.size.height
+                
+                if settings.cancelView.showCancel && !settings.cancelView.hideCollectionViewBehindCancelView {
+                    contentHeight += settings.cancelView.height
+                }
             }
+            setUpContentInsetForHeight(view.frame.height)
         }
-        setUpContentInsetForHeight(view.frame.height)
     }
     
     open override func viewWillAppear(_ animated: Bool) {
