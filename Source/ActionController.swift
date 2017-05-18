@@ -373,15 +373,19 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
 
         } else {
             collectionView.layoutSubviews()
-
+            
             if let section = _sections.last, !settings.behavior.useDynamics {
                 let lastSectionIndex = _sections.count - 1
                 let layoutAtts = collectionViewLayout.layoutAttributesForItem(at: IndexPath(item: section.actions.count - 1, section: hasHeader() ? lastSectionIndex + 1 : lastSectionIndex))
                 contentHeight = layoutAtts!.frame.origin.y + layoutAtts!.frame.size.height
-
-                if settings.cancelView.showCancel && !settings.cancelView.hideCollectionViewBehindCancelView {
-                    contentHeight += settings.cancelView.height
+                
+//                if settings.cancelView.showCancel && !settings.cancelView.hideCollectionViewBehindCancelView {
+//                    contentHeight += settings.cancelView.height
+//                }
+                if let spec = cancelSpec, hasCancel {
+                    contentHeight += spec.height()
                 }
+
             }
             setUpContentInsetForHeight(view.frame.height)
         }
@@ -514,6 +518,10 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
 
     open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let action = self.actionForIndexPath(actionIndexPathFor(indexPath)), let actionData = action.data else {
+            if let cancelSpec = cancelSpec {
+                return CGSize(width: view.frame.width, height: cancelSpec.height())
+            }
+            
             return CGSize(width: view.frame.width, height: 46)
         }
 
@@ -769,6 +777,7 @@ open class DynamicsActionController<ActionViewType: UICollectionViewCell, Action
 
         contentHeight = CGFloat(numberOfActions()) * settings.collectionView.cellHeightWhenDynamicsIsUsed + (CGFloat(_sections.count) * (collectionViewLayout.sectionInset.top + collectionViewLayout.sectionInset.bottom))
         contentHeight += collectionView.contentInset.bottom
+        contentHeight += cancelSpec != nil ? settings.collectionView.cellHeightWhenDynamicsIsUsed : CGFloat(0)
 
         setUpContentInsetForHeight(view.frame.height)
 
@@ -778,13 +787,20 @@ open class DynamicsActionController<ActionViewType: UICollectionViewCell, Action
 
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
+        
+//        print(collectionView.numberOfItems(inSection: 1))
+        
         for (index, section) in _sections.enumerated() {
             var rowIndex = -1
-            let indexPaths = section.actions.map({ _ -> IndexPath in
+            var indexPaths = section.actions.map({ _ -> IndexPath in
                 rowIndex += 1
                 return IndexPath(row: rowIndex, section: index)
             })
+            
+            if index == _sections.count - 1 {
+                indexPaths.append(IndexPath(item: rowIndex + 1, section: index))
+            }
+            
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.3 * Double(index) * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: {
                 self._dynamicSectionIndex = index
                 self.collectionView.performBatchUpdates({
@@ -803,11 +819,15 @@ open class DynamicsActionController<ActionViewType: UICollectionViewCell, Action
             return super.collectionView(collectionView, layout: collectionViewLayout, sizeForItemAt: indexPath)
         }
 
+        let referenceWidth = min(collectionView.bounds.size.width, collectionView.bounds.size.height)
+        let width = referenceWidth - (2 * settings.collectionView.lateralMargin) - collectionView.contentInset.left - collectionView.contentInset.right
+
         if let action = self.actionForIndexPath(actionIndexPathFor(indexPath)), let actionData = action.data {
-            let referenceWidth = min(collectionView.bounds.size.width, collectionView.bounds.size.height)
-            let width = referenceWidth - (2 * settings.collectionView.lateralMargin) - collectionView.contentInset.left - collectionView.contentInset.right
             return CGSize(width: width, height: cellSpec.height(actionData))
+        } else if let cancelSpec = cancelSpec {
+            return CGSize(width: width, height: cancelSpec.height())
         }
+        
         return CGSize.zero
     }
 

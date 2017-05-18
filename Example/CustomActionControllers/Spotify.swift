@@ -145,15 +145,20 @@ open class SpotifyActionController: ActionController<SpotifyCell, ActionData, Sp
         return blurView
     }()
     
+    let cancelView = UIView()
+    
     open override func viewDidLoad() {
         super.viewDidLoad()
         backgroundView.addSubview(blurView)
         
-//        cancelView?.frame.origin.y = view.bounds.size.height // Starts hidden below screen
-//        cancelView?.layer.shadowColor = UIColor.black.cgColor
-//      cancelView?.layer.shadowOffset = CGSize( width: 0, height: -4)
-//        cancelView?.layer.shadowRadius = 2
-//        cancelView?.layer.shadowOpacity = 0.8
+        
+
+        
+        cancelView.frame.origin.y = view.bounds.size.height // Starts hidden below screen
+        cancelView.layer.shadowColor = UIColor.black.cgColor
+        cancelView.layer.shadowOffset = CGSize( width: 0, height: -4)
+        cancelView.layer.shadowRadius = 2
+        cancelView.layer.shadowOpacity = 0.8
         
     }
     
@@ -173,7 +178,7 @@ open class SpotifyActionController: ActionController<SpotifyCell, ActionData, Sp
         cellSpec = .nibFile(nibName: "SpotifyCell", bundle: Bundle(for: SpotifyCell.self), height: { _ in 60 })
         headerSpec = .cellClass( height: { _ in 84 })
         
-        cancelSpec = .nibFile(nibName: "CancelCell", bundle: Bundle(for: CancelCell.self), height: { _ in 46 })
+        //cancelSpec = .nibFile(nibName: "CancelCell", bundle: Bundle(for: CancelCell.self), height: { _ in 46 })
         
         onConfigureCellForAction = { [weak self] cell, action, indexPath in
             cell.setup(action.data?.title, detail: action.data?.subtitle, image: action.data?.image)
@@ -191,12 +196,12 @@ open class SpotifyActionController: ActionController<SpotifyCell, ActionData, Sp
       super.init(coder: aDecoder)
     }
     
-//    open override func performCustomDismissingAnimation(_ presentedView: UIView, presentingView: UIView) {
-//        super.performCustomDismissingAnimation(presentedView, presentingView: presentingView)
-//        //cancelView?.frame.origin.y = view.bounds.size.height + 10
-//    }
-//    
-//    open override func onWillPresentView() {
-//       //cancelView?.frame.origin.y = view.bounds.size.height
-//    }
+    open override func performCustomDismissingAnimation(_ presentedView: UIView, presentingView: UIView) {
+        super.performCustomDismissingAnimation(presentedView, presentingView: presentingView)
+        cancelView.frame.origin.y = view.bounds.size.height + 10
+    }
+    
+    open override func onWillPresentView() {
+       cancelView.frame.origin.y = view.bounds.size.height 
+    }
 }
