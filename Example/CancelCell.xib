@@ -18,8 +18,12 @@
                 <rect key="frame" x="0.0" y="0.0" width="500" height="56"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MRN-Lt-h00">
+                        <rect key="frame" x="0.0" y="0.0" width="500" height="56"/>
+                        <color key="backgroundColor" red="1" green="0.2409016987" blue="0.18070747130000001" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B3H-Mx-UDO">
-                        <rect key="frame" x="0.0" y="55" width="500" height="1"/>
+                        <rect key="frame" x="0.0" y="0.0" width="500" height="1"/>
                         <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="mY1-1A-xQa"/>
@@ -33,13 +37,17 @@
                     </label>
                 </subviews>
             </view>
-            <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="MRN-Lt-h00" secondAttribute="trailing" id="55j-hE-sMl"/>
+                <constraint firstItem="MRN-Lt-h00" firstAttribute="top" secondItem="Pvc-oF-MFL" secondAttribute="top" id="6lN-K5-XlR"/>
                 <constraint firstItem="B3H-Mx-UDO" firstAttribute="leading" secondItem="Pvc-oF-MFL" secondAttribute="leading" id="6zy-tP-FLf"/>
-                <constraint firstAttribute="bottom" secondItem="B3H-Mx-UDO" secondAttribute="bottom" id="Aam-Ds-xHX"/>
+                <constraint firstAttribute="bottom" secondItem="B3H-Mx-UDO" secondAttribute="bottom" constant="55" id="Aam-Ds-xHX"/>
                 <constraint firstItem="TBH-1q-1Xm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Pvc-oF-MFL" secondAttribute="leading" constant="25" id="DtP-ia-ZOI"/>
+                <constraint firstItem="MRN-Lt-h00" firstAttribute="leading" secondItem="Pvc-oF-MFL" secondAttribute="leading" id="OAq-GZ-2eZ"/>
                 <constraint firstItem="TBH-1q-1Xm" firstAttribute="centerY" secondItem="Pvc-oF-MFL" secondAttribute="centerY" id="UER-7t-R1L"/>
                 <constraint firstItem="TBH-1q-1Xm" firstAttribute="centerX" secondItem="Pvc-oF-MFL" secondAttribute="centerX" id="i9Z-a9-byz"/>
+                <constraint firstAttribute="bottom" secondItem="MRN-Lt-h00" secondAttribute="bottom" id="qZr-Ox-JLR"/>
                 <constraint firstAttribute="trailing" secondItem="B3H-Mx-UDO" secondAttribute="trailing" id="wkN-Ag-7fi"/>
                 <constraint firstAttribute="trailing" secondItem="TBH-1q-1Xm" secondAttribute="trailing" constant="25" id="zNs-g6-17f"/>
             </constraints>

@@ -133,8 +133,6 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
 
     open var contentHeight: CGFloat = 0.0
 
-    //open var cancelView: UIView?
-
     lazy open var backgroundView: UIView = {
         let backgroundView = UIView()
         backgroundView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
@@ -328,32 +326,8 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
 
         // set up collection view initial position taking into account top content inset
         collectionView.frame = view.bounds
-        collectionView.frame.origin.y += contentHeight /* + (settings.cancelView.showCancel ? settings.cancelView.height : 0) */
+        collectionView.frame.origin.y += contentHeight
         collectionViewLayout.footerReferenceSize = CGSize(width: 320, height: 0)
-        // -
-
-
-//        if settings.cancelView.showCancel {
-//            if cancelView == nil {
-//                cancelView = {
-//                    let cancel = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.size.width, height: settings.cancelView.height))
-//                    cancel.autoresizingMask = [.flexibleWidth, .flexibleTopMargin]
-//                    cancel.backgroundColor = settings.cancelView.backgroundColor
-//                    let cancelButton: UIButton = {
-//                        let cancelButton = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: settings.cancelView.height))
-//                        cancelButton.addTarget(self, action: #selector(ActionController.cancelButtonDidTouch(_:)), for: .touchUpInside)
-//                        cancelButton.setTitle(settings.cancelView.title, for: UIControlState())
-//                        cancelButton.translatesAutoresizingMaskIntoConstraints = false
-//                        return cancelButton
-//                    }()
-//                    cancel.addSubview(cancelButton)
-//                    cancel.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[button]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["button": cancelButton]))
-//                    cancel.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[button]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["button": cancelButton]))
-//                    return cancel
-//                }()
-//            }
-//            view.addSubview(cancelView!)
-//        }
     }
 
     open func calculateContentInset() {
@@ -378,14 +352,10 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
                 let lastSectionIndex = _sections.count - 1
                 let layoutAtts = collectionViewLayout.layoutAttributesForItem(at: IndexPath(item: section.actions.count - 1, section: hasHeader() ? lastSectionIndex + 1 : lastSectionIndex))
                 contentHeight = layoutAtts!.frame.origin.y + layoutAtts!.frame.size.height
-                
-//                if settings.cancelView.showCancel && !settings.cancelView.hideCollectionViewBehindCancelView {
-//                    contentHeight += settings.cancelView.height
-//                }
+
                 if let spec = cancelSpec, hasCancel {
                     contentHeight += spec.height()
                 }
-
             }
             setUpContentInsetForHeight(view.frame.height)
         }
@@ -499,7 +469,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     }
 
     open func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return !disableActions && actionForIndexPath(actionIndexPathFor(indexPath))?.enabled == true
+        return !disableActions && (actionForIndexPath(actionIndexPathFor(indexPath))?.enabled == true || actionForIndexPath(actionIndexPathFor(indexPath))?.enabled == nil)
     }
 
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -508,7 +478,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         if let action = action, action.executeImmediatelyOnTouch {
             action.handler?(action)
         }
-
+        
         self.dismiss() {
             if let action = action, !action.executeImmediatelyOnTouch {
                 action.handler?(action)
@@ -633,14 +603,12 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
 
     open func onWillPresentView() {
         backgroundView.alpha = 0.0
-        //cancelView?.frame.origin.y = view.bounds.size.height
         // Override this to add custom behavior previous to start presenting view animated.
         // Tip: you could start a new animation from this method
     }
 
     open func performCustomPresentationAnimation(_ presentedView: UIView, presentingView: UIView) {
         backgroundView.alpha = 1.0
-        //cancelView?.frame.origin.y = view.bounds.size.height /* - settings.cancelView.height */
         collectionView.frame = view.bounds
         // Override this to add custom animations. This method is performed within the presentation animation block
     }
@@ -656,8 +624,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
 
     open func performCustomDismissingAnimation(_ presentedView: UIView, presentingView: UIView) {
         backgroundView.alpha = 0.0
-        //cancelView?.frame.origin.y = view.bounds.size.height
-        collectionView.frame.origin.y = contentHeight /* + (settings.cancelView.showCancel ? settings.cancelView.height : 0) + settings.animation.dismiss.offset */
+        collectionView.frame.origin.y = contentHeight
         // Override this to add custom animations. This method is performed within the presentation animation block
     }
 
@@ -666,10 +633,6 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     }
 
     // MARK: - Event handlers
-
-//    func cancelButtonDidTouch(_ sender: UIButton) {
-//        self.dismiss()
-//    }
 
     func tapGestureDidRecognize(_ gesture: UITapGestureRecognizer) {
         self.dismiss()
@@ -723,15 +686,9 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         return hasHeader() ? section - 1 : section
     }
 
-    fileprivate func setUpContentInsetForHeight(_ height: CGFloat) {
+    open func setUpContentInsetForHeight(_ height: CGFloat) {
         let currentInset = collectionView.contentInset
-       // let bottomInset = settings.cancelView.showCancel ? settings.cancelView.height : currentInset.bottom
         var topInset = height - contentHeight
-
-//        if settings.cancelView.showCancel {
-//            topInset -= settings.cancelView.height
-//        }
-
         topInset = max(topInset, max(30, height - contentHeight))
 
         collectionView.contentInset = UIEdgeInsets(top: topInset, left: currentInset.left, bottom: 0 /*bottomInset*/, right: currentInset.right)
@@ -788,8 +745,6 @@ open class DynamicsActionController<ActionViewType: UICollectionViewCell, Action
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-//        print(collectionView.numberOfItems(inSection: 1))
-        
         for (index, section) in _sections.enumerated() {
             var rowIndex = -1
             var indexPaths = section.actions.map({ _ -> IndexPath in
@@ -833,9 +788,9 @@ open class DynamicsActionController<ActionViewType: UICollectionViewCell, Action
 
     // MARK: - Overrides
 
-//    open override func dismiss() {
-//        dismiss(nil)
-//    }
+    open override func dismiss() {
+        dismiss(nil)
+    }
 
     open override func dismiss(_ completion: (() -> ())?) {
         animator.addBehavior(gravityBehavior)
