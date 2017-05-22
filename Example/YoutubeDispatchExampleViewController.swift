@@ -51,8 +51,6 @@ class YoutubeDispatchExampleViewController: UIViewController {
             actionController.addSection(Section())
             actionController.addAction(Action(ActionData(title: "Share...", image: UIImage(named: "yt-share-icon")!), style: .default, handler: { action in
             }))
-            actionController.addAction(Action(ActionData(title: "Cancel", image: UIImage(named: "yt-cancel-icon")!), style: .default, handler: { action in
-            }))
             actionController.calculateContentInset()
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
