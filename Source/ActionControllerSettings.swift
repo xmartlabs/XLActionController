@@ -57,32 +57,6 @@ public struct ActionControllerSettings {
         public var useDynamics = false
     }
     
-    /** Struct that contains properties to configure the cancel view */
-    public struct CancelViewStyle {
-        /**
-         * A Boolean value that determines whether cancel view is shown. Its default value is `false`. Its default
-         * value is `false`.
-         */
-        public var showCancel = false
-        /**
-         * The cancel view's title. Its default value is "Cancel".
-         */
-        public var title: String? = "Cancel"
-        /**
-         * The cancel view's height. Its default value is `60`.
-         */
-        public var height = CGFloat(60.0)
-        /**
-         * The cancel view's background color. Its default value is `UIColor.blackColor().colorWithAlphaComponent(0.8)`.
-         */
-        public var backgroundColor = UIColor.black.withAlphaComponent(0.8)
-        /**
-          * A Boolean value that determines whether the collection view can be partially covered by the 
-          * cancel view when it is pulled down. Its default value is `true`
-          */
-        public var hideCollectionViewBehindCancelView = true
-    }
-
     /** Struct that contains properties to configure the collection view's style */
     public struct CollectionViewStyle {
         /** 
@@ -196,8 +170,6 @@ public struct ActionControllerSettings {
     
     /** Stores the behavior's properties values */
     public var behavior = Behavior()
-    /** Stores the cancel view's properties values */
-    public var cancelView = CancelViewStyle()
     /** Stores the collection view's properties values */
     public var collectionView = CollectionViewStyle()
     /** Stores the animations' properties values */

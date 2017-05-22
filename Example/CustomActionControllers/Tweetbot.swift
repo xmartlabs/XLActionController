@@ -54,7 +54,7 @@ open class TweetbotCell: ActionCell {
     }
 }
 
-open class TweetbotActionController: DynamicsActionController<TweetbotCell, String, UICollectionReusableView, Void, UICollectionReusableView, Void> {
+open class TweetbotActionController: DynamicsActionController<TweetbotCell, String, UICollectionReusableView, Void, UICollectionReusableView, Void, UICollectionReusableView> {
     
     public override init(nibName nibNameOrNil: String? = nil, bundle nibBundleOrNil: Bundle? = nil) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -67,6 +67,7 @@ open class TweetbotActionController: DynamicsActionController<TweetbotCell, Stri
         (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 6.0, right: 0.0)
         
         cellSpec = .nibFile(nibName: "TweetbotCell", bundle: Bundle(for: TweetbotCell.self), height: { _  in 50 })
+        cancelSpec = .nibFile(nibName: "CancelCell", bundle: Bundle(for: CancelCell.self), height: { 46 })
         
         onConfigureCellForAction = { [weak self] cell, action, indexPath in
             
@@ -94,6 +95,10 @@ open class TweetbotActionController: DynamicsActionController<TweetbotCell, Stri
                 borderMask.path = UIBezierPath(roundedRect: cell.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: 8.0, height: 8.0)).cgPath
                 cell.layer.mask = borderMask
             }
+        }
+        
+        onConfigureCancelForAction = { cell, action, indexPath in
+            cell.backgroundColor = .red
         }
     }
   

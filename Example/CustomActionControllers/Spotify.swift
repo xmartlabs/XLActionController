@@ -137,7 +137,7 @@ open class SpotifyHeaderView: UICollectionReusableView {
     }
 }
 
-open class SpotifyActionController: ActionController<SpotifyCell, ActionData, SpotifyHeaderView, SpotifyHeaderData, UICollectionReusableView, Void> {
+open class SpotifyActionController: ActionController<SpotifyCell, ActionData, SpotifyHeaderView, SpotifyHeaderData, UICollectionReusableView, Void, UICollectionReusableView> {
     
     fileprivate lazy var blurView: UIVisualEffectView = {
         let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
@@ -145,16 +145,51 @@ open class SpotifyActionController: ActionController<SpotifyCell, ActionData, Sp
         return blurView
     }()
     
+    var cancelView: UIView?
+    
     open override func viewDidLoad() {
         super.viewDidLoad()
-        backgroundView.addSubview(blurView)
         
-        cancelView?.frame.origin.y = view.bounds.size.height // Starts hidden below screen
-        cancelView?.layer.shadowColor = UIColor.black.cgColor
-      cancelView?.layer.shadowOffset = CGSize( width: 0, height: -4)
-        cancelView?.layer.shadowRadius = 2
-        cancelView?.layer.shadowOpacity = 0.8
+        backgroundView.addSubview(blurView)
+        cancelView = UIView(frame: CGRect(x: 0, y: view.bounds.size.height - 60, width: UIScreen.main.bounds.width, height: 60))
+        
+        cancelView = {
+            let cancel = cancelView!
+            cancel.autoresizingMask = [.flexibleWidth, .flexibleTopMargin]
+            cancel.backgroundColor = .black
+            
+            cancel.layer.shadowColor = UIColor.black.cgColor
+            cancel.layer.shadowOffset = CGSize( width: 0, height: -4)
+            cancel.layer.shadowRadius = 2
+            cancel.layer.shadowOpacity = 0.8
+
+            let cancelButton: UIButton = {
+                let cancelButton = UIButton(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 60))
+                cancelButton.addTarget(self, action: #selector(SpotifyActionController.cancelButtonDidTouch(_:)), for: .touchUpInside)
+                cancelButton.setTitle("Cancel", for: UIControlState())
+                cancelButton.translatesAutoresizingMaskIntoConstraints = false
+                return cancelButton
+            }()
+            cancel.addSubview(cancelButton)
+            cancel.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[button]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["button": cancelButton]))
+            cancel.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[button]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["button": cancelButton]))
+            return cancel
+        }()
+        
+        view.addSubview(cancelView!)
+    
+        calculateContentInset()
     }
+    
+    open override func setUpContentInsetForHeight(_ height: CGFloat) {
+        let currentInset = collectionView.contentInset
+        var topInset = height - contentHeight
+        topInset = max(topInset, max(30, height - contentHeight))
+        
+        collectionView.contentInset = UIEdgeInsets(top: topInset, left: currentInset.left, bottom: 60 /*bottomInset*/, right: currentInset.right)
+    }
+
+
     
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -162,10 +197,9 @@ open class SpotifyActionController: ActionController<SpotifyCell, ActionData, Sp
     }
     
     public override init(nibName nibNameOrNil: String? = nil, bundle nibBundleOrNil: Bundle? = nil) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+       super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         settings.behavior.bounces = true
         settings.behavior.scrollEnabled = true
-        settings.cancelView.showCancel = true
         settings.animation.scale = nil
         settings.animation.present.springVelocity = 0.0
         
@@ -190,10 +224,13 @@ open class SpotifyActionController: ActionController<SpotifyCell, ActionData, Sp
     
     open override func performCustomDismissingAnimation(_ presentedView: UIView, presentingView: UIView) {
         super.performCustomDismissingAnimation(presentedView, presentingView: presentingView)
-        cancelView?.frame.origin.y = view.bounds.size.height + 10
+        backgroundView.alpha = 0.0
+        cancelView?.frame.origin.y = view.bounds.size.height
+        collectionView.frame.origin.y = contentHeight + (cancelView?.frame.height)! + settings.animation.dismiss.offset
     }
     
-    open override func onWillPresentView() {
-        cancelView?.frame.origin.y = view.bounds.size.height
+    func cancelButtonDidTouch(_ sender: UIButton) {
+        self.dismiss()
     }
+    
 }
