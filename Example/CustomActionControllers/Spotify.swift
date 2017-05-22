@@ -224,11 +224,9 @@ open class SpotifyActionController: ActionController<SpotifyCell, ActionData, Sp
     
     open override func performCustomDismissingAnimation(_ presentedView: UIView, presentingView: UIView) {
         super.performCustomDismissingAnimation(presentedView, presentingView: presentingView)
-        //cancelView?.frame.origin.y = view.bounds.size.height
         backgroundView.alpha = 0.0
         cancelView?.frame.origin.y = view.bounds.size.height
-        collectionView.frame.origin.y = contentHeight + 60 + settings.animation.dismiss.offset
-        // Override this to add custom animations. This method is performed within the presentation animation block
+        collectionView.frame.origin.y = contentHeight + (cancelView?.frame.height)! + settings.animation.dismiss.offset
     }
     
     func cancelButtonDidTouch(_ sender: UIButton) {
