@@ -59,6 +59,8 @@ open class TweetbotActionController: DynamicsActionController<TweetbotCell, Stri
     public override init(nibName nibNameOrNil: String? = nil, bundle nibBundleOrNil: Bundle? = nil) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         backgroundView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        
+        settings.behavior.alertStyle = true
         settings.animation.present.duration = 0.5
         settings.animation.dismiss.duration = 0.5
         settings.behavior.bounces = true

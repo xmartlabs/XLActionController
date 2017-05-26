@@ -45,8 +45,6 @@ class YouTubeExampleViewController: UIViewController {
         }))
         actionController.addAction(Action(ActionData(title: "Share...", image: UIImage(named: "yt-share-icon")!), style: .default, handler: { action in
         }))
-        actionController.addAction(Action(ActionData(title: "Cancel", image: UIImage(named: "yt-cancel-icon")!), style: .cancel, handler: nil))
-        
         present(actionController, animated: true, completion: nil)
     }
 }

@@ -111,4 +111,5 @@ open class YoutubeActionController: ActionController<YoutubeCell, ActionData, UI
     required public init?(coder aDecoder: NSCoder) {
       fatalError("init(coder:) has not been implemented")
     }
+
 }

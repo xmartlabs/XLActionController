@@ -52,7 +52,7 @@ class TweetBotExampleViewController: UIViewController {
         actionController.addAction(Action("Translate", style: .default, executeImmediatelyOnTouch: true, handler: { action in
         }))
         actionController.addSection(Section())
-        actionController.addAction(Action("Cancel", style: .cancel, handler:nil))
+        actionController.addAction(Action("Cancel", style: .cancel, handler: nil))
         
         present(actionController, animated: true, completion: nil)
     }

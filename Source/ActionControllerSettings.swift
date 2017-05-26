@@ -55,6 +55,11 @@ public struct ActionControllerSettings {
          * items. Its default value is `false`
          */
         public var useDynamics = false
+        /**
+         * A Boolean value that determines if the collection view layour is going to be show as an alert style. Its default
+         value is `false`
+         */
+        public var alertStyle = false
     }
     
     /** Struct that contains properties to configure the collection view's style */

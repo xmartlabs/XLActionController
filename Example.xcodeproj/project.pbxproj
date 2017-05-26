@@ -32,6 +32,7 @@
 		9A1303691EC20A8D00D69281 /* YoutubeDispatchExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1303681EC20A8D00D69281 /* YoutubeDispatchExampleViewController.swift */; };
 		9A13037C1EC4E99D00D69281 /* CancelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A13037A1EC4E99D00D69281 /* CancelCell.swift */; };
 		9A13037D1EC4E99D00D69281 /* CancelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A13037B1EC4E99D00D69281 /* CancelCell.xib */; };
+		9A2C3C711ED72A0700CD3976 /* AlertYoutube.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2C3C701ED72A0700CD3976 /* AlertYoutube.swift */; };
 		B297A9161C0E17AA00AF9559 /* Periscope.swift in Sources */ = {isa = PBXBuildFile; fileRef = B297A9151C0E17AA00AF9559 /* Periscope.swift */; };
 		B297A91B1C0E191600AF9559 /* Skype.swift in Sources */ = {isa = PBXBuildFile; fileRef = B297A91A1C0E191600AF9559 /* Skype.swift */; };
 		B297A9201C0E193B00AF9559 /* Spotify.swift in Sources */ = {isa = PBXBuildFile; fileRef = B297A91F1C0E193B00AF9559 /* Spotify.swift */; };
@@ -112,6 +113,7 @@
 		9A1303681EC20A8D00D69281 /* YoutubeDispatchExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeDispatchExampleViewController.swift; sourceTree = "<group>"; };
 		9A13037A1EC4E99D00D69281 /* CancelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CancelCell.swift; path = Example/CancelCell.swift; sourceTree = SOURCE_ROOT; };
 		9A13037B1EC4E99D00D69281 /* CancelCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CancelCell.xib; path = Example/CancelCell.xib; sourceTree = SOURCE_ROOT; };
+		9A2C3C701ED72A0700CD3976 /* AlertYoutube.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertYoutube.swift; sourceTree = "<group>"; };
 		B297A9151C0E17AA00AF9559 /* Periscope.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Periscope.swift; sourceTree = "<group>"; };
 		B297A91A1C0E191600AF9559 /* Skype.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Skype.swift; sourceTree = "<group>"; };
 		B297A91F1C0E193B00AF9559 /* Spotify.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spotify.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				B297A9261C0E198200AF9559 /* Twitter.swift */,
 				28650D2A1C0DD21A008C1F27 /* YoutubeCell.xib */,
 				B297A9291C0E19A500AF9559 /* Youtube.swift */,
+				9A2C3C701ED72A0700CD3976 /* AlertYoutube.swift */,
 			);
 			path = CustomActionControllers;
 			sourceTree = "<group>";
@@ -387,6 +390,7 @@
 				28B3B87E1BFA8566007337A2 /* SpotifyExampleViewController.swift in Sources */,
 				B297A9271C0E198200AF9559 /* Twitter.swift in Sources */,
 				9A1303691EC20A8D00D69281 /* YoutubeDispatchExampleViewController.swift in Sources */,
+				9A2C3C711ED72A0700CD3976 /* AlertYoutube.swift in Sources */,
 				B297A9201C0E193B00AF9559 /* Spotify.swift in Sources */,
 				B297A92A1C0E19A500AF9559 /* Youtube.swift in Sources */,
 				9A13037C1EC4E99D00D69281 /* CancelCell.swift in Sources */,

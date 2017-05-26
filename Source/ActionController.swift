@@ -119,6 +119,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     public typealias PropertiesComply = (IndexedAction) -> Bool
 
     open var settings: ActionControllerSettings = ActionControllerSettings.defaultSettings()
+    open var useAlertStyle = false
 
     open var cellSpec: CellSpec<ActionViewType, ActionDataType>
     open var sectionHeaderSpec: HeaderSpec<SectionHeaderViewType, SectionHeaderDataType>?
@@ -278,7 +279,11 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        useAlertStyle = settings.behavior.alertStyle
+        if settings.behavior.useDynamics && useAlertStyle {
+            useAlertStyle = false
+        }
         modalPresentationCapturesStatusBarAppearance = settings.statusBar.modalPresentationCapturesStatusBarAppearance
 
         // background view
@@ -326,29 +331,22 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
 
         // set up collection view initial position taking into account top content inset
         collectionView.frame = view.bounds
-        collectionView.frame.origin.y += contentHeight
+        collectionView.frame.origin.y = view.frame.height
         collectionViewLayout.footerReferenceSize = CGSize(width: 320, height: 0)
     }
 
     open func calculateContentInset() {
         // calculate content Inset
         if collectionViewLayout.dynamicAnimator != nil {
-
             collectionViewLayout.shouldInvalidateLayout(forBoundsChange: CGRect(x: 0, y: 0, width: 0, height: 0))
-
             contentHeight = CGFloat(numberOfActions()) * settings.collectionView.cellHeightWhenDynamicsIsUsed + (CGFloat(_sections.count) * (collectionViewLayout.sectionInset.top + collectionViewLayout.sectionInset.bottom))
             contentHeight += collectionView.contentInset.bottom
-
             setUpContentInsetForHeight(view.frame.height)
-
             view.setNeedsLayout()
             view.layoutIfNeeded()
-
-
         } else {
             collectionView.layoutSubviews()
-            
-            if let section = _sections.last, !settings.behavior.useDynamics {
+            if let section = _sections.last {
                 let lastSectionIndex = _sections.count - 1
                 let layoutAtts = collectionViewLayout.layoutAttributesForItem(at: IndexPath(item: section.actions.count - 1, section: hasHeader() ? lastSectionIndex + 1 : lastSectionIndex))
                 contentHeight = layoutAtts!.frame.origin.y + layoutAtts!.frame.size.height
@@ -358,6 +356,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
                 }
             }
             setUpContentInsetForHeight(view.frame.height)
+            collectionView.reloadData()
         }
     }
 
@@ -424,6 +423,9 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
             if (indexPath as NSIndexPath).section == 0 && hasHeader() {
                 let reusableview = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ReusableViewIds.Header.rawValue, for: indexPath) as? HeaderViewType
                 onConfigureHeader?(reusableview!, headerData!)
+                if useAlertStyle {
+                    reusableview?.round(corners: [.topLeft, .topRight], radius: 10)
+                }
                 return reusableview!
             } else {
                 let reusableview = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ReusableViewIds.SectionHeader.rawValue, for: indexPath) as? SectionHeaderViewType
@@ -433,13 +435,22 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         }
         fatalError()
     }
-
+    
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         let action = actionForIndexPath(actionIndexPathFor(indexPath))
         if let action = action {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReusableViewIds.Cell.rawValue, for: indexPath) as! ActionViewType
             self.onConfigureCellForAction?(cell, action, indexPath)
+            
+            if useAlertStyle {
+                let lastSection = self.collectionView.numberOfSections-1
+                if indexPath.section == lastSection && indexPath.row == self.collectionView.numberOfItems(inSection: lastSection)-1 {
+                    cell.round(corners: [.bottomLeft, .bottomRight], radius: 10)
+                } else {
+                    cell.layer.mask = nil
+                }
+            }
             return cell
         } else {
             // check if cancel should be added
@@ -491,19 +502,26 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
             if let cancelSpec = cancelSpec {
                 return CGSize(width: view.frame.width, height: cancelSpec.height())
             }
-            
             return CGSize(width: view.frame.width, height: 46)
         }
 
         let referenceWidth = collectionView.bounds.size.width
-        let margins = 2 * settings.collectionView.lateralMargin + collectionView.contentInset.left + collectionView.contentInset.right
+        var margins: CGFloat
+        if useAlertStyle {
+            let lateralInsets: CGFloat = 40
+            margins = 2 * settings.collectionView.lateralMargin + lateralInsets
+        } else {
+            margins = 2 * settings.collectionView.lateralMargin + collectionView.contentInset.left + collectionView.contentInset.right
+        }
         return CGSize(width: referenceWidth - margins, height: cellSpec.height(actionData))
     }
 
     open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         if section == 0 {
             if let headerData = headerData, let headerSpec = headerSpec {
-                return CGSize(width: collectionView.bounds.size.width, height: headerSpec.height(headerData))
+                
+                    return CGSize(width: collectionView.bounds.size.width, height: headerSpec.height(headerData))
+                
             } else if let sectionHeaderSpec = sectionHeaderSpec, let section = sectionForIndex(actionSectionIndexFor(section)), let sectionData = section.data {
                 return CGSize(width: collectionView.bounds.size.width, height: sectionHeaderSpec.height(sectionData))
             }
@@ -563,27 +581,46 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     open func presentView(_ presentedView: UIView, presentingView: UIView, animationDuration: Double, completion: ((_ completed: Bool) -> Void)?) {
         onWillPresentView()
         let animationSettings = settings.animation.present
-        UIView.animate(withDuration: animationDuration,
-            delay: animationSettings.delay,
-            usingSpringWithDamping: animationSettings.damping,
-            initialSpringVelocity: animationSettings.springVelocity,
-            options: animationSettings.options.union(.allowUserInteraction),
-            animations: { [weak self] in
-                if let transformScale = self?.settings.animation.scale {
-                    presentingView.transform = CGAffineTransform(scaleX: transformScale.width, y: transformScale.height)
-                }
-                self?.performCustomPresentationAnimation(presentedView, presentingView: presentingView)
-            },
-            completion: { [weak self] finished in
-                self?.onDidPresentView()
-                completion?(finished)
+        
+        if useAlertStyle {
+            UIView.animate(withDuration: animationDuration,
+                           delay: animationSettings.delay,
+                           usingSpringWithDamping: animationSettings.damping,
+                           initialSpringVelocity: animationSettings.springVelocity,
+                           options: animationSettings.options.union(.allowUserInteraction),
+                           animations: { [weak self] in
+                            if let transformScale = self?.settings.animation.scale {
+                                presentingView.transform = CGAffineTransform(scaleX: transformScale.width, y: transformScale.height)
+                            }
+                            self?.performCustomPresentationAnimation(presentedView, presentingView: presentingView)
+                            },
+                           completion: { [weak self] finished in
+                            self?.onDidPresentView()
+                            completion?(finished)
             })
+        } else {
+            UIView.animate(withDuration: animationDuration,
+                           delay: animationSettings.delay,
+                           usingSpringWithDamping: animationSettings.damping,
+                           initialSpringVelocity: animationSettings.springVelocity,
+                           options: animationSettings.options.union(.allowUserInteraction),
+                           animations: { [weak self] in
+                            if let transformScale = self?.settings.animation.scale {
+                                presentingView.transform = CGAffineTransform(scaleX: transformScale.width, y: transformScale.height)
+                            }
+                            self?.performCustomPresentationAnimation(presentedView, presentingView: presentingView)
+                            },
+                           completion: { [weak self] finished in
+                            self?.onDidPresentView()
+                            completion?(finished)
+            })
+        }
     }
 
     open func dismissView(_ presentedView: UIView, presentingView: UIView, animationDuration: Double, completion: ((_ completed: Bool) -> Void)?) {
         onWillDismissView()
         let animationSettings = settings.animation.dismiss
-
+        
         UIView.animate(withDuration: animationDuration,
             delay: animationSettings.delay,
             usingSpringWithDamping: animationSettings.damping,
@@ -599,6 +636,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
                 self?.onDidDismissView()
                 completion?(true)
             })
+
     }
 
     open func onWillPresentView() {
@@ -624,7 +662,12 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
 
     open func performCustomDismissingAnimation(_ presentedView: UIView, presentingView: UIView) {
         backgroundView.alpha = 0.0
-        collectionView.frame.origin.y = contentHeight
+        if useAlertStyle {
+            let dismissOffset: CGFloat = 50
+            collectionView.frame.origin.y = view.frame.height/2 + settings.animation.dismiss.offset + dismissOffset
+        } else {
+            collectionView.frame.origin.y = view.frame.height
+        }
         // Override this to add custom animations. This method is performed within the presentation animation block
     }
 
@@ -690,8 +733,15 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         let currentInset = collectionView.contentInset
         var topInset = height - contentHeight
         topInset = max(topInset, max(30, height - contentHeight))
-
-        collectionView.contentInset = UIEdgeInsets(top: topInset, left: currentInset.left, bottom: 0 /*bottomInset*/, right: currentInset.right)
+        
+        if useAlertStyle {
+            let bottomInset = (view.frame.height - contentHeight) / 2
+            let lateralInsets: CGFloat = 20
+            collectionView.contentInset = UIEdgeInsets(top: topInset , left: lateralInsets, bottom: bottomInset, right: lateralInsets)
+        } else {
+            let bottomInset = currentInset.bottom
+            collectionView.contentInset = UIEdgeInsets(top: topInset, left: currentInset.left, bottom: bottomInset, right: currentInset.right)
+        }
     }
 
     // MARK: - Private properties
@@ -829,4 +879,13 @@ open class DynamicsActionController<ActionViewType: UICollectionViewCell, Action
         // Nothing to do in this case
     }
 
+}
+
+extension UIView {
+    func round(corners: UIRectCorner, radius: CGFloat) {
+        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        self.layer.mask = mask
+    }
 }
