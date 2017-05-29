@@ -508,7 +508,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         let referenceWidth = collectionView.bounds.size.width
         var margins: CGFloat
         if useAlertStyle {
-            let lateralInsets: CGFloat = 40
+            let lateralInsets: CGFloat = 50
             margins = 2 * settings.collectionView.lateralMargin + lateralInsets
         } else {
             margins = 2 * settings.collectionView.lateralMargin + collectionView.contentInset.left + collectionView.contentInset.right
@@ -582,39 +582,21 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         onWillPresentView()
         let animationSettings = settings.animation.present
         
-        if useAlertStyle {
-            UIView.animate(withDuration: animationDuration,
-                           delay: animationSettings.delay,
-                           usingSpringWithDamping: animationSettings.damping,
-                           initialSpringVelocity: animationSettings.springVelocity,
-                           options: animationSettings.options.union(.allowUserInteraction),
-                           animations: { [weak self] in
-                            if let transformScale = self?.settings.animation.scale {
-                                presentingView.transform = CGAffineTransform(scaleX: transformScale.width, y: transformScale.height)
-                            }
-                            self?.performCustomPresentationAnimation(presentedView, presentingView: presentingView)
-                            },
-                           completion: { [weak self] finished in
-                            self?.onDidPresentView()
-                            completion?(finished)
+        UIView.animate(withDuration: animationDuration,
+            delay: animationSettings.delay,
+            usingSpringWithDamping: animationSettings.damping,
+            initialSpringVelocity: animationSettings.springVelocity,
+            options: animationSettings.options.union(.allowUserInteraction),
+            animations: { [weak self] in
+                if let transformScale = self?.settings.animation.scale {
+                    presentingView.transform = CGAffineTransform(scaleX: transformScale.width, y: transformScale.height)
+                }
+                self?.performCustomPresentationAnimation(presentedView, presentingView: presentingView)
+            },
+            completion: { [weak self] finished in
+                self?.onDidPresentView()
+                completion?(finished)
             })
-        } else {
-            UIView.animate(withDuration: animationDuration,
-                           delay: animationSettings.delay,
-                           usingSpringWithDamping: animationSettings.damping,
-                           initialSpringVelocity: animationSettings.springVelocity,
-                           options: animationSettings.options.union(.allowUserInteraction),
-                           animations: { [weak self] in
-                            if let transformScale = self?.settings.animation.scale {
-                                presentingView.transform = CGAffineTransform(scaleX: transformScale.width, y: transformScale.height)
-                            }
-                            self?.performCustomPresentationAnimation(presentedView, presentingView: presentingView)
-                            },
-                           completion: { [weak self] finished in
-                            self?.onDidPresentView()
-                            completion?(finished)
-            })
-        }
     }
 
     open func dismissView(_ presentedView: UIView, presentingView: UIView, animationDuration: Double, completion: ((_ completed: Bool) -> Void)?) {
@@ -636,7 +618,6 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
                 self?.onDidDismissView()
                 completion?(true)
             })
-
     }
 
     open func onWillPresentView() {
@@ -733,13 +714,13 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         let currentInset = collectionView.contentInset
         var topInset = height - contentHeight
         topInset = max(topInset, max(30, height - contentHeight))
+        var bottomInset = currentInset.bottom
         
         if useAlertStyle {
-            let bottomInset = (view.frame.height - contentHeight) / 2
-            let lateralInsets: CGFloat = 20
+            bottomInset = (view.frame.height - contentHeight) / 2
+            let lateralInsets: CGFloat = 25
             collectionView.contentInset = UIEdgeInsets(top: topInset , left: lateralInsets, bottom: bottomInset, right: lateralInsets)
         } else {
-            let bottomInset = currentInset.bottom
             collectionView.contentInset = UIEdgeInsets(top: topInset, left: currentInset.left, bottom: bottomInset, right: currentInset.right)
         }
     }
