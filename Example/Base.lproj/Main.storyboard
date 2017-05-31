@@ -553,7 +553,7 @@
                                 </connections>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sXB-iP-aNd">
-                                <rect key="frame" x="0.0" y="20" width="80" height="65"/>
+                                <rect key="frame" x="0.0" y="0.0" width="80" height="65"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="65" id="O3D-SP-whJ"/>
                                     <constraint firstAttribute="width" constant="80" id="dfM-5j-fjD"/>
@@ -569,9 +569,18 @@
                                     <action selector="backButtonDidTouch:" destination="KM0-oZ-gHb" eventType="touchUpInside" id="rYe-Kr-Klm"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fMx-Mq-kUN">
+                                <rect key="frame" x="345" y="250" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="UHH-sr-Tz0"/>
+                                    <constraint firstAttribute="height" constant="30" id="YGL-gE-hYW"/>
+                                </constraints>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="fMx-Mq-kUN" firstAttribute="top" secondItem="rh3-qg-DwK" secondAttribute="bottom" constant="250" id="4MC-3c-IZ5"/>
+                            <constraint firstAttribute="trailing" secondItem="fMx-Mq-kUN" secondAttribute="trailing" id="H21-Gr-bnB"/>
                             <constraint firstItem="sXB-iP-aNd" firstAttribute="leading" secondItem="Ue1-2S-ckm" secondAttribute="leading" id="R5b-Sf-hjJ"/>
                             <constraint firstItem="8Q9-No-7Sp" firstAttribute="top" secondItem="Ue1-2S-ckm" secondAttribute="top" id="RGr-QQ-2Ad"/>
                             <constraint firstAttribute="trailing" secondItem="8Q9-No-7Sp" secondAttribute="trailing" id="Zeq-QH-agb"/>
@@ -580,7 +589,11 @@
                             <constraint firstItem="sXB-iP-aNd" firstAttribute="top" secondItem="rh3-qg-DwK" secondAttribute="bottom" id="eaN-3L-jO4"/>
                         </constraints>
                     </view>
+                    <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
+                    <connections>
+                        <outlet property="seeActionsButton" destination="fMx-Mq-kUN" id="hwo-y0-94A"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pZD-k5-jBQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="O5l-X5-Hky">

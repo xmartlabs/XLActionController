@@ -120,6 +120,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
 
     open var settings: ActionControllerSettings = ActionControllerSettings.defaultSettings()
     open var useAlertStyle = false
+    open var isIpad =  UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad
 
     open var cellSpec: CellSpec<ActionViewType, ActionDataType>
     open var sectionHeaderSpec: HeaderSpec<SectionHeaderViewType, SectionHeaderDataType>?
@@ -133,7 +134,12 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     open var onConfigureCellForAction: ((ActionViewType, Action<ActionDataType>, IndexPath) -> ())?
 
     open var contentHeight: CGFloat = 0.0
-
+    open var lateralInsets: CGFloat = 25
+    open var leftInset: CGFloat = 25
+    open var rightInset: CGFloat = 25
+    open var button: UIButton = UIButton()
+    open var triangleView: UIView?
+    
     lazy open var backgroundView: UIView = {
         let backgroundView = UIView()
         backgroundView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
@@ -279,7 +285,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         useAlertStyle = settings.behavior.alertStyle
         if settings.behavior.useDynamics && useAlertStyle {
             useAlertStyle = false
@@ -363,8 +369,12 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         backgroundView.frame = view.bounds
+        
+        if isIpad, !useAlertStyle, !settings.behavior.useDynamics {
+           addTriangle()
+        }
     }
-
+    
     open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
 
@@ -381,6 +391,14 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
                 self?.presentingViewController?.view.transform = CGAffineTransform(scaleX: scale.width, y: scale.height)
             }
         }, completion: nil)
+        
+        if UIDevice.current.orientation.isLandscape || UIDevice.current.orientation.isPortrait {
+            let widthTriangle = 30
+            let hightTriangle = 20
+            let middleSuperView = (view.bounds.width - lateralInsets * 2) / 2
+            let middle = middleSuperView - CGFloat(widthTriangle/2)
+            triangleView = TriangleView(frame: CGRect(x: Int(middle), y: -20, width: widthTriangle , height: hightTriangle))
+        }
     }
 
     override open func viewDidLayoutSubviews() {
@@ -423,7 +441,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
             if (indexPath as NSIndexPath).section == 0 && hasHeader() {
                 let reusableview = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ReusableViewIds.Header.rawValue, for: indexPath) as? HeaderViewType
                 onConfigureHeader?(reusableview!, headerData!)
-                if useAlertStyle {
+                if useAlertStyle || isIpad {
                     reusableview?.round(corners: [.topLeft, .topRight], radius: 10)
                 }
                 return reusableview!
@@ -435,15 +453,15 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         }
         fatalError()
     }
-    
+
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         let action = actionForIndexPath(actionIndexPathFor(indexPath))
         if let action = action {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReusableViewIds.Cell.rawValue, for: indexPath) as! ActionViewType
             self.onConfigureCellForAction?(cell, action, indexPath)
-            
-            if useAlertStyle {
+
+            if useAlertStyle || isIpad {
                 let lastSection = self.collectionView.numberOfSections-1
                 if indexPath.section == lastSection && indexPath.row == self.collectionView.numberOfItems(inSection: lastSection)-1 {
                     cell.round(corners: [.bottomLeft, .bottomRight], radius: 10)
@@ -489,7 +507,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         if let action = action, action.executeImmediatelyOnTouch {
             action.handler?(action)
         }
-        
+
         self.dismiss() {
             if let action = action, !action.executeImmediatelyOnTouch {
                 action.handler?(action)
@@ -507,7 +525,11 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
 
         let referenceWidth = collectionView.bounds.size.width
         var margins: CGFloat
-        if useAlertStyle {
+
+        if isIpad, !useAlertStyle, !settings.behavior.useDynamics {
+            return CGSize(width: 600, height: cellSpec.height(actionData))
+            
+        } else if useAlertStyle {
             let lateralInsets: CGFloat = 50
             margins = 2 * settings.collectionView.lateralMargin + lateralInsets
         } else {
@@ -519,9 +541,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         if section == 0 {
             if let headerData = headerData, let headerSpec = headerSpec {
-                
-                    return CGSize(width: collectionView.bounds.size.width, height: headerSpec.height(headerData))
-                
+                return CGSize(width: collectionView.bounds.size.width, height: headerSpec.height(headerData))
             } else if let sectionHeaderSpec = sectionHeaderSpec, let section = sectionForIndex(actionSectionIndexFor(section)), let sectionData = section.data {
                 return CGSize(width: collectionView.bounds.size.width, height: sectionHeaderSpec.height(sectionData))
             }
@@ -581,7 +601,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     open func presentView(_ presentedView: UIView, presentingView: UIView, animationDuration: Double, completion: ((_ completed: Bool) -> Void)?) {
         onWillPresentView()
         let animationSettings = settings.animation.present
-        
+
         UIView.animate(withDuration: animationDuration,
             delay: animationSettings.delay,
             usingSpringWithDamping: animationSettings.damping,
@@ -602,7 +622,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     open func dismissView(_ presentedView: UIView, presentingView: UIView, animationDuration: Double, completion: ((_ completed: Bool) -> Void)?) {
         onWillDismissView()
         let animationSettings = settings.animation.dismiss
-        
+
         UIView.animate(withDuration: animationDuration,
             delay: animationSettings.delay,
             usingSpringWithDamping: animationSettings.damping,
@@ -715,13 +735,55 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         var topInset = height - contentHeight
         topInset = max(topInset, max(30, height - contentHeight))
         var bottomInset = currentInset.bottom
+
+        if isIpad, !useAlertStyle, !settings.behavior.useDynamics {
+            let heightTriangle = 20
+            topInset = button.frame.origin.y + button.frame.height + CGFloat(heightTriangle)
+            
+//            bottomInset = (view.frame.height - contentHeight) / 2
+//            lateralInsets = view.frame.width - button.frame.origin.x - 10
+//            lateralInsets = view.frame.width - lateralInsets
+//            let widthCollection = 600
+//            let leftInset = CGFloat(widthCollection) - lateralInsets
+//            collectionView.contentInset = UIEdgeInsets(top: topInset , left: 359, bottom: bottomInset, right: 300)
+        //}
+            bottomInset = view.frame.height - contentHeight - topInset
+            
+            rightInset = view.frame.width - button.frame.origin.x - 10
+            if rightInset < 0 {
+                rightInset = 10
+            }
+            let widthCollection = 600
+            let leftInset = view.frame.width - CGFloat(widthCollection) - rightInset
+            collectionView.contentInset = UIEdgeInsets(top: topInset , left: leftInset, bottom: bottomInset, right: rightInset)
         
-        if useAlertStyle {
+        }
+        else if useAlertStyle {
             bottomInset = (view.frame.height - contentHeight) / 2
-            let lateralInsets: CGFloat = 25
             collectionView.contentInset = UIEdgeInsets(top: topInset , left: lateralInsets, bottom: bottomInset, right: lateralInsets)
         } else {
             collectionView.contentInset = UIEdgeInsets(top: topInset, left: currentInset.left, bottom: bottomInset, right: currentInset.right)
+        }
+    }
+    
+    open func actionButton(actionButton: UIButton) {
+        button = actionButton
+    }
+    
+    open func addTriangle() {
+        // Position button anchor
+        if button != UIButton() {
+            let x = button.frame.origin.x
+            let width = button.frame.width
+            let middleWidthButton = x - width/2
+            
+            // Position in collectionView
+            let widthTriangle = 30
+            let hightTriangle = 20
+            
+            triangleView = TriangleView(frame: CGRect(x: Int(middleWidthButton), y: Int(-20), width: widthTriangle , height: hightTriangle))
+            triangleView?.backgroundColor = .clear
+            collectionView.addSubview(triangleView!)
         }
     }
 
@@ -766,27 +828,26 @@ open class DynamicsActionController<ActionViewType: UICollectionViewCell, Action
         contentHeight = CGFloat(numberOfActions()) * settings.collectionView.cellHeightWhenDynamicsIsUsed + (CGFloat(_sections.count) * (collectionViewLayout.sectionInset.top + collectionViewLayout.sectionInset.bottom))
         contentHeight += collectionView.contentInset.bottom
         contentHeight += cancelSpec != nil ? settings.collectionView.cellHeightWhenDynamicsIsUsed : CGFloat(0)
-
+    
         setUpContentInsetForHeight(view.frame.height)
-
         view.setNeedsLayout()
         view.layoutIfNeeded()
     }
 
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
         for (index, section) in _sections.enumerated() {
             var rowIndex = -1
             var indexPaths = section.actions.map({ _ -> IndexPath in
                 rowIndex += 1
                 return IndexPath(row: rowIndex, section: index)
             })
-            
+
             if index == _sections.count - 1 {
                 indexPaths.append(IndexPath(item: rowIndex + 1, section: index))
             }
-            
+
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.3 * Double(index) * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: {
                 self._dynamicSectionIndex = index
                 self.collectionView.performBatchUpdates({
@@ -813,7 +874,7 @@ open class DynamicsActionController<ActionViewType: UICollectionViewCell, Action
         } else if let cancelSpec = cancelSpec {
             return CGSize(width: width, height: cancelSpec.height())
         }
-        
+
         return CGSize.zero
     }
 
@@ -868,5 +929,30 @@ extension UIView {
         let mask = CAShapeLayer()
         mask.path = path.cgPath
         self.layer.mask = mask
+    }
+}
+
+class TriangleView : UIView {
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    override func draw(_ rect: CGRect) {
+        
+        guard let context = UIGraphicsGetCurrentContext() else { return }
+        
+        context.beginPath()
+        context.move(to: CGPoint(x: rect.minX, y: rect.maxY))
+        context.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
+        context.addLine(to: CGPoint(x: (rect.maxX / 2.0), y: rect.minY))
+        context.closePath()
+
+        context.setFillColor(red: 0, green: 255, blue: 155, alpha: 0.95)
+        context.fillPath()
     }
 }

@@ -36,6 +36,8 @@ class YoutubeDispatchExampleViewController: UIViewController {
         _ = navigationController?.popViewController(animated: true)
     }
 
+    @IBOutlet weak var seeActionsButton: UIButton!
+    
     @IBAction func tapGestureDidRecognize(_ sender: UITapGestureRecognizer) {
         let actionController = AlertYoutubeActionController()
         actionController.headerData = "Actions"
@@ -45,6 +47,7 @@ class YoutubeDispatchExampleViewController: UIViewController {
         }))
         actionController.addAction(Action(ActionData(title: "Add to Favs...", image: UIImage(named: "yt-plus-icon")!), style: .default, handler: { action in
         }))
+        actionController.actionButton(actionButton: seeActionsButton)
         present(actionController, animated: true, completion: nil)
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
