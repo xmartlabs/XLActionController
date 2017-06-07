@@ -130,6 +130,15 @@ open class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
         
         return top
     }
+
+    private func isRTL(for view: UIView) -> Bool {
+        if #available(iOS 9.0, *) {
+            return UIView.userInterfaceLayoutDirection(for: view.semanticContentAttribute) == .rightToLeft
+        } else {
+            return UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft
+        }
+    }
+
     @discardableResult
     func setupAttributesForIndexPath(_ indexPath: IndexPath?) -> UICollectionViewLayoutAttributes? {
         guard let indexPath = indexPath, let animator = dynamicAnimator, let collectionView = collectionView else {
@@ -148,15 +157,23 @@ open class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
         var initialFrame = CGRect(x: 0, y: originY + frame.origin.y, width: collectionItemSize.width, height: collectionItemSize.height)
 
         // Calculate x position depending on alignment value
-        var translationX: CGFloat
+
         let collectionViewContentWidth = collectionView.bounds.size.width - collectionView.contentInset.left - collectionView.contentInset.right
+        let rightMargin = (collectionViewContentWidth - frame.size.width)
+        let leftMargin = CGFloat(0.0)
+
+        var translationX: CGFloat
         switch itemsAligment {
         case .center:
             translationX = (collectionViewContentWidth - frame.size.width) * 0.5
         case .fill, .left:
-            translationX = 0.0
+            translationX = leftMargin
         case .right:
-            translationX = (collectionViewContentWidth - frame.size.width)
+            translationX = rightMargin
+        case .leading:
+            translationX = isRTL(for: collectionView) ? rightMargin : leftMargin
+        case .trailing:
+            translationX = isRTL(for: collectionView) ? leftMargin : rightMargin
         }
 
         frame.origin.x = translationX
