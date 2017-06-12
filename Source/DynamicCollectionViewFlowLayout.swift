@@ -157,6 +157,8 @@ open class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
             translationX = 0.0
         case .right:
             translationX = (collectionViewContentWidth - frame.size.width)
+        default:
+            translationX = 0.0
         }
 
         frame.origin.x = translationX
