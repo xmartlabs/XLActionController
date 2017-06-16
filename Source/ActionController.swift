@@ -138,7 +138,8 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     open var leftInset: CGFloat = 25
     open var rightInset: CGFloat = 25
     open var button: UIButton? = nil
-    open var triangleView: UIView?
+    open var popoverView: UIView?
+    open var widthCollection: CGFloat = 400
     
     lazy open var backgroundView: UIView = {
         let backgroundView = UIView()
@@ -370,7 +371,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         super.viewWillAppear(animated)
         backgroundView.frame = view.bounds
         
-        if isIpad, !useAlertStyle, !settings.behavior.useDynamics, button != nil {
+        if isIpad, !settings.behavior.useDynamics, button != nil {
            addTriangle()
         }
     }
@@ -397,7 +398,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
             let hightTriangle = 20
             let middleSuperView = (view.bounds.width - lateralInsets * 2) / 2
             let middle = middleSuperView - CGFloat(widthTriangle/2)
-            triangleView = TriangleView(frame: CGRect(x: Int(middle), y: -20, width: widthTriangle , height: hightTriangle))
+            popoverView = TriangleView(frame: CGRect(x: Int(middle), y: -20, width: widthTriangle , height: hightTriangle))
         }
     }
 
@@ -461,7 +462,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReusableViewIds.Cell.rawValue, for: indexPath) as! ActionViewType
             self.onConfigureCellForAction?(cell, action, indexPath)
 
-            if useAlertStyle || isIpad {
+            if useAlertStyle {
                 let lastSection = self.collectionView.numberOfSections-1
                 if indexPath.section == lastSection && indexPath.row == self.collectionView.numberOfItems(inSection: lastSection)-1 {
                     cell.round(corners: [.bottomLeft, .bottomRight], radius: 10)
@@ -738,23 +739,19 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
 
         if isIpad, !settings.behavior.useDynamics, button != nil {
             let heightTriangle = 20
-            topInset = (button?.frame.origin.y)! + (button?.frame.height)! + CGFloat(heightTriangle)
             
-//            bottomInset = (view.frame.height - contentHeight) / 2
-//            lateralInsets = view.frame.width - button.frame.origin.x - 10
-//            lateralInsets = view.frame.width - lateralInsets
-//            let widthCollection = 400
-//            let leftInset = CGFloat(widthCollection) - lateralInsets
-//            collectionView.contentInset = UIEdgeInsets(top: topInset , left: 359, bottom: bottomInset, right: 300)
-        //}
-            bottomInset = view.frame.height - contentHeight - topInset
-            
-            rightInset = view.frame.width - (button?.frame.origin.x)! - 10
-            if rightInset < 0 {
-                rightInset = 10
+            if let button = self.button {
+                topInset = button.frame.origin.y + button.frame.height + CGFloat(heightTriangle)
+                bottomInset = view.frame.height - contentHeight - topInset
+                leftInset = button.frame.origin.x
+                rightInset = view.frame.width - CGFloat(widthCollection) - leftInset
+                
+                if button.frame.origin.x > 400 {
+                    rightInset = view.frame.width - button.frame.origin.x - button.frame.width
+                    leftInset = view.frame.width - CGFloat(widthCollection) - rightInset
+                }
             }
-            let widthCollection = 400
-            let leftInset = view.frame.width - CGFloat(widthCollection) - rightInset
+            
             collectionView.contentInset = UIEdgeInsets(top: topInset , left: leftInset, bottom: bottomInset, right: rightInset)
         
         } else if useAlertStyle {
@@ -771,18 +768,18 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     
     open func addTriangle() {
         // Position button anchor
-        if button != UIButton() {
-            let x = button?.frame.origin.x
-            let width = button?.frame.width
-            let middleWidthButton = x! - width!/2
-            
-            // Position in collectionView
+        if let button = button, button != UIButton() {
+            let inset: CGFloat = 40
             let widthTriangle = 30
             let hightTriangle = 20
+            var xPosition: CGFloat = 10
             
-            triangleView = TriangleView(frame: CGRect(x: Int(middleWidthButton), y: Int(-20), width: widthTriangle , height: hightTriangle))
-            triangleView?.backgroundColor = .red
-            collectionView.addSubview(triangleView!)
+            if button.frame.origin.x > 400 {
+                xPosition = widthCollection - inset
+            }
+            popoverView = TriangleView(frame: CGRect(x: Int(xPosition), y: Int(-hightTriangle), width: widthTriangle , height: hightTriangle))
+            popoverView?.backgroundColor = .clear
+            collectionView.addSubview(popoverView!)
         }
     }
 
@@ -951,7 +948,7 @@ class TriangleView : UIView {
         context.addLine(to: CGPoint(x: (rect.maxX / 2.0), y: rect.minY))
         context.closePath()
 
-        context.setFillColor(red: 0, green: 255, blue: 155, alpha: 0.95)
+        context.setFillColor(red: 255, green: 255, blue: 255, alpha: 0.95)
         context.fillPath()
     }
 }

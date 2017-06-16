@@ -41,9 +41,7 @@ class YoutubeDispatchExampleViewController: UIViewController {
     @IBAction func tapGestureDidRecognize(_ sender: UITapGestureRecognizer) {
         let actionController = AlertYoutubeActionController()
         
-        if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad {
-            actionController.headerData = "Actions"
-        }
+        actionController.headerData = "Actions"
         
         actionController.addAction(Action(ActionData(title: "Add to Watch Later", image: UIImage(named: "yt-add-to-watch-later-icon")!), style: .default, handler: { action in
         }))
