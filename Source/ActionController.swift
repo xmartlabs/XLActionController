@@ -137,7 +137,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     open var lateralInsets: CGFloat = 25
     open var leftInset: CGFloat = 25
     open var rightInset: CGFloat = 25
-    open var button: UIButton = UIButton()
+    open var button: UIButton? = nil
     open var triangleView: UIView?
     
     lazy open var backgroundView: UIView = {
@@ -370,7 +370,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         super.viewWillAppear(animated)
         backgroundView.frame = view.bounds
         
-        if isIpad, !useAlertStyle, !settings.behavior.useDynamics {
+        if isIpad, !useAlertStyle, !settings.behavior.useDynamics, button != nil {
            addTriangle()
         }
     }
@@ -526,8 +526,8 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         let referenceWidth = collectionView.bounds.size.width
         var margins: CGFloat
 
-        if isIpad, !useAlertStyle, !settings.behavior.useDynamics {
-            return CGSize(width: 600, height: cellSpec.height(actionData))
+        if isIpad, !settings.behavior.useDynamics, button != nil {
+            return CGSize(width: 400, height: cellSpec.height(actionData))
             
         } else if useAlertStyle {
             let lateralInsets: CGFloat = 50
@@ -736,29 +736,28 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         topInset = max(topInset, max(30, height - contentHeight))
         var bottomInset = currentInset.bottom
 
-        if isIpad, !useAlertStyle, !settings.behavior.useDynamics {
+        if isIpad, !settings.behavior.useDynamics, button != nil {
             let heightTriangle = 20
-            topInset = button.frame.origin.y + button.frame.height + CGFloat(heightTriangle)
+            topInset = (button?.frame.origin.y)! + (button?.frame.height)! + CGFloat(heightTriangle)
             
 //            bottomInset = (view.frame.height - contentHeight) / 2
 //            lateralInsets = view.frame.width - button.frame.origin.x - 10
 //            lateralInsets = view.frame.width - lateralInsets
-//            let widthCollection = 600
+//            let widthCollection = 400
 //            let leftInset = CGFloat(widthCollection) - lateralInsets
 //            collectionView.contentInset = UIEdgeInsets(top: topInset , left: 359, bottom: bottomInset, right: 300)
         //}
             bottomInset = view.frame.height - contentHeight - topInset
             
-            rightInset = view.frame.width - button.frame.origin.x - 10
+            rightInset = view.frame.width - (button?.frame.origin.x)! - 10
             if rightInset < 0 {
                 rightInset = 10
             }
-            let widthCollection = 600
+            let widthCollection = 400
             let leftInset = view.frame.width - CGFloat(widthCollection) - rightInset
             collectionView.contentInset = UIEdgeInsets(top: topInset , left: leftInset, bottom: bottomInset, right: rightInset)
         
-        }
-        else if useAlertStyle {
+        } else if useAlertStyle {
             bottomInset = (view.frame.height - contentHeight) / 2
             collectionView.contentInset = UIEdgeInsets(top: topInset , left: lateralInsets, bottom: bottomInset, right: lateralInsets)
         } else {
@@ -773,16 +772,16 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     open func addTriangle() {
         // Position button anchor
         if button != UIButton() {
-            let x = button.frame.origin.x
-            let width = button.frame.width
-            let middleWidthButton = x - width/2
+            let x = button?.frame.origin.x
+            let width = button?.frame.width
+            let middleWidthButton = x! - width!/2
             
             // Position in collectionView
             let widthTriangle = 30
             let hightTriangle = 20
             
             triangleView = TriangleView(frame: CGRect(x: Int(middleWidthButton), y: Int(-20), width: widthTriangle , height: hightTriangle))
-            triangleView?.backgroundColor = .clear
+            triangleView?.backgroundColor = .red
             collectionView.addSubview(triangleView!)
         }
     }

@@ -86,7 +86,6 @@ open class YoutubeActionController: ActionController<YoutubeCell, ActionData, UI
         
         collectionViewLayout.minimumLineSpacing = -0.5
         
-        settings.behavior.alertStyle = true
         settings.behavior.hideOnScrollDown = false
         settings.animation.scale = nil
         settings.animation.present.duration = 0.6

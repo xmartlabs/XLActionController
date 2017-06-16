@@ -93,7 +93,6 @@ public class PeriscopeActionController: ActionController<PeriscopeCell, String, 
         collectionViewLayout.minimumLineSpacing = -0.5
         collectionViewLayout.sectionInset = UIEdgeInsets(top: -0.5, left: 0, bottom: 0, right: 0)
         
-        settings.behavior.alertStyle = true
         settings.behavior.hideOnScrollDown = false
         settings.animation.scale = nil
         settings.animation.present.duration = 0.6

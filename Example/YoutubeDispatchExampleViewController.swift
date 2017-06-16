@@ -40,13 +40,18 @@ class YoutubeDispatchExampleViewController: UIViewController {
     
     @IBAction func tapGestureDidRecognize(_ sender: UITapGestureRecognizer) {
         let actionController = AlertYoutubeActionController()
-        actionController.headerData = "Actions"
+        
+        if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad {
+            actionController.headerData = "Actions"
+        }
+        
         actionController.addAction(Action(ActionData(title: "Add to Watch Later", image: UIImage(named: "yt-add-to-watch-later-icon")!), style: .default, handler: { action in
         }))
         actionController.addAction(Action(ActionData(title: "Add to Playlist...", image: UIImage(named: "yt-add-to-playlist-icon")!), style: .default, handler: { action in
         }))
         actionController.addAction(Action(ActionData(title: "Add to Favs...", image: UIImage(named: "yt-plus-icon")!), style: .default, handler: { action in
         }))
+        
         actionController.actionButton(actionButton: seeActionsButton)
         present(actionController, animated: true, completion: nil)
 
