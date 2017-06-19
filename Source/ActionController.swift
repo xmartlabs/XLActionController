@@ -262,8 +262,13 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
             let layoutAtts = collectionViewLayout.layoutAttributesForItem(at: IndexPath(item: section.actions.count - 1, section: hasHeader() ? lastSectionIndex + 1 : lastSectionIndex))
             contentHeight = layoutAtts!.frame.origin.y + layoutAtts!.frame.size.height
 
-            if settings.cancelView.showCancel && !settings.cancelView.hideCollectionViewBehindCancelView {
-                contentHeight += settings.cancelView.height
+//            if settings.cancelView.showCancel && !settings.cancelView.hideCollectionViewBehindCancelView {
+//                contentHeight += settings.cancelView.height
+//            }
+            if settings.cancelView.hasCancelView && !settings.cancelView.displayInFooter {
+                if let cancel = cancelView {
+                    contentHeight += cancel.frame.height
+                }
             }
         }
 
@@ -278,9 +283,10 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         if settings.cancelView.showCancel {
             if cancelView == nil {
                 cancelView = {
-                    let cancel = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.size.width, height: settings.cancelView.height))
-                    cancel.autoresizingMask = [.flexibleWidth, .flexibleTopMargin]
-                    cancel.backgroundColor = settings.cancelView.backgroundColor
+                    let cancel = cancelView
+                    //let cancel = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.size.width, height: settings.cancelView.height))
+//                    cancel.autoresizingMask = [.flexibleWidth, .flexibleTopMargin]
+//                    cancel.backgroundColor = settings.cancelView.backgroundColor
                     let cancelButton: UIButton = {
                         let cancelButton = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: settings.cancelView.height))
                         cancelButton.addTarget(self, action: #selector(ActionController.cancelButtonDidTouch(_:)), for: .touchUpInside)
@@ -288,9 +294,9 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
                         cancelButton.translatesAutoresizingMaskIntoConstraints = false
                         return cancelButton
                     }()
-                    cancel.addSubview(cancelButton)
-                    cancel.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[button]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["button": cancelButton]))
-                    cancel.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[button]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["button": cancelButton]))
+                    cancel?.addSubview(cancelButton)
+                    cancel?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[button]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["button": cancelButton]))
+                    cancel?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[button]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["button": cancelButton]))
                     return cancel
                 }()
             }
