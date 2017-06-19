@@ -187,18 +187,17 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     open func addAction(_ action: Action<ActionDataType>) {
         if let section = _sections.last {
             section.actions.append(action)
-            collectionView.reloadData()
-            
         } else {
             let section = Section<ActionDataType, SectionHeaderDataType>()
             addSection(section)
             section.actions.append(action)
-            if self.presentingViewController != nil {
-                collectionView.reloadData()
-                self.calculateContentInset()
-            }
+        }
+        if self.presentingViewController != nil {
+            collectionView.reloadData()
+            self.calculateContentInset()
         }
     }
+    
     @discardableResult
     open func addSection(_ section: Section<ActionDataType, SectionHeaderDataType>) -> Section<ActionDataType, SectionHeaderDataType> {
         _sections.append(section)
@@ -323,23 +322,19 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
 
     open func calculateContentInset() {
         // calculate content Inset
-        if collectionViewLayout.dynamicAnimator != nil {
-            
+        if settings.behavior.useDynamics {
             collectionViewLayout.shouldInvalidateLayout(forBoundsChange: CGRect(x: 0, y: 0, width: 0, height: 0))
             
             contentHeight = CGFloat(numberOfActions()) * settings.collectionView.cellHeightWhenDynamicsIsUsed + (CGFloat(_sections.count) * (collectionViewLayout.sectionInset.top + collectionViewLayout.sectionInset.bottom))
             contentHeight += collectionView.contentInset.bottom
             
             setUpContentInsetForHeight(view.frame.height)
-            
             view.setNeedsLayout()
             view.layoutIfNeeded()
-
-            
         } else {
             collectionView.layoutSubviews()
             
-            if let section = _sections.last, !settings.behavior.useDynamics {
+            if let section = _sections.last {
                 let lastSectionIndex = _sections.count - 1
                 let layoutAtts = collectionViewLayout.layoutAttributesForItem(at: IndexPath(item: section.actions.count - 1, section: hasHeader() ? lastSectionIndex + 1 : lastSectionIndex))
                 contentHeight = layoutAtts!.frame.origin.y + layoutAtts!.frame.size.height
