@@ -16,6 +16,8 @@
 		28B3B8471BFA668F007337A2 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B3B83C1BFA668F007337A2 /* Action.swift */; };
 		28B3B84C1BFA6E39007337A2 /* XLActionController.h in Headers */ = {isa = PBXBuildFile; fileRef = 28B3B84B1BFA6E39007337A2 /* XLActionController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		28E191721BFA618F00066B1C /* XLActionController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28E191671BFA618E00066B1C /* XLActionController.framework */; };
+		9A588CDE1EF9CC4D003F6AC0 /* CancelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A588CDD1EF9CC4D003F6AC0 /* CancelCell.xib */; };
+		9A588CE01EF9D0B7003F6AC0 /* CancelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A588CDF1EF9D0B7003F6AC0 /* CancelCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +43,8 @@
 		28E1916C1BFA618F00066B1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = Source/Info.plist; sourceTree = "<group>"; };
 		28E191711BFA618F00066B1C /* XLActionControllerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XLActionControllerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		28E191781BFA618F00066B1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = Tests/Info.plist; sourceTree = "<group>"; };
+		9A588CDD1EF9CC4D003F6AC0 /* CancelCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CancelCell.xib; path = Example/CustomActionControllers/CancelCell.xib; sourceTree = SOURCE_ROOT; };
+		9A588CDF1EF9D0B7003F6AC0 /* CancelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CancelCell.swift; path = Example/CustomActionControllers/CancelCell.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +90,8 @@
 				28B3B84B1BFA6E39007337A2 /* XLActionController.h */,
 				28B3B8361BFA668F007337A2 /* ActionCell.swift */,
 				28B3B8371BFA668F007337A2 /* ActionCell.xib */,
+				9A588CDF1EF9D0B7003F6AC0 /* CancelCell.swift */,
+				9A588CDD1EF9CC4D003F6AC0 /* CancelCell.xib */,
 				28B3B8381BFA668F007337A2 /* ActionController.swift */,
 				28B3B8391BFA668F007337A2 /* ActionControllerSettings.swift */,
 				28B3B83A1BFA668F007337A2 /* DynamicCollectionViewFlowLayout.swift */,
@@ -200,6 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				28B3B8421BFA668F007337A2 /* ActionCell.xib in Resources */,
+				9A588CDE1EF9CC4D003F6AC0 /* CancelCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,6 +225,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				28B3B8471BFA668F007337A2 /* Action.swift in Sources */,
+				9A588CE01EF9D0B7003F6AC0 /* CancelCell.swift in Sources */,
 				28B3B8451BFA668F007337A2 /* DynamicCollectionViewFlowLayout.swift in Sources */,
 				28B3B8411BFA668F007337A2 /* ActionCell.swift in Sources */,
 				28B3B8441BFA668F007337A2 /* ActionControllerSettings.swift in Sources */,

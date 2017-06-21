@@ -149,11 +149,6 @@ open class SpotifyActionController: ActionController<SpotifyCell, ActionData, Sp
         super.viewDidLoad()
         backgroundView.addSubview(blurView)
         
-        cancelView?.frame.origin.y = view.bounds.size.height // Starts hidden below screen
-        cancelView?.layer.shadowColor = UIColor.black.cgColor
-      cancelView?.layer.shadowOffset = CGSize( width: 0, height: -4)
-        cancelView?.layer.shadowRadius = 2
-        cancelView?.layer.shadowOpacity = 0.8
     }
     
     open override func viewWillAppear(_ animated: Bool) {
@@ -165,9 +160,17 @@ open class SpotifyActionController: ActionController<SpotifyCell, ActionData, Sp
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         settings.behavior.bounces = true
         settings.behavior.scrollEnabled = true
-        settings.cancelView.showCancel = true
         settings.animation.scale = nil
         settings.animation.present.springVelocity = 0.0
+        settings.cancelView.hasCancelView = true
+        settings.cancelView.displayInFooter = false
+        
+        cancelView = Bundle.main.loadNibNamed("CancelView", owner: self, options: nil)?.first as? UIView
+        cancelView?.backgroundColor = .black
+        cancelView?.layer.shadowColor = UIColor.black.cgColor
+        cancelView?.layer.shadowOffset = CGSize( width: 0, height: -4)
+        cancelView?.layer.shadowRadius = 2
+        cancelView?.layer.shadowOpacity = 0.8
         
         cellSpec = .nibFile(nibName: "SpotifyCell", bundle: Bundle(for: SpotifyCell.self), height: { _ in 60 })
         headerSpec = .cellClass( height: { _ in 84 })

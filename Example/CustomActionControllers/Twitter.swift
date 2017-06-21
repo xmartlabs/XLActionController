@@ -94,9 +94,12 @@ open class TwitterActionController: ActionController<TwitterCell, ActionData, Tw
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         settings.animation.present.duration = 0.6
         settings.animation.dismiss.duration = 0.6
+        settings.cancelView.hasCancelView = true
+        settings.cancelView.displayInFooter = true
+        cancelView = Bundle.main.loadNibNamed("CancelView", owner: self, options: nil)?.first as? UIView
+        
         cellSpec = CellSpec.nibFile(nibName: "TwitterCell", bundle: Bundle(for: TwitterCell.self), height: { _ in 56 })
         headerSpec = .cellClass(height: { _ -> CGFloat in return 45 })
-        
         
         onConfigureHeader = { header, title in
             header.label.text = title

@@ -86,8 +86,6 @@ open class YoutubeActionController: ActionController<YoutubeCell, ActionData, UI
         
         collectionViewLayout.minimumLineSpacing = -0.5
         
-        settings.cancelView.hasCancelView = true
-        settings.cancelView.displayInFooter = false
         settings.behavior.hideOnScrollDown = false
         settings.animation.scale = nil
         settings.animation.present.duration = 0.6
@@ -96,8 +94,6 @@ open class YoutubeActionController: ActionController<YoutubeCell, ActionData, UI
         settings.animation.dismiss.options = .curveLinear
         
         cellSpec = .nibFile(nibName: "YoutubeCell", bundle: Bundle(for: YoutubeCell.self), height: { _  in 46 })
-        
-        cancelView = Bundle.main.loadNibNamed("CancelView", owner: self, options: nil)?.first as? UIView
         
         onConfigureCellForAction = { cell, action, indexPath in
             cell.setup(action.data?.title, detail: action.data?.subtitle, image: action.data?.image)
