@@ -75,6 +75,7 @@ private enum ReusableViewIds: String {
     case Cell = "Cell"
     case Header = "Header"
     case SectionHeader = "SectionHeader"
+    case SectionFooter = "SectionFooter"
 }
 
 // MARK: - Row class
@@ -90,7 +91,7 @@ final class RawData<T> {
 
 // MARK: - ActionController class
 
-open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType, HeaderViewType: UICollectionReusableView, HeaderDataType, SectionHeaderViewType: UICollectionReusableView, SectionHeaderDataType>: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
+open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType, HeaderViewType: UICollectionReusableView, HeaderDataType, SectionHeaderViewType: UICollectionReusableView, SectionHeaderDataType>: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning, CancelCellProtocol {
  
     // MARK - Public properties
     
@@ -203,6 +204,10 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         return indexPath
     }
     
+    func didTappedCancel() {
+        self.dismiss()
+    }
+    
     open func dismiss() {
         dismiss(nil)
     }
@@ -224,7 +229,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
 
         // background view
         view.addSubview(backgroundView)
-
+        
         // register main cell
         switch cellSpec {
         case .nibFile(let nibName, let bundle, _):
@@ -253,6 +258,13 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
             }
         }
         
+        // register footer
+        if settings.cancelView.hasCancelView, settings.cancelView.displayInFooter, cancelView != nil {
+            let nib = UINib(nibName: "CancelCell", bundle: Bundle(for: CancelCell.self))
+            collectionView.register(nib, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter , withReuseIdentifier: ReusableViewIds.SectionFooter.rawValue)
+            // Subscribe to cancel cell tap
+            collectionView.delegate = self
+        }
         view.addSubview(collectionView)
         
         // calculate content Inset
@@ -262,39 +274,38 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
             let layoutAtts = collectionViewLayout.layoutAttributesForItem(at: IndexPath(item: section.actions.count - 1, section: hasHeader() ? lastSectionIndex + 1 : lastSectionIndex))
             contentHeight = layoutAtts!.frame.origin.y + layoutAtts!.frame.size.height
 
-            if settings.cancelView.showCancel && !settings.cancelView.hideCollectionViewBehindCancelView {
-                contentHeight += settings.cancelView.height
+            if settings.cancelView.hasCancelView, !settings.cancelView.displayInFooter {
+                if let cancel = cancelView, cancelView != nil {
+                    contentHeight += cancel.frame.height
+                }
             }
         }
-
         setUpContentInsetForHeight(view.frame.height)
         
         // set up collection view initial position taking into account top content inset
         collectionView.frame = view.bounds
-        collectionView.frame.origin.y += contentHeight + (settings.cancelView.showCancel ? settings.cancelView.height : 0)
+        collectionView.frame.origin.y += contentHeight
+        
+        if let cancel = cancelView, !settings.cancelView.displayInFooter {
+            collectionView.frame.origin.y += contentHeight + (settings.cancelView.hasCancelView ? cancel.frame.height : 0)
+        }
         collectionViewLayout.footerReferenceSize = CGSize(width: 320, height: 0)
         // -
         
-        if settings.cancelView.showCancel {
-            if cancelView == nil {
+        if settings.cancelView.hasCancelView, !settings.cancelView.displayInFooter {
+            if cancelView != nil {
                 cancelView = {
-                    let cancel = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.size.width, height: settings.cancelView.height))
-                    cancel.autoresizingMask = [.flexibleWidth, .flexibleTopMargin]
-                    cancel.backgroundColor = settings.cancelView.backgroundColor
                     let cancelButton: UIButton = {
-                        let cancelButton = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: settings.cancelView.height))
+                        let cancelButton = UIButton(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: (cancelView?.frame.height)!))
                         cancelButton.addTarget(self, action: #selector(ActionController.cancelButtonDidTouch(_:)), for: .touchUpInside)
-                        cancelButton.setTitle(settings.cancelView.title, for: UIControlState())
-                        cancelButton.translatesAutoresizingMaskIntoConstraints = false
                         return cancelButton
                     }()
-                    cancel.addSubview(cancelButton)
-                    cancel.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[button]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["button": cancelButton]))
-                    cancel.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[button]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["button": cancelButton]))
-                    return cancel
+                    cancelView?.addSubview(cancelButton)
+                    cancelView?.translatesAutoresizingMaskIntoConstraints = true
+                    return cancelView
                 }()
+                view.addSubview(cancelView!)
             }
-            view.addSubview(cancelView!)
         }
     }
     
@@ -354,6 +365,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     }
 
     open func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+       
         if kind == UICollectionElementKindSectionHeader {
             if (indexPath as NSIndexPath).section == 0 && hasHeader() {
                 let reusableview = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ReusableViewIds.Header.rawValue, for: indexPath) as? HeaderViewType
@@ -364,8 +376,13 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
                 onConfigureSectionHeader?(reusableview!,  sectionForIndex(actionSectionIndexFor((indexPath as NSIndexPath).section))!.data!)
                 return reusableview!
             }
+        } else if kind == UICollectionElementKindSectionFooter {
+            let footerView: CancelCell! = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ReusableViewIds.SectionFooter.rawValue, for: indexPath) as? CancelCell
+            if let cancelView = cancelView {
+                footerView.addCancel(view: cancelView)
+            }
+            return footerView
         }
-        
         fatalError()
     }
     
@@ -374,6 +391,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReusableViewIds.Cell.rawValue, for: indexPath) as? ActionViewType
         self.onConfigureCellForAction?(cell!, action!, indexPath)
         return cell!
+        
     }
     
     // MARK: - UICollectionViewDelegate & UICollectionViewDelegateFlowLayout
@@ -437,6 +455,9 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     }
     
     open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        if let cancel = cancelView, cancelView != nil, section == collectionView.numberOfSections - 1, settings.cancelView.displayInFooter {
+            return CGSize(width: cancel.frame.width, height: cancel.frame.height)
+        }
         return CGSize.zero
     }
     
@@ -747,3 +768,5 @@ open class DynamicsActionController<ActionViewType: UICollectionViewCell, Action
     }
 
 }
+
+

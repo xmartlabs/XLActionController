@@ -63,6 +63,7 @@ open class TweetbotActionController: DynamicsActionController<TweetbotCell, Stri
         settings.animation.dismiss.duration = 0.5
         settings.behavior.bounces = true
         settings.behavior.useDynamics = true
+        cancelView?.backgroundColor = UIColor(white: 0.23, alpha: 1.0)
         collectionView.contentInset = UIEdgeInsets(top: 0.0, left: 12.0, bottom: 6.0, right: 12.0)
         (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 6.0, right: 0.0)
         
@@ -73,7 +74,7 @@ open class TweetbotActionController: DynamicsActionController<TweetbotCell, Stri
             cell.setup(action.data, detail: nil, image: nil)
             let actions = self?.sectionForIndex(indexPath.section)?.actions
             let actionsCount = actions!.count
-          cell.separatorView?.isHidden = indexPath.item == (self?.collectionView.numberOfItems(inSection: indexPath.section))! - 1
+            cell.separatorView?.isHidden = indexPath.item == (self?.collectionView.numberOfItems(inSection: indexPath.section))! - 1
             cell.backgroundColor = action.style == .cancel ? UIColor(white: 0.23, alpha: 1.0) : .darkGray
             cell.alpha = action.enabled ? 1.0 : 0.5
             

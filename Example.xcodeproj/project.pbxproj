@@ -27,6 +27,8 @@
 		28B3B8801BFA8566007337A2 /* TwitterExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B3B87C1BFA8566007337A2 /* TwitterExampleViewController.swift */; };
 		28B3B8821BFA856B007337A2 /* YouTubeExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B3B8811BFA856B007337A2 /* YouTubeExampleViewController.swift */; };
 		28B3B88F1BFA8A09007337A2 /* XLActionController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28B3B8891BFA858D007337A2 /* XLActionController.framework */; };
+		9A588CCE1EF8412F003F6AC0 /* CancelView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A588CCD1EF8412F003F6AC0 /* CancelView.xib */; };
+		9A588CD71EF86A21003F6AC0 /* CancelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A588CD61EF86A21003F6AC0 /* CancelView.swift */; };
 		B297A9161C0E17AA00AF9559 /* Periscope.swift in Sources */ = {isa = PBXBuildFile; fileRef = B297A9151C0E17AA00AF9559 /* Periscope.swift */; };
 		B297A91B1C0E191600AF9559 /* Skype.swift in Sources */ = {isa = PBXBuildFile; fileRef = B297A91A1C0E191600AF9559 /* Skype.swift */; };
 		B297A9201C0E193B00AF9559 /* Spotify.swift in Sources */ = {isa = PBXBuildFile; fileRef = B297A91F1C0E193B00AF9559 /* Spotify.swift */; };
@@ -104,6 +106,8 @@
 		28B3B87C1BFA8566007337A2 /* TwitterExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterExampleViewController.swift; sourceTree = "<group>"; };
 		28B3B8811BFA856B007337A2 /* YouTubeExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YouTubeExampleViewController.swift; sourceTree = "<group>"; };
 		28B3B8831BFA858D007337A2 /* XLActionController.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = XLActionController.xcodeproj; sourceTree = "<group>"; };
+		9A588CCD1EF8412F003F6AC0 /* CancelView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CancelView.xib; sourceTree = "<group>"; };
+		9A588CD61EF86A21003F6AC0 /* CancelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelView.swift; sourceTree = "<group>"; };
 		B297A9151C0E17AA00AF9559 /* Periscope.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Periscope.swift; sourceTree = "<group>"; };
 		B297A91A1C0E191600AF9559 /* Skype.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Skype.swift; sourceTree = "<group>"; };
 		B297A91F1C0E193B00AF9559 /* Spotify.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spotify.swift; sourceTree = "<group>"; };
@@ -136,6 +140,8 @@
 			isa = PBXGroup;
 			children = (
 				28A21F1D1C0E7DEE009FC30F /* ActionData.swift */,
+				9A588CCD1EF8412F003F6AC0 /* CancelView.xib */,
+				9A588CD61EF86A21003F6AC0 /* CancelView.swift */,
 				28650D251C0DD21A008C1F27 /* PeriscopeCell.xib */,
 				B297A9151C0E17AA00AF9559 /* Periscope.swift */,
 				28650D261C0DD21A008C1F27 /* SkypeCell.xib */,
@@ -319,6 +325,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A588CCE1EF8412F003F6AC0 /* CancelView.xib in Resources */,
 				28650D2C1C0DD21A008C1F27 /* PeriscopeCell.xib in Resources */,
 				28B3B8641BFA7EEC007337A2 /* LaunchScreen.storyboard in Resources */,
 				28650D2E1C0DD21A008C1F27 /* SpotifyCell.xib in Resources */,
@@ -365,6 +372,7 @@
 				28B3B8801BFA8566007337A2 /* TwitterExampleViewController.swift in Sources */,
 				28B3B87D1BFA8566007337A2 /* PeriscopeExampleViewController.swift in Sources */,
 				28A21F1E1C0E7DEE009FC30F /* ActionData.swift in Sources */,
+				9A588CD71EF86A21003F6AC0 /* CancelView.swift in Sources */,
 				28AD9C781C03F34F0044164E /* SkypeExampleViewController.swift in Sources */,
 				28B3B85A1BFA7EEC007337A2 /* AppDelegate.swift in Sources */,
 				B297A91B1C0E191600AF9559 /* Skype.swift in Sources */,

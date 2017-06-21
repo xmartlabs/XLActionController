@@ -81,8 +81,17 @@ public struct ActionControllerSettings {
           * cancel view when it is pulled down. Its default value is `true`
           */
         public var hideCollectionViewBehindCancelView = true
+        /**
+         * A Boolean value that determines if the action controller has a custom cancel view. Its default value is `false`.
+         */
+        public var hasCancelView = false
+        /**
+         * A Boolean value that determines how the cancel view is going to be displayed, as a collectionView's footer or as a separete view.
+         * Its default value is `true`.
+         */
+        public var displayInFooter = true
     }
-
+    
     /** Struct that contains properties to configure the collection view's style */
     public struct CollectionViewStyle {
         /** 
