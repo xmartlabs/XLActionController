@@ -57,7 +57,7 @@ open class SkypeCell: UICollectionViewCell {
 
 open class SkypeActionController: ActionController<SkypeCell, String, UICollectionReusableView, Void, UICollectionReusableView, Void> {
 
-    open var backgroundColor: UIColor = UIColor(colorLiteralRed: 18/255.0, green: 165/255.0, blue: 244/255.0, alpha: 1.0)
+    open var backgroundColor: UIColor = UIColor(red: 18/255.0, green: 165/255.0, blue: 244/255.0, alpha: 1.0)
 
     fileprivate var contextView: ContextView!
     fileprivate var normalAnimationRect: UIView!

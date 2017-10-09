@@ -1,13 +1,13 @@
 Pod::Spec.new do |spec|
   spec.name     = 'XLActionController'
-  spec.version  = '3.0.1'
+  spec.version  = '4.0.0'
   spec.license  = 'MIT'
-  spec.summary  = 'Fully customizable and extensible action sheet controller written in Swift 3'
+  spec.summary  = 'Fully customizable and extensible action sheet controller written in Swift'
   spec.homepage = 'https://github.com/xmartlabs/XLActionController'
   spec.social_media_url = 'http://twitter.com/xmartlabs'
   spec.authors  = { 'Miguel Revetria' => 'miguel@xmartlabs.com', 'Martin Barreto' => 'martin@xmartlabs.com' }
   spec.source   = { :git => 'https://github.com/xmartlabs/XLActionController.git', :tag => spec.version }
-  spec.ios.deployment_target = '8.0'
+  spec.ios.deployment_target = '9.0'
   spec.ios.frameworks = 'UIKit', 'Foundation', 'CoreGraphics'
   spec.requires_arc = true
 
