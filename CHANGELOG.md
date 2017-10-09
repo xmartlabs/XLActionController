@@ -2,8 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
-### master branch
+### [4.0.0](https://github.com/xmartlabs/XLActionController/releases/tag/4.0.0)
 
+* Support for Swift 4.
 * Added customizable background color to the Skype action controller, [PR #52](https://github.com/xmartlabs/XLActionController/pull/52) 
 * Using status bar style from settings in iOS 10, [PR #53](https://github.com/xmartlabs/XLActionController/pull/53) 
 
