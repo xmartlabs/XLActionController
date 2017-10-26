@@ -662,8 +662,12 @@ open class DynamicsActionController<ActionViewType: UICollectionViewCell, Action
         super.viewDidLoad()
         
         collectionView.frame = view.bounds
-
-        contentHeight = CGFloat(numberOfActions()) * settings.collectionView.cellHeightWhenDynamicsIsUsed + (CGFloat(_sections.count) * (collectionViewLayout.sectionInset.top + collectionViewLayout.sectionInset.bottom))
+        
+        contentHeight = CGFloat(numberOfActions()) * settings.collectionView.cellHeightWhenDynamicsIsUsed
+        for index in 0..<_sections.count {
+            let sectionInset = collectionView(collectionView, layout: collectionViewLayout, insetForSectionAt: index)
+            contentHeight += sectionInset.top + sectionInset.bottom
+        }
         contentHeight += collectionView.contentInset.bottom
         
         setUpContentInsetForHeight(view.frame.height)
