@@ -3,9 +3,9 @@
 <p align="left">
 <a href="https://travis-ci.org/xmartlabs/XLActionController"><img src="https://travis-ci.org/xmartlabs/XLActionController.svg?branch=master" alt="Build status" /></a>
 <img src="https://img.shields.io/badge/platform-iOS-blue.svg?style=flat" alt="Platform iOS" />
-<a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/swift3-compatible-4BC51D.svg?style=flat" alt="Swift 3 compatible" /></a>
+<a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/swift4-compatible-4BC51D.svg?style=flat" alt="Swift 4 compatible" /></a>
 <a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible" /></a>
-<a href="https://cocoapods.org/pods/XLActionController"><img src="https://img.shields.io/badge/pod-3.0.1-blue.svg" alt="CocoaPods compatible" /></a>
+<a href="https://cocoapods.org/pods/XLActionController"><img src="https://img.shields.io/cocoapods/v/XLActionController.svg" alt="CocoaPods compatible" /></a>
 <a href="https://raw.githubusercontent.com/xmartlabs/XLActionController/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License: MIT" /></a>
 <a href="https://codebeat.co/projects/github-com-xmartlabs-xlactioncontroller"><img alt="codebeat badge" src="https://codebeat.co/badges/24f48197-136d-44cc-b072-6703644d13b6" /></a>
 </p>
@@ -300,6 +300,8 @@ settings.animation.dismiss.options: UIViewAnimationOptions
 settings.statusBar.showStatusBar: Bool
 // Determines the style of the device’s status bar when the action controller is visible. `UIStatusBarStyle.LightContent` by default.
 settings.statusBar.style: UIStatusBarStyle
+// Determines whether the action controller takes over control of status bar appearance from the presenting view controller. `true` by default.
+settings.statusBar.modalPresentationCapturesStatusBarAppearance: Bool
 ```
 
 #### Cancel view style
@@ -385,9 +387,9 @@ After the dismissal animation completes, `dismissView` calls `onDidDismissView` 
 
 ## Requirements
 
-* iOS 8.0+
-* Xcode 8.0+
-* Swift 3
+* iOS 9.0+
+* Xcode 9.0+
+* Swift 4
 
 ## Getting involved
 
@@ -409,7 +411,7 @@ Specify XLActionController into your project's Podfile:
 
 ```ruby
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '8.0'
+platform :ios, '9.0'
 use_frameworks!
 
 target '<Your App Target>' do
@@ -440,7 +442,7 @@ dependency manager for Cocoa.
 Specify XLActionController into your project's Carthage:
 
 ```
-github "xmartlabs/XLActionController" ~> 3.0
+github "xmartlabs/XLActionController" ~> 4.0
 ```
 
 ### Manually as Embedded Framework

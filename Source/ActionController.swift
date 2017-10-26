@@ -220,6 +220,8 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     open override func viewDidLoad() {
         super.viewDidLoad()
 
+        modalPresentationCapturesStatusBarAppearance = settings.statusBar.modalPresentationCapturesStatusBarAppearance
+
         // background view
         view.addSubview(backgroundView)
 
@@ -562,15 +564,15 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     
     // MARK: - Event handlers
     
-    func cancelButtonDidTouch(_ sender: UIButton) {
+    @objc func cancelButtonDidTouch(_ sender: UIButton) {
         self.dismiss()
     }
     
-    func tapGestureDidRecognize(_ gesture: UITapGestureRecognizer) {
+    @objc func tapGestureDidRecognize(_ gesture: UITapGestureRecognizer) {
         self.dismiss()
     }
     
-    func swipeGestureDidRecognize(_ gesture: UISwipeGestureRecognizer) {
+    @objc func swipeGestureDidRecognize(_ gesture: UISwipeGestureRecognizer) {
         self.dismiss()
     }
     

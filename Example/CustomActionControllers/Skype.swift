@@ -56,7 +56,9 @@ open class SkypeCell: UICollectionViewCell {
 
 
 open class SkypeActionController: ActionController<SkypeCell, String, UICollectionReusableView, Void, UICollectionReusableView, Void> {
-    
+
+    open var backgroundColor: UIColor = UIColor(red: 18/255.0, green: 165/255.0, blue: 244/255.0, alpha: 1.0)
+
     fileprivate var contextView: ContextView!
     fileprivate var normalAnimationRect: UIView!
     fileprivate var springAnimationRect: UIView!
@@ -88,11 +90,12 @@ open class SkypeActionController: ActionController<SkypeCell, String, UICollecti
     open override func viewDidLoad() {
         super.viewDidLoad()
         contextView = ContextView(frame: CGRect(x: 0, y: -topSpace, width: collectionView.bounds.width, height: contentHeight + topSpace + 20))
+        contextView.animatedBackgroundColor = backgroundColor;
         contextView.autoresizingMask = [.flexibleWidth, .flexibleBottomMargin]
+
         collectionView.clipsToBounds = false
         collectionView.addSubview(contextView)
         collectionView.sendSubview(toBack: contextView)
-        
         
         normalAnimationRect = UIView(frame: CGRect(x: 0, y: view.bounds.height/2, width: 30, height: 30))
         normalAnimationRect.isHidden = true
@@ -235,7 +238,8 @@ open class SkypeActionController: ActionController<SkypeCell, String, UICollecti
     fileprivate class ContextView: UIView {
         let topSpace = CGFloat(25)
         var diff = CGFloat(0)
-        
+        var animatedBackgroundColor: UIColor!
+
         override init(frame: CGRect) {
             super.init(frame: frame)
             backgroundColor = .clear
@@ -258,7 +262,7 @@ open class SkypeActionController: ActionController<SkypeCell, String, UICollecti
               return
             }
             context.addPath(path.cgPath)
-            UIColor(colorLiteralRed: 18/255.0, green: 165/255.0, blue: 244/255.0, alpha: 1.0).set()
+            animatedBackgroundColor.set()
             context.fillPath()
         }
     }
