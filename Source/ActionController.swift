@@ -321,6 +321,13 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         }, completion: nil)
     }
 
+    @available(iOS 11.0, *)
+    open override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+
+        setUpContentInsetForHeight(view.frame.height)
+    }
+    
     override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collectionView.collectionViewLayout.invalidateLayout()
@@ -616,7 +623,10 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         }
         
         topInset = max(topInset, max(30, height - contentHeight))
-        
+        if #available(iOS 11.0, *) {
+            topInset -= self.view.safeAreaInsets.bottom
+        }
+
         collectionView.contentInset = UIEdgeInsets(top: topInset, left: currentInset.left, bottom: bottomInset, right: currentInset.right)
     }
 
