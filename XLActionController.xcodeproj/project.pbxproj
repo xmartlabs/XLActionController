@@ -31,7 +31,7 @@
 /* Begin PBXFileReference section */
 		28473B851C109E3F00A8105F /* XLActionControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XLActionControllerTests.swift; path = Tests/XLActionControllerTests.swift; sourceTree = SOURCE_ROOT; };
 		28B3B8361BFA668F007337A2 /* ActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActionCell.swift; path = Source/ActionCell.swift; sourceTree = SOURCE_ROOT; };
-		28B3B8371BFA668F007337A2 /* ActionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActionCell.xib; path = Source/ActionCell.xib; sourceTree = SOURCE_ROOT; };
+		28B3B8371BFA668F007337A2 /* ActionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActionCell.xib; path = Resource/ActionCell.xib; sourceTree = SOURCE_ROOT; };
 		28B3B8381BFA668F007337A2 /* ActionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActionController.swift; path = Source/ActionController.swift; sourceTree = SOURCE_ROOT; };
 		28B3B8391BFA668F007337A2 /* ActionControllerSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActionControllerSettings.swift; path = Source/ActionControllerSettings.swift; sourceTree = SOURCE_ROOT; };
 		28B3B83A1BFA668F007337A2 /* DynamicCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DynamicCollectionViewFlowLayout.swift; path = Source/DynamicCollectionViewFlowLayout.swift; sourceTree = SOURCE_ROOT; };
@@ -65,6 +65,7 @@
 		28E1915D1BFA618E00066B1C = {
 			isa = PBXGroup;
 			children = (
+				EA2CFE281FBD2FBB00CAE00E /* Resource */,
 				28E191691BFA618E00066B1C /* Source */,
 				28E191751BFA618F00066B1C /* Tests */,
 				28E191681BFA618E00066B1C /* Products */,
@@ -85,7 +86,6 @@
 			children = (
 				28B3B84B1BFA6E39007337A2 /* XLActionController.h */,
 				28B3B8361BFA668F007337A2 /* ActionCell.swift */,
-				28B3B8371BFA668F007337A2 /* ActionCell.xib */,
 				28B3B8381BFA668F007337A2 /* ActionController.swift */,
 				28B3B8391BFA668F007337A2 /* ActionControllerSettings.swift */,
 				28B3B83A1BFA668F007337A2 /* DynamicCollectionViewFlowLayout.swift */,
@@ -102,6 +102,14 @@
 				28E191781BFA618F00066B1C /* Info.plist */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		EA2CFE281FBD2FBB00CAE00E /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				28B3B8371BFA668F007337A2 /* ActionCell.xib */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
