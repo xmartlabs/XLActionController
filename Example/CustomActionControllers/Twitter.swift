@@ -89,15 +89,18 @@ open class TwitterActionControllerHeader: UICollectionReusableView {
 
 
 open class TwitterActionController: ActionController<TwitterCell, ActionData, TwitterActionControllerHeader, String, UICollectionReusableView, Void> {
-    
+
+    var hideBottomSpaceView: UIView!
+
+    static var bottomPadding: CGFloat = 20.0
+
     public override init(nibName nibNameOrNil: String? = nil, bundle nibBundleOrNil: Bundle? = nil) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         settings.animation.present.duration = 0.6
         settings.animation.dismiss.duration = 0.6
         cellSpec = CellSpec.nibFile(nibName: "TwitterCell", bundle: Bundle(for: TwitterCell.self), height: { _ in 56 })
         headerSpec = .cellClass(height: { _ -> CGFloat in return 45 })
-        
-        
+
         onConfigureHeader = { header, title in
             header.label.text = title
         }
@@ -114,10 +117,12 @@ open class TwitterActionController: ActionController<TwitterCell, ActionData, Tw
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         collectionView.clipsToBounds = false
-        let hideBottomSpaceView: UIView = {
-          let hideBottomSpaceView = UIView(frame: CGRect(x: 0, y: 0, width: collectionView.bounds.width, height: contentHeight + 20))
+        hideBottomSpaceView = {
+            let width = collectionView.bounds.width - safeAreaInsets.left - safeAreaInsets.right
+            let height = contentHeight + TwitterActionController.bottomPadding + safeAreaInsets.bottom
+            let hideBottomSpaceView = UIView(frame: CGRect.init(x: 0, y: 0, width: width, height: height))
             hideBottomSpaceView.autoresizingMask = [.flexibleWidth, .flexibleBottomMargin]
             hideBottomSpaceView.backgroundColor = .white
             return hideBottomSpaceView
@@ -125,7 +130,17 @@ open class TwitterActionController: ActionController<TwitterCell, ActionData, Tw
         collectionView.addSubview(hideBottomSpaceView)
         collectionView.sendSubview(toBack: hideBottomSpaceView)
     }
-    
+
+    @available(iOS 11, *)
+    override open func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        guard let hideBottomSpaceView = self.hideBottomSpaceView else {
+            return
+        }
+        hideBottomSpaceView.frame.size.height = contentHeight + TwitterActionController.bottomPadding + safeAreaInsets.bottom
+        hideBottomSpaceView.frame.size.width = collectionView.bounds.width - safeAreaInsets.left - safeAreaInsets.right
+    }
+
     override open func dismissView(_ presentedView: UIView, presentingView: UIView, animationDuration: Double, completion: ((_ completed: Bool) -> Void)?) {
         onWillDismissView()
         let animationSettings = settings.animation.dismiss
@@ -149,3 +164,4 @@ open class TwitterActionController: ActionController<TwitterCell, ActionData, Tw
         })
     }
 }
+

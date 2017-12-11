@@ -57,6 +57,8 @@ open class SkypeCell: UICollectionViewCell {
 
 open class SkypeActionController: ActionController<SkypeCell, String, UICollectionReusableView, Void, UICollectionReusableView, Void> {
 
+    static let bottomPadding: CGFloat = 20.0
+
     open var backgroundColor: UIColor = UIColor(red: 18/255.0, green: 165/255.0, blue: 244/255.0, alpha: 1.0)
 
     fileprivate var contextView: ContextView!
@@ -89,7 +91,10 @@ open class SkypeActionController: ActionController<SkypeCell, String, UICollecti
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-        contextView = ContextView(frame: CGRect(x: 0, y: -topSpace, width: collectionView.bounds.width, height: contentHeight + topSpace + 20))
+
+        let width = collectionView.bounds.width - safeAreaInsets.left - safeAreaInsets.right
+        let height = contentHeight + topSpace + SkypeActionController.bottomPadding + safeAreaInsets.bottom
+        contextView = ContextView(frame: CGRect(x: 0, y: -topSpace, width: width, height: height))
         contextView.animatedBackgroundColor = backgroundColor;
         contextView.autoresizingMask = [.flexibleWidth, .flexibleBottomMargin]
 
@@ -97,17 +102,24 @@ open class SkypeActionController: ActionController<SkypeCell, String, UICollecti
         collectionView.addSubview(contextView)
         collectionView.sendSubview(toBack: contextView)
         
-        normalAnimationRect = UIView(frame: CGRect(x: 0, y: view.bounds.height/2, width: 30, height: 30))
+        normalAnimationRect = UIView(frame: CGRect(x: 0, y: view.bounds.height / 2, width: 30, height: 30))
         normalAnimationRect.isHidden = true
         view.addSubview(normalAnimationRect)
         
-        springAnimationRect = UIView(frame: CGRect(x: 40, y: view.bounds.height/2, width: 30, height: 30))
+        springAnimationRect = UIView(frame: CGRect(x: 40, y: view.bounds.height / 2, width: 30, height: 30))
         springAnimationRect.isHidden = true
         view.addSubview(springAnimationRect)
         
         backgroundView.backgroundColor = UIColor.black.withAlphaComponent(0.65)
     }
-    
+
+    @available(iOS 11, *)
+    override open func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        contextView.frame.size.height = contentHeight + topSpace + SkypeActionController.bottomPadding + safeAreaInsets.bottom
+        contextView.frame.size.width = collectionView.bounds.width - safeAreaInsets.left - safeAreaInsets.right
+    }
+
     override open func onWillPresentView() {
         super.onWillPresentView()
         

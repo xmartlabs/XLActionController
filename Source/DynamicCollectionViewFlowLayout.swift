@@ -82,7 +82,7 @@ open class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
         minimumInteritemSpacing = 0
         minimumLineSpacing = 0
     }
-    
+
     // MARK: - UICollectionViewFlowLayout overrides
     
     override open func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
