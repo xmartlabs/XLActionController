@@ -244,6 +244,8 @@ settings.behavior.scrollEnabled: Bool
 settings.behavior.bounces: Bool
 // Indicates if the collection view layout will use UIDynamics to animate its items. `false` by default.
 settings.behavior.useDynamics: Bool
+// Determines whether the navigation bar is hidden when action controller is being presented. `true` by default
+settings.hideCollectionViewBehindCancelView: Bool
 ```
 
 #### UICollectionView Style
