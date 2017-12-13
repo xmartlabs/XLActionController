@@ -647,8 +647,6 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         return hasHeader() ? section - 1 : section
     }
 
-    var initialContentInset: UIEdgeInsets!
-
     fileprivate func setUpContentInsetForHeight(_ height: CGFloat) {
         if initialContentInset == nil {
             initialContentInset = collectionView.contentInset
@@ -678,6 +676,8 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     // MARK: - Private properties
 
     fileprivate var navigationBarWasHiddenAtStart = false
+    fileprivate var initialContentInset: UIEdgeInsets!
+
     fileprivate var disableActions = false
     fileprivate var isPresenting = false
 
@@ -723,10 +723,10 @@ open class DynamicsActionController<ActionViewType: UICollectionViewCell, Action
         view.setNeedsLayout()
         view.layoutIfNeeded()
     }
-    
+
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
         for (index, section) in _sections.enumerated() {
             var rowIndex = -1
             let indexPaths = section.actions.map({ _ -> IndexPath in
