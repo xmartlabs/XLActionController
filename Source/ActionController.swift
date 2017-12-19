@@ -151,7 +151,11 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         collectionViewLayout.minimumLineSpacing = 0
         return collectionViewLayout
     }()
-    
+
+    open var presentingNavigationController: UINavigationController? {
+        return (presentingViewController as? UINavigationController) ?? presentingViewController?.navigationController
+    }
+
     // MARK: - ActionController initializers
     
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -301,6 +305,18 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         backgroundView.frame = view.bounds
+
+        if let navController = presentingNavigationController, settings.behavior.hideNavigationBarOnShow {
+            navigationBarWasHiddenAtStart = navController.isNavigationBarHidden
+            navController.setNavigationBarHidden(true, animated: animated)
+        }
+    }
+
+    open override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if let navController = presentingNavigationController, settings.behavior.hideNavigationBarOnShow {
+            navController.setNavigationBarHidden(navigationBarWasHiddenAtStart, animated: animated)
+        }
     }
 
     open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -622,6 +638,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
 
     // MARK: - Private properties
 
+    fileprivate var navigationBarWasHiddenAtStart = false
     fileprivate var disableActions = false
     fileprivate var isPresenting = false
 

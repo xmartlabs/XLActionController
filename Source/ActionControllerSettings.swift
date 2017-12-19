@@ -55,6 +55,11 @@ public struct ActionControllerSettings {
          * items. Its default value is `false`
          */
         public var useDynamics = false
+        /**
+         * A Boolean value that determines whether the navigation bar will hide when action controller is being
+         * presented. Its default value is `true`
+         */
+        public var hideNavigationBarOnShow = true
     }
     
     /** Struct that contains properties to configure the cancel view */
