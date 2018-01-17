@@ -457,7 +457,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     }
     
     open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets.zero
+        return self.collectionViewLayout.sectionInset
     }
     
     // MARK: - UIViewControllerTransitioningDelegate
