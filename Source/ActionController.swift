@@ -325,8 +325,8 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     open func calculateContentInset() {
         // calculate content Inset
         if settings.behavior.useDynamics {
-            collectionViewLayout.shouldInvalidateLayout(forBoundsChange: CGRect(x: 0, y: 0, width: 0, height: 0))
-            
+            _ = collectionViewLayout.shouldInvalidateLayout(forBoundsChange: CGRect(x: 0, y: 0, width: 0, height: 0))
+
             contentHeight = CGFloat(numberOfActions()) * settings.collectionView.cellHeightWhenDynamicsIsUsed + (CGFloat(_sections.count) * (collectionViewLayout.sectionInset.top + collectionViewLayout.sectionInset.bottom))
             contentHeight += collectionView.contentInset.bottom
             
