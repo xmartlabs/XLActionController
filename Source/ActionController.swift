@@ -192,10 +192,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
             addSection(section)
             section.actions.append(action)
         }
-        if self.presentingViewController != nil {
-            collectionView.reloadData()
-            self.calculateContentInset()
-        }
+        didUpdateActions()
     }
     
     @discardableResult
@@ -207,22 +204,21 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         return section
     }
     
-    open func removeAction(indexPath: IndexPath) {
+    open func removeAction(at indexPath: IndexPath) {
         if indexPath.section < _sections.count && indexPath.row < _sections[indexPath.section].actions.count {
             _sections[indexPath.section].actions.remove(at: indexPath.row)
             
             if _sections[indexPath.section].actions.isEmpty {
                 _sections.remove(at: indexPath.section)
             }
-            collectionView.reloadData()
-            self.calculateContentInset()
+            didUpdateActions()
         }
     }
     
-    open func removeAction(where: PropertiesComply) {
+    open func removeAction(where predicate: PropertiesComply) {
         _sections.enumerated().reversed().forEach { sectionIndex, section in
             section.actions.enumerated().reversed().forEach { actionIndex, action in
-                if `where`((indexPath: IndexPath(row: actionIndex, section: sectionIndex), action: action)) {
+                if predicate((indexPath: IndexPath(row: actionIndex, section: sectionIndex), action: action)) {
                     section.actions.remove(at: actionIndex)
                 }
             }
@@ -230,10 +226,16 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
                 _sections.remove(at: sectionIndex)
             }
         }
+        didUpdateActions()
+    }
+
+    private func didUpdateActions() {
+        guard self.presentingViewController != nil else {
+            return
+        }
         collectionView.reloadData()
         self.calculateContentInset()
     }
-
     
     // MARK: - Helpers
     

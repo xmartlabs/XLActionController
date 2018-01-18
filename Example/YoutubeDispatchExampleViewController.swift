@@ -44,23 +44,23 @@ class YoutubeDispatchExampleViewController: UIViewController {
         }))
         actionController.addAction(Action(ActionData(title: "Add to Favs...", image: UIImage(named: "yt-plus-icon")!), style: .default, handler: { action in
         }))
+
         present(actionController, animated: true, completion: nil)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
             actionController.addSection(Section())
             actionController.addAction(Action(ActionData(title: "Share...", image: UIImage(named: "yt-share-icon")!), style: .default, handler: { action in
             }))
             actionController.addAction(Action(ActionData(title: "Cancel", image: UIImage(named: "yt-cancel-icon")!), style: .default, handler: { action in
             }))
-            actionController.calculateContentInset()
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
                 actionController.removeAction(where: { $0.action.data?.title == "Share..." })
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-                    actionController.removeAction(indexPath: IndexPath(item: 0, section: 0))
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                    actionController.removeAction(at: IndexPath(item: 0, section: 0))
                 
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
                         actionController.removeAction { indexedAction in
                             return indexedAction.indexPath.row % 2 == 0
                         }

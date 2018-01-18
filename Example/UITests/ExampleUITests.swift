@@ -45,14 +45,14 @@ class ExampleUITests: XCTestCase {
         XCTAssertEqual(app.collectionViews.cells.count, 4)
         app.collectionViews.staticTexts["Add to Playlist..."].tap()
     }
-    
+
     func testYoutubeDispatchAddCells() {
         let app = XCUIApplication()
         app.tables.staticTexts["Dispatch YouTube"].tap()
         app.images["yt-background"].tap()
-        XCTAssertEqual(app.collectionViews.cells.count, 2)
-        sleep(5)
-        XCTAssertEqual(app.collectionViews.cells.count, 4)
+        XCTAssertEqual(app.collectionViews.cells.count, 3)
+        sleep(3)
+        XCTAssertEqual(app.collectionViews.cells.count, 5)
         app.collectionViews.staticTexts["Share..."].tap()
     }
     
@@ -63,14 +63,13 @@ class ExampleUITests: XCTestCase {
         XCTAssertEqual(app.collectionViews.cells.count, 3)
         sleep(3)
         XCTAssertEqual(app.collectionViews.cells.count, 5)
-        sleep(3)
+        sleep(2)
         XCTAssertEqual(app.collectionViews.cells.count, 4)
-        sleep(3)
+        sleep(2)
         XCTAssertEqual(app.collectionViews.cells.count, 3)
-        sleep(3)
-        XCTAssertEqual(app.collectionViews.cells.count, 3)
-        app.collectionViews.children(matching: .other).element.tap()
-        
+        sleep(2)
+        XCTAssertEqual(app.collectionViews.cells.count, 1)
+        app.collectionViews.staticTexts["Add to Favs..."].tap()
     }
     
 }
