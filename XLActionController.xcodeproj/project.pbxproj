@@ -106,20 +106,20 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
-		EA2CFE281FBD2FBB00CAE00E /* Resource */ = {
-			isa = PBXGroup;
-			children = (
-				28B3B8371BFA668F007337A2 /* ActionCell.xib */,
-			);
-			path = Resource;
-			sourceTree = "<group>";
-		};
 		9A13035E1EC0FF9300D69281 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				9A13035F1EC0FF9300D69281 /* XCTest.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EA2CFE281FBD2FBB00CAE00E /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				28B3B8371BFA668F007337A2 /* ActionCell.xib */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -384,7 +384,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.XLActionController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;

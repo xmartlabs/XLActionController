@@ -198,7 +198,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="341" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Skype" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dLX-e0-Hrr">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Dispatch YouTube" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dLX-e0-Hrr">
                                                     <rect key="frame" x="16" y="0.0" width="324" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -218,11 +218,11 @@
                                         <rect key="frame" x="0.0" y="264" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7LW-ZT-N3q" id="XUR-iH-EOi">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="341" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Skype" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5FZ-0B-c45">
-                                                    <rect key="frame" x="15" y="0.0" width="325" height="43.5"/>
+                                                    <rect key="frame" x="16" y="0.0" width="324" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -444,7 +444,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="17"/>
                                 <state key="normal" title="BACK">
-                                    <color key="titleColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="0.34999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleColor" red="0.12549019607843137" green="0.14901960784313725" blue="0.16470588235294117" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="backButtonDidTouch:" destination="gv9-zC-sSQ" eventType="touchUpInside" id="s2r-lk-a3J"/>
@@ -555,8 +555,9 @@
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="lf1-WQ-J2F"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="65" id="lr2-zA-dVM"/>
                                 </constraints>
-                                <state key="normal" title="back">
-                                    <color key="titleColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="0.34999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="17"/>
+                                <state key="normal" title="BACK">
+                                    <color key="titleColor" red="0.12549019610000001" green="0.14901960780000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="backButtonDidTouch:" destination="Dxe-73-ZN6" eventType="touchUpInside" id="EbS-mf-krj"/>
@@ -574,6 +575,7 @@
                             <constraint firstItem="8Q9-No-7Sp" firstAttribute="leading" secondItem="Ue1-2S-ckm" secondAttribute="leading" id="eMl-8a-XCk"/>
                             <constraint firstItem="sXB-iP-aNd" firstAttribute="top" secondItem="rh3-qg-DwK" secondAttribute="bottom" id="eaN-3L-jO4"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="CIV-aq-c3X"/>
                     </view>
                     <nil key="simulatedTopBarMetrics"/>
                 </viewController>

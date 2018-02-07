@@ -55,14 +55,14 @@ class YoutubeDispatchExampleViewController: UIViewController {
             }))
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
-                actionController.removeAction(where: { $0.action.data?.title == "Share..." })
-                
+                actionController.removeAction(where: { $1.data?.title == "Share..." })
+
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
                     actionController.removeAction(at: IndexPath(item: 0, section: 0))
-                
+
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
-                        actionController.removeAction { indexedAction in
-                            return indexedAction.indexPath.row % 2 == 0
+                        actionController.removeAction { index, _ in
+                            return index.row % 2 == 0
                         }
                     })
                 })

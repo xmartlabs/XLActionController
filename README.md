@@ -139,6 +139,20 @@ section.data = "String" // assuming section data Type is String
 
 > Each section contains a set of actions. We typically use sections to show a header view above a set of actions.
 
+Another nice feature included in XLActionController is the ability to change the actions presented even after the action controller was presented. New actions can be added dynamically in any moment and also the actions can be removed from the controller even if it is already presented. Look at the example bellow to see how you can remove actions from the controller:
+
+```swift
+// Remove an action at some position from controller
+actionController.removeAction(at: IndexPath(item: 2, section: 1))
+
+// Remove all actions that satisfy some condition
+actionController.removeAction(where: { index, action in
+  // Action at position 2 in the first section will be removed
+  // and also the action with title "Share..." will be removed.
+  return (index.item == 2 && index.section == 0)
+   || action.data?.title == "Share..."
+})
+```
 
 ## Extensibility
 

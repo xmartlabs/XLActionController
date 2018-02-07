@@ -99,8 +99,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         get { return _headerData?.data }
     }
 
-    public typealias IndexedAction = (indexPath: IndexPath, action: Action<ActionDataType>)
-    public typealias PropertiesComply = (IndexedAction) -> Bool
+    public typealias ActionFilter = (IndexPath, Action<ActionDataType>) -> Bool
 
     open var settings: ActionControllerSettings = ActionControllerSettings.defaultSettings()
     
@@ -166,6 +165,10 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         return (presentingViewController as? UINavigationController) ?? presentingViewController?.navigationController
     }
 
+    open var isPresented: Bool {
+        return presentingViewController != nil
+    }
+
     // MARK: - ActionController initializers
     
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -185,40 +188,126 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     // MARK - Public API
 
     open func addAction(_ action: Action<ActionDataType>) {
+        if isPresented && !settings.behavior.useDynamics {
+            addActionAfterPresented(action)
+        } else {
+            addActionBeforePresented(action)
+        }
+    }
+
+    open func removeAction(at indexPath: IndexPath) {
+        guard indexPath.section < _sections.count || indexPath.row < _sections[indexPath.section].actions.count else {
+            return
+        }
+
+        if isPresented && !settings.behavior.useDynamics {
+            removeActionAfterPresented(at: indexPath)
+        } else {
+            removeActionBeforePresented(at: indexPath)
+        }
+    }
+
+    open func removeAction(where predicate: ActionFilter) {
+        if isPresented && !settings.behavior.useDynamics {
+            removeActionAfterPresented(where: predicate)
+        } else {
+            removeActionBeforePresented(where: predicate)
+        }
+    }
+
+    @discardableResult
+    open func addSection(_ section: Section<ActionDataType, SectionHeaderDataType>) -> Section<ActionDataType, SectionHeaderDataType> {
+        if isPresented && !settings.behavior.useDynamics {
+            updateCollectionWithAnimation { `self` in
+                self.collectionView.insertSections(IndexSet.init(integer: self._sections.count))
+                _sections.append(section)
+            }
+        } else {
+            _sections.append(section)
+            if isViewLoaded {
+                collectionView.reloadData()
+            }
+        }
+        return section
+    }
+
+    open func removeSection(at sectionIndex: Int) {
+        if isPresented && !settings.behavior.useDynamics {
+            updateCollectionWithAnimation { `self` in
+                self.collectionView.deleteSections(IndexSet.init(integer: sectionIndex))
+                self._sections.remove(at: sectionIndex)
+            }
+        } else {
+            _sections.remove(at: sectionIndex)
+            if isViewLoaded {
+                collectionView.reloadData()
+            }
+        }
+    }
+
+    private func addActionBeforePresented(_ action: Action<ActionDataType>) {
         if let section = _sections.last {
             section.actions.append(action)
         } else {
             let section = Section<ActionDataType, SectionHeaderDataType>()
-            addSection(section)
+            _sections.append(section)
             section.actions.append(action)
         }
-        didUpdateActions()
-    }
-    
-    @discardableResult
-    open func addSection(_ section: Section<ActionDataType, SectionHeaderDataType>) -> Section<ActionDataType, SectionHeaderDataType> {
-        _sections.append(section)
-        if self.presentingViewController != nil {
+
+        if isViewLoaded {
             collectionView.reloadData()
+            calculateContentInset()
         }
-        return section
     }
-    
-    open func removeAction(at indexPath: IndexPath) {
-        if indexPath.section < _sections.count && indexPath.row < _sections[indexPath.section].actions.count {
-            _sections[indexPath.section].actions.remove(at: indexPath.row)
-            
-            if _sections[indexPath.section].actions.isEmpty {
-                _sections.remove(at: indexPath.section)
+
+    private func addActionAfterPresented(_ action: Action<ActionDataType>) {
+        updateCollectionWithAnimation { `self` in
+            if let section = self._sections.last {
+                let indexPath = IndexPath(item: _sections.last!.actions.count, section: _sections.count - 1)
+                self.collectionView.insertItems(at: [indexPath])
+                section.actions.append(action)
+            } else {
+                let section = Section<ActionDataType, SectionHeaderDataType>()
+                self.collectionView.insertSections(IndexSet.init(integer: 0))
+                self._sections.append(section)
+                let indexPath = IndexPath(item: self._sections.last!.actions.count, section: self._sections.count - 1)
+                self.collectionView.insertItems(at: [indexPath])
+                section.actions.append(action)
             }
-            didUpdateActions()
         }
     }
-    
-    open func removeAction(where predicate: PropertiesComply) {
+
+    private func removeActionBeforePresented(at indexPath: IndexPath) {
+        _sections[indexPath.section].actions.remove(at: indexPath.row)
+
+        if _sections[indexPath.section].actions.isEmpty {
+            _sections.remove(at: indexPath.section)
+        }
+
+        if isViewLoaded {
+            collectionView.reloadData()
+            calculateContentInset()
+            // Kind of hack to fix issue with DynamicsActionController
+            collectionView.scrollToItem(at: IndexPath.init(item: 0, section: 0), at: .top, animated: false)
+        }
+    }
+
+    private func removeActionAfterPresented(at indexPath: IndexPath) {
+        updateCollectionWithAnimation { `self` in
+            self.collectionView.deleteItems(at: [indexPath])
+            self._sections[indexPath.section].actions.remove(at: indexPath.row)
+
+            if self._sections[indexPath.section].actions.isEmpty {
+                self.collectionView.deleteSections(IndexSet.init(integer: indexPath.section))
+                self._sections.remove(at: indexPath.section)
+            }
+        }
+    }
+
+    private func removeActionBeforePresented(where predicate: ActionFilter) {
         _sections.enumerated().reversed().forEach { sectionIndex, section in
             section.actions.enumerated().reversed().forEach { actionIndex, action in
-                if predicate((indexPath: IndexPath(row: actionIndex, section: sectionIndex), action: action)) {
+                if predicate(IndexPath(row: actionIndex, section: sectionIndex), action) {
                     section.actions.remove(at: actionIndex)
                 }
             }
@@ -226,17 +315,38 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
                 _sections.remove(at: sectionIndex)
             }
         }
-        didUpdateActions()
     }
 
-    private func didUpdateActions() {
-        guard self.presentingViewController != nil else {
-            return
+    private func removeActionAfterPresented(where predicate: ActionFilter) {
+        updateCollectionWithAnimation { `self` in
+            self._sections.enumerated().reversed().forEach { sectionIndex, section in
+                section.actions.enumerated().reversed().forEach { actionIndex, action in
+                    let indexPath = IndexPath(row: actionIndex, section: sectionIndex)
+                    if predicate(indexPath, action) {
+                        self.collectionView.deleteItems(at: [indexPath])
+                        section.actions.remove(at: actionIndex)
+                    }
+                }
+                if section.actions.isEmpty {
+                    self.collectionView.deleteSections(IndexSet.init(integer: sectionIndex))
+                    self._sections.remove(at: sectionIndex)
+                }
+            }
         }
-        collectionView.reloadData()
-        self.calculateContentInset()
     }
-    
+
+    private func updateCollectionWithAnimation(updateBlock: (ActionController) -> ()) {
+        collectionView.performBatchUpdates({ [weak self] in
+            guard let `self` = self else {
+                return
+            }
+            updateBlock(self)
+        }, completion: nil)
+        UIView.animate(withDuration: 0.3, delay: 0.1, options: [], animations: { [weak self] in
+            self?.calculateContentInset()
+        }, completion: nil)
+    }
+
     // MARK: - Helpers
     
     open func sectionForIndex(_ index: Int) -> Section<ActionDataType, SectionHeaderDataType>? {
@@ -325,28 +435,33 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     open func calculateContentInset() {
         // calculate content Inset
         if settings.behavior.useDynamics {
-            _ = collectionViewLayout.shouldInvalidateLayout(forBoundsChange: CGRect(x: 0, y: 0, width: 0, height: 0))
-
-            contentHeight = CGFloat(numberOfActions()) * settings.collectionView.cellHeightWhenDynamicsIsUsed + (CGFloat(_sections.count) * (collectionViewLayout.sectionInset.top + collectionViewLayout.sectionInset.bottom))
-            contentHeight += collectionView.contentInset.bottom
-            
+            _ = collectionViewLayout.shouldInvalidateLayout(forBoundsChange: UIScreen.main.bounds)
+            contentHeight = calculateContentHeight()
             setUpContentInsetForHeight(view.frame.height)
             view.setNeedsLayout()
             view.layoutIfNeeded()
         } else {
             collectionView.layoutSubviews()
-            
-            if let section = _sections.last {
-                let lastSectionIndex = _sections.count - 1
-                let layoutAtts = collectionViewLayout.layoutAttributesForItem(at: IndexPath(item: section.actions.count - 1, section: hasHeader() ? lastSectionIndex + 1 : lastSectionIndex))
-                contentHeight = layoutAtts!.frame.origin.y + layoutAtts!.frame.size.height
-                
-                if settings.cancelView.showCancel && !settings.cancelView.hideCollectionViewBehindCancelView {
-                    contentHeight += settings.cancelView.height
-                }
-            }
+            contentHeight = calculateContentHeight()
             setUpContentInsetForHeight(view.frame.height)
         }
+    }
+
+    open func calculateContentHeight() -> CGFloat {
+        var contentHeight = CGFloat(0.0)
+
+        if let lastNotEmptySection = _sections.enumerated().reversed().first(where: { !$0.element.actions.isEmpty }) {
+            let sectionIndex = (hasHeader() ? 1 : 0) + lastNotEmptySection.offset
+            let indexPath = IndexPath(item: lastNotEmptySection.element.actions.count - 1, section: sectionIndex)
+            let layoutAtts = collectionViewLayout.layoutAttributesForItem(at: indexPath)
+            contentHeight = layoutAtts!.frame.origin.y + layoutAtts!.frame.size.height
+
+            if settings.cancelView.showCancel && !settings.cancelView.hideCollectionViewBehindCancelView {
+                contentHeight += settings.cancelView.height
+            }
+        }
+
+        return contentHeight
     }
     
     open override func viewWillAppear(_ animated: Bool) {
@@ -436,7 +551,11 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     }
 
     // MARK: - UICollectionViewDataSource
-    
+
+    open override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+        return UIStatusBarAnimation.slide
+    }
+
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
         return numberOfSections()
     }
@@ -776,14 +895,18 @@ open class DynamicsActionController<ActionViewType: UICollectionViewCell, Action
         super.viewDidLoad()
         
         collectionView.frame = view.bounds
-
-        contentHeight = CGFloat(numberOfActions()) * settings.collectionView.cellHeightWhenDynamicsIsUsed + (CGFloat(_sections.count) * (collectionViewLayout.sectionInset.top + collectionViewLayout.sectionInset.bottom))
-        contentHeight += collectionView.contentInset.bottom
-        
+        contentHeight = calculateContentHeight()
         setUpContentInsetForHeight(view.frame.height)
 
         view.setNeedsLayout()
         view.layoutIfNeeded()
+    }
+
+    open override func calculateContentHeight() -> CGFloat {
+        let contentHeight: CGFloat = CGFloat(numberOfActions()) * settings.collectionView.cellHeightWhenDynamicsIsUsed +
+            (CGFloat(_sections.count) * (collectionViewLayout.sectionInset.top + collectionViewLayout.sectionInset.bottom))
+//            + collectionView.contentInset.bottom
+        return contentHeight
     }
 
     open override func viewDidAppear(_ animated: Bool) {
