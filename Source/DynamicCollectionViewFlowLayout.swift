@@ -82,7 +82,7 @@ open class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
         minimumInteritemSpacing = 0
         minimumLineSpacing = 0
     }
-    
+
     // MARK: - UICollectionViewFlowLayout overrides
     
     override open func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
@@ -113,7 +113,7 @@ open class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
     }
 
     // MARK: - Helpers
-    
+
     fileprivate func topForItemAt(indexPath: IndexPath) -> CGFloat {
         guard let unwrappedCollectionView = collectionView else {
             return CGFloat(0.0)
@@ -121,14 +121,14 @@ open class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
         
         // Top within item's section
         var top = CGFloat((indexPath as NSIndexPath).item) * itemSize.height
-        
+
         if (indexPath as NSIndexPath).section > 0 {
             let lastItemOfPrevSection = unwrappedCollectionView.numberOfItems(inSection: (indexPath as NSIndexPath).section - 1)
             // Add previous sections height recursively. We have to add the sectionInsets and the last section's item height
             let inset = (unwrappedCollectionView.delegate as? UICollectionViewDelegateFlowLayout)?.collectionView?(unwrappedCollectionView, layout: self, insetForSectionAt: (indexPath as NSIndexPath).section) ?? sectionInset
             top += topForItemAt(indexPath: IndexPath(item: lastItemOfPrevSection - 1, section: (indexPath as NSIndexPath).section - 1)) + inset.bottom + inset.top + itemSize.height
         }
-        
+
         return top
     }
 
@@ -174,6 +174,7 @@ open class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
         }
 
         frame.origin.x = translationX
+        frame.origin.y -= collectionView.contentInset.bottom
         initialFrame.origin.x = translationX
 
         let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)

@@ -100,7 +100,7 @@ public class PeriscopeActionController: ActionController<PeriscopeCell, String, 
         settings.animation.dismiss.duration = 0.5
         settings.animation.dismiss.options = .curveEaseIn
         settings.animation.dismiss.offset = 30
-        
+
         cellSpec = .nibFile(nibName: "PeriscopeCell", bundle: Bundle(for: PeriscopeCell.self), height: { _ in 60})
         sectionHeaderSpec = .cellClass(height: { _ in 5 })
         headerSpec = .cellClass(height: { [weak self] (headerData: String) in
@@ -112,8 +112,7 @@ public class PeriscopeActionController: ActionController<PeriscopeCell, String, 
             label.sizeToFit()
             return label.frame.size.height + 20
         })
-        
-        
+
         onConfigureHeader = { [weak self] header, headerData in
             guard let me = self else { return }
           header.label.frame = CGRect(x: 0, y: 0, width: me.view.frame.size.width - 40, height: CGFloat.greatestFiniteMagnitude)
