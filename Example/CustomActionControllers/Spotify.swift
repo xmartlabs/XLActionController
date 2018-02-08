@@ -168,6 +168,7 @@ open class SpotifyActionController: ActionController<SpotifyCell, ActionData, Sp
         settings.cancelView.showCancel = true
         settings.animation.scale = nil
         settings.animation.present.springVelocity = 0.0
+        settings.cancelView.hideCollectionViewBehindCancelView = true
         
         cellSpec = .nibFile(nibName: "SpotifyCell", bundle: Bundle(for: SpotifyCell.self), height: { _ in 60 })
         headerSpec = .cellClass( height: { _ in 84 })
