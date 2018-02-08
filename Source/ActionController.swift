@@ -323,11 +323,13 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
+        collectionView.setNeedsLayout()
+        
         if let _ = settings.animation.scale {
             presentingViewController?.view.transform = CGAffineTransform.identity
         }
         
-        self.collectionView.collectionViewLayout.invalidateLayout()
+        collectionView.collectionViewLayout.invalidateLayout()
         
         coordinator.animate(alongsideTransition: { [weak self] _ in
             self?.setUpContentInsetForHeight(size.height)
@@ -336,6 +338,9 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
                 self?.presentingViewController?.view.transform = CGAffineTransform(scaleX: scale.width, y: scale.height)
             }
         }, completion: nil)
+        
+        
+        collectionView.layoutIfNeeded()
     }
 
     override open func viewDidLayoutSubviews() {
