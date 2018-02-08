@@ -244,6 +244,10 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
             collectionView.register(ActionViewType.self, forCellWithReuseIdentifier:ReusableViewIds.Cell.rawValue)
         }
         
+        if #available(iOS 11.0, *) {
+            collectionView.contentInsetAdjustmentBehavior = .never
+        }
+        
         // register main header
         if let headerSpec = headerSpec, let _ = headerData {
             switch headerSpec {
@@ -287,9 +291,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         // -
         
         if settings.cancelView.showCancel {
-            if cancelView == nil {
-                cancelView = createCancelView()
-            }
+            cancelView = cancelView ?? createCancelView()
             view.addSubview(cancelView!)
         }
     }
@@ -568,6 +570,8 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     open func onWillPresentView() {
         backgroundView.alpha = 0.0
         cancelView?.frame.origin.y = view.bounds.size.height
+        collectionView.collectionViewLayout.invalidateLayout()
+        collectionView.layoutSubviews()
         // Override this to add custom behavior previous to start presenting view animated.
         // Tip: you could start a new animation from this method
     }
@@ -669,7 +673,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
 
         collectionView.contentInset = UIEdgeInsets(top: topInset, left: leftInset, bottom: bottomInset, right: rightInset)
         if !settings.behavior.useDynamics {
-            collectionView.contentOffset.y = -height + contentHeight + safeAreaInsets.bottom + 30
+            collectionView.contentOffset.y = -height + contentHeight + safeAreaInsets.bottom
         }
     }
 

@@ -98,9 +98,6 @@ open class YoutubeActionController: ActionController<YoutubeCell, ActionData, UI
         onConfigureCellForAction = { cell, action, indexPath in
             cell.setup(action.data?.title, detail: action.data?.subtitle, image: action.data?.image)
             cell.alpha = action.enabled ? 1.0 : 0.5
-            
-            UIView.animate(withDuration: 0.30) {
-            }
         }
     }
   
