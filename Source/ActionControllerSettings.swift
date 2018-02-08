@@ -85,7 +85,7 @@ public struct ActionControllerSettings {
           * A Boolean value that determines whether the collection view can be partially covered by the 
           * cancel view when it is pulled down. Its default value is `true`
           */
-        public var hideCollectionViewBehindCancelView = true
+        public var hideCollectionViewBehindCancelView = false
     }
 
     /** Struct that contains properties to configure the collection view's style */
