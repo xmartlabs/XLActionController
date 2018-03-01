@@ -29,7 +29,42 @@ class ExampleUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
+
+    func testPeriscope() {
+        let app = XCUIApplication()
+        app.tables.staticTexts["Periscope"].tap()
+        app.images["pe-background"].tap()
+        XCTAssertEqual(app.collectionViews.cells.count, 2)
+        XCTAssert(app.collectionViews.staticTexts["Are you sure you want to block?"].exists)
+        app.collectionViews.staticTexts["Block user"].tap()
+    }
+
+    func testSkype() {
+        let app = XCUIApplication()
+        app.tables.staticTexts["Skype"].tap()
+        app.images["skype-background"].tap()
+        XCTAssertEqual(app.collectionViews.cells.count, 4)
+        app.collectionViews.staticTexts["Cancel"].tap()
+    }
+
+    func testSpotify() {
+        let app = XCUIApplication()
+        app.tables.staticTexts["Spotify"].tap()
+        app.images["sp-background"].tap()
+        XCTAssertEqual(app.collectionViews.cells.count, 5)
+        XCTAssert(app.collectionViews.staticTexts["The Fast And The Furious Soundtrack Collection"].exists)
+        XCTAssertFalse(app.collectionViews.staticTexts["Start Radio"].exists) // Not visible right now
+        app.collectionViews.staticTexts["Go to Album"].tap()
+    }
+
+    func testTweetBot() {
+        let app = XCUIApplication()
+        app.tables.staticTexts["TweetBot"].tap()
+        app.images["tb-background"].tap()
+        XCTAssertEqual(app.collectionViews.cells.count, 5)
+        app.collectionViews.staticTexts["Cancel"].tap()
+    }
+
     func testTwitterCountOfCells() {
         let app = XCUIApplication()
         app.tables.staticTexts["Twitter"].tap()
