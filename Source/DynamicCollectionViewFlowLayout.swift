@@ -96,6 +96,11 @@ open class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
     
     override open func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         let indexPath = indexPath
+
+        guard let collectionView = collectionView,
+            indexPath.section < collectionView.numberOfSections && indexPath.item < collectionView.numberOfItems(inSection: indexPath.section) else {
+            return nil
+        }
         
         guard let animator = dynamicAnimator else {
             return super.layoutAttributesForItem(at: indexPath)

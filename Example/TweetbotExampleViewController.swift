@@ -53,7 +53,11 @@ class TweetBotExampleViewController: UIViewController {
         }))
         actionController.addSection(Section())
         actionController.addAction(Action("Cancel", style: .cancel, handler:nil))
-        
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            actionController.removeAction(at: IndexPath.init(item: 0, section: 0))
+        }
+
         present(actionController, animated: true, completion: nil)
     }
 
