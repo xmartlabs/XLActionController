@@ -2,11 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+### [4.0.1](https://github.com/xmartlabs/XLActionController/releases/tag/4.0.1)
+
+* Bug fixes and stability improvements.
+* Added support for iphone X. 
+
 ### [4.0.0](https://github.com/xmartlabs/XLActionController/releases/tag/4.0.0)
 
 * Support for Swift 4.
-* Added customizable background color to the Skype action controller, [PR #52](https://github.com/xmartlabs/XLActionController/pull/52) 
-* Using status bar style from settings in iOS 10, [PR #53](https://github.com/xmartlabs/XLActionController/pull/53) 
+* Added customizable background color to the Skype action controller, [PR #52](https://github.com/xmartlabs/XLActionController/pull/52)
+* Using status bar style from settings in iOS 10, [PR #53](https://github.com/xmartlabs/XLActionController/pull/53)
 
 ### [3.0.1](https://github.com/xmartlabs/XLActionController/releases/tag/3.0.1)
 
@@ -18,7 +23,7 @@ All notable changes to this project will be documented in this file.
 
 ### [2.1.0](https://github.com/xmartlabs/XLActionController/releases/tag/2.1.0)
 
-* **Breaking change**: `actionTitleLabelConstraintToContainer` and `actionTitleLabelConstraintToImageView` was removed from `ActionCell` class. You must delete these outlets from your xib files, [PR #23](https://github.com/xmartlabs/XLActionController/pull/23). 
+* **Breaking change**: `actionTitleLabelConstraintToContainer` and `actionTitleLabelConstraintToImageView` was removed from `ActionCell` class. You must delete these outlets from your xib files, [PR #23](https://github.com/xmartlabs/XLActionController/pull/23).
 * **Breaking change**: actions' handlers are now executed after the action controller was completely dismissed, [PR #22](https://github.com/xmartlabs/XLActionController/pull/22).
 * Fixed duplicated execution of actions, [PR #22](https://github.com/xmartlabs/XLActionController/pull/22).
 
