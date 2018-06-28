@@ -25,12 +25,7 @@
 import Foundation
 import UIKit
 
-#if swift(>=4.2)
-import UIKit.UIGeometry
-extension UIEdgeInsets {
-    static let zero = UIEdgeInsets()
-}
-#endif
+
 
 // MARK: - Section class
 
@@ -122,7 +117,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         if #available(iOS 11, *) {
             return view.safeAreaInsets
         }
-        return .zero
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
 
     open var cancelView: UIView?
