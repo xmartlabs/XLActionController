@@ -100,7 +100,7 @@ open class SkypeActionController: ActionController<SkypeCell, String, UICollecti
 
         collectionView.clipsToBounds = false
         collectionView.addSubview(contextView)
-        collectionView.sendSubview(toBack: contextView)
+        collectionView.sendSubviewToBack(contextView)
         
         normalAnimationRect = UIView(frame: CGRect(x: 0, y: view.bounds.height / 2, width: 30, height: 30))
         normalAnimationRect.isHidden = true
@@ -130,7 +130,7 @@ open class SkypeActionController: ActionController<SkypeCell, String, UICollecti
         let initTime = 0.1
         let animationDuration = settings.animation.present.duration - 0.1
         
-        let options: UIViewAnimationOptions = [.curveEaseOut, .allowUserInteraction]
+        let options: UIView.AnimationOptions = [.curveEaseOut, .allowUserInteraction]
         UIView.animate(withDuration: initTime, delay: settings.animation.present.delay, options: options, animations: { [weak self] in
                 guard let me = self else {
                     return
@@ -234,7 +234,7 @@ open class SkypeActionController: ActionController<SkypeCell, String, UICollecti
     fileprivate func startAnimation() {
         if displayLink == nil {
             self.displayLink = CADisplayLink(target: self, selector: #selector(SkypeActionController.update(_:)))
-            self.displayLink.add(to: RunLoop.main, forMode: RunLoopMode.defaultRunLoopMode)
+            self.displayLink.add(to: RunLoop.main, forMode: RunLoop.Mode.default)
         }
         animationCount += 1
     }
