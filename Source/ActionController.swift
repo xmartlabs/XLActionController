@@ -28,7 +28,7 @@ import UIKit
 #if swift(>=4.2)
 import UIKit.UIGeometry
 extension UIEdgeInsets {
-    public static let zero = UIEdgeInsets()
+    static let zero = UIEdgeInsets()
 }
 #endif
 
