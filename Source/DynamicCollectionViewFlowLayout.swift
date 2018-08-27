@@ -89,8 +89,9 @@ open class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
         guard let animator = dynamicAnimator else {
             return super.layoutAttributesForElements(in: rect)
         }
-        
-        return animator.items(in: rect) as? [UICollectionViewLayoutAttributes]
+
+        let items = animator.items(in: rect) as NSArray
+        return items.flatMap { $0 as? UICollectionViewLayoutAttributes }
     }
     
     override open func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
@@ -132,11 +133,7 @@ open class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
     }
 
     private func isRTL(for view: UIView) -> Bool {
-        if #available(iOS 9.0, *) {
-            return UIView.userInterfaceLayoutDirection(for: view.semanticContentAttribute) == .rightToLeft
-        } else {
-            return UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft
-        }
+        return UIView.userInterfaceLayoutDirection(for: view.semanticContentAttribute) == .rightToLeft
     }
 
     @discardableResult
