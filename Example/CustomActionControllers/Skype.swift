@@ -223,8 +223,8 @@ open class SkypeActionController: ActionController<SkypeCell, String, UICollecti
         let normalRectLayer = normalAnimationRect.layer.presentation()
         let springRectLayer = springAnimationRect.layer.presentation()
         
-        guard let normalRectFrame = (normalRectLayer?.value(forKey: "frame") as AnyObject).cgRectValue,
-          let springRectFrame = (springRectLayer?.value(forKey: "frame") as AnyObject).cgRectValue else {
+        guard let normalRectFrame = normalRectLayer?.frame,
+          let springRectFrame = springRectLayer?.frame else {
             return
         }
         contextView.diff = normalRectFrame.origin.y - springRectFrame.origin.y
