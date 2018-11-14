@@ -600,7 +600,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
     open func performCustomDismissingAnimation(_ presentedView: UIView, presentingView: UIView) {
         backgroundView.alpha = 0.0
         cancelView?.frame.origin.y = view.bounds.size.height
-        collectionView.frame.origin.y = contentHeight + (settings.cancelView.showCancel ? settings.cancelView.height : 0) + settings.animation.dismiss.offset
+        collectionView.frame.origin.y = contentHeight + (settings.cancelView.showCancel ? settings.cancelView.height : 0) + settings.animation.dismiss.offset + safeAreaInsets.bottom
         // Override this to add custom animations. This method is performed within the presentation animation block
     }
     
