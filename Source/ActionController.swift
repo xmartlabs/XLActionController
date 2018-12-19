@@ -252,9 +252,9 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         if let headerSpec = headerSpec, let _ = headerData {
             switch headerSpec {
             case .cellClass:
-                collectionView.register(HeaderViewType.self, forSupplementaryViewOfKind:UICollectionView.elementKindSectionHeader, withReuseIdentifier: ReusableViewIds.Header.rawValue)
+                collectionView.register(HeaderViewType.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ReusableViewIds.Header.rawValue)
             case .nibFile(let nibName, let bundle, _):
-                collectionView.register(UINib(nibName: nibName, bundle: bundle), forSupplementaryViewOfKind:UICollectionView.elementKindSectionHeader, withReuseIdentifier: ReusableViewIds.Header.rawValue)
+                collectionView.register(UINib(nibName: nibName, bundle: bundle), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ReusableViewIds.Header.rawValue)
             }
         }
         
@@ -262,9 +262,9 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         if let headerSpec = sectionHeaderSpec {
             switch headerSpec {
             case .cellClass:
-                collectionView.register(SectionHeaderViewType.self, forSupplementaryViewOfKind:UICollectionView.elementKindSectionHeader, withReuseIdentifier: ReusableViewIds.SectionHeader.rawValue)
+                collectionView.register(SectionHeaderViewType.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ReusableViewIds.SectionHeader.rawValue)
             case .nibFile(let nibName, let bundle, _):
-                collectionView.register(UINib(nibName: nibName, bundle: bundle), forSupplementaryViewOfKind:UICollectionView.elementKindSectionHeader, withReuseIdentifier: ReusableViewIds.SectionHeader.rawValue)
+                collectionView.register(UINib(nibName: nibName, bundle: bundle), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ReusableViewIds.SectionHeader.rawValue)
             }
         }
         

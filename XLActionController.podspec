@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name     = 'XLActionController'
-  spec.version  = '4.1.0'
+  spec.version  = '4.1.1'
   spec.license  = 'MIT'
   spec.summary  = 'Fully customizable and extensible action sheet controller written in Swift'
   spec.homepage = 'https://github.com/xmartlabs/XLActionController'
@@ -10,6 +10,7 @@ Pod::Spec.new do |spec|
   spec.ios.deployment_target = '9.0'
   spec.ios.frameworks = 'UIKit', 'Foundation', 'CoreGraphics'
   spec.requires_arc = true
+  spec.swift_version = '4.2'
 
   # Core subspec
   spec.subspec 'Core' do |core|
