@@ -64,7 +64,6 @@ open class TweetbotActionController: DynamicsActionController<TweetbotCell, Stri
         settings.behavior.bounces = true
         settings.behavior.useDynamics = true
         collectionView.contentInset = UIEdgeInsets(top: 0.0, left: 12.0, bottom: 6.0, right: 12.0)
-        (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 6.0, right: 0.0)
         
         cellSpec = .nibFile(nibName: "TweetbotCell", bundle: Bundle(for: TweetbotCell.self), height: { _  in 50 })
         
@@ -99,5 +98,11 @@ open class TweetbotActionController: DynamicsActionController<TweetbotCell, Stri
   
     required public init?(coder aDecoder: NSCoder) {
       super.init(coder: aDecoder)
+    }
+    
+    // MARK: - UICollectionViewDelegateFlowLayout
+    
+    open override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0.0, left: 0.0, bottom: 6.0, right: 0.0)
     }
 }
