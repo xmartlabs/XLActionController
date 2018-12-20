@@ -214,11 +214,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         return indexPath
     }
     
-    open func dismiss() {
-        dismiss(nil)
-    }
-
-    open func dismiss(_ completion: (() -> ())?) {
+    open func dismiss(_ completion: (() -> ())? = nil) {
         disableActions = true
         presentingViewController?.dismiss(animated: true) { [weak self] in
             self?.disableActions = false
@@ -777,10 +773,6 @@ open class DynamicsActionController<ActionViewType: UICollectionViewCell, Action
     }
 
     // MARK: - Overrides
-
-    open override func dismiss() {
-        dismiss(nil)
-    }
 
     open override func dismiss(_ completion: (() -> ())?) {
         animator.addBehavior(gravityBehavior)
