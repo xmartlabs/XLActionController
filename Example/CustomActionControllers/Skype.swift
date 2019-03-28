@@ -29,7 +29,7 @@ import XLActionController
 
 open class SkypeCell: UICollectionViewCell {
     
-    @IBOutlet weak var actionTitleLabel: UILabel!
+    @IBOutlet open weak var actionTitleLabel: UILabel!
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
