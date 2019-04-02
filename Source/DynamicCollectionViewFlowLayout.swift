@@ -171,6 +171,8 @@ open class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
             translationX = isRTL(for: collectionView) ? rightMargin : leftMargin
         case .trailing:
             translationX = isRTL(for: collectionView) ? leftMargin : rightMargin
+        @unknown default:
+            translationX = isRTL(for: collectionView) ? rightMargin : leftMargin
         }
 
         frame.origin.x = translationX
