@@ -5,6 +5,7 @@
 <img src="https://img.shields.io/badge/platform-iOS-blue.svg?style=flat" alt="Platform iOS" />
 <a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/swift4-compatible-4BC51D.svg?style=flat" alt="Swift 4 compatible" /></a>
 <a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible" /></a>
+<a href="https://github.com/JamitLabs/Accio"><img src="https://img.shields.io/badge/Accio-supported-0A7CF5.svg?style=flat" alt="Accio supported" /></a>
 <a href="https://cocoapods.org/pods/XLActionController"><img src="https://img.shields.io/cocoapods/v/XLActionController.svg" alt="CocoaPods compatible" /></a>
 <a href="https://raw.githubusercontent.com/xmartlabs/XLActionController/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License: MIT" /></a>
 <!-- <a href="https://codebeat.co/projects/github-com-xmartlabs-xlactioncontroller"><img alt="codebeat badge" src="https://codebeat.co/badges/24f48197-136d-44cc-b072-6703644d13b6" /></a> -->
@@ -445,6 +446,29 @@ Specify XLActionController into your project's Carthage:
 ```
 github "xmartlabs/XLActionController" ~> 4.1
 ```
+
+### Accio
+
+[Accio](https://github.com/JamitLabs/Accio) is a SwiftPM based dependency manager with improvements over Carthage.
+
+Add the following to your Package.swift:
+
+```swift
+.package(url: "https://github.com/xmartlabs/XLActionController.git", .upToNextMajor(from: "5.0.0")),
+```
+
+Next, add `XLActionController` to your App targets dependencies like so:
+
+```swift
+.target(
+    name: "App",
+    dependencies: [
+        "XLActionController",
+    ]
+),
+```
+
+Then run `accio update`.
 
 ### Manually as Embedded Framework
 
