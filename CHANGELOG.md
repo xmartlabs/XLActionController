@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+### [5.0.1](https://github.com/xmartlabs/XLActionController/releases/tag/5.0.1)
+
+* Updates for Xcode 11
+
 ### [5.0.0](https://github.com/xmartlabs/XLActionController/releases/tag/5.0.0)
 
 * Swift 5.0 source compability.
