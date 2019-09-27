@@ -176,7 +176,6 @@ open class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
         }
 
         frame.origin.x = translationX
-        frame.origin.y -= collectionView.contentInset.bottom
         initialFrame.origin.x = translationX
 
         let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
