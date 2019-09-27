@@ -82,6 +82,10 @@ public struct ActionControllerSettings {
          */
         public var backgroundColor = UIColor.black.withAlphaComponent(0.8)
         /**
+        * The cancel view's title color. Its default value is `UIColor.white`.
+        */
+        public var titleColor = UIColor.white
+        /**
           * A Boolean value that determines whether the collection view can be partially covered by the 
           * cancel view when it is pulled down. Its default value is `true`
           */
