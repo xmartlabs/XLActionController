@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+### [5.0.2](https://github.com/xmartlabs/XLActionController/releases/tag/5.0.2)
+
+* Fix incorrect top inset and content offset (#126)
+* Support setting cancel view's title color (#129)
+* Fix issue introduced with last release that would crash an app when using one of the subspecs
+
 ### [5.0.1](https://github.com/xmartlabs/XLActionController/releases/tag/5.0.1)
 
 * Updates for Xcode 11
