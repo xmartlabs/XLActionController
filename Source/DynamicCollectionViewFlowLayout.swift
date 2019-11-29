@@ -171,10 +171,11 @@ open class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
             translationX = isRTL(for: collectionView) ? rightMargin : leftMargin
         case .trailing:
             translationX = isRTL(for: collectionView) ? leftMargin : rightMargin
+        @unknown default:
+            translationX = isRTL(for: collectionView) ? rightMargin : leftMargin
         }
 
         frame.origin.x = translationX
-        frame.origin.y -= collectionView.contentInset.bottom
         initialFrame.origin.x = translationX
 
         let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
