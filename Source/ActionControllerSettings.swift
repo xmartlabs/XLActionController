@@ -74,6 +74,14 @@ public struct ActionControllerSettings {
          */
         public var title: String? = "Cancel"
         /**
+         * The cancel view's title Font.
+         */
+        public var titleFont: String = UIFont.systemFont(ofSize: 14).fontName
+        /**
+         * The cancel view's title Font Size.
+         */
+        public var titleSize: CGFloat = 14.0
+        /**
          * The cancel view's height. Its default value is `60`.
          */
         public var height = CGFloat(60.0)
