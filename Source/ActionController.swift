@@ -364,6 +364,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         cancelButton.addTarget(self, action: #selector(ActionController.cancelButtonDidTouch(_:)), for: .touchUpInside)
         cancelButton.setTitleColor(settings.cancelView.titleColor, for: UIControl.State())
         cancelButton.setTitle(settings.cancelView.title, for: UIControl.State())
+        cancelButton.titleLabel?.font = UIFont(name: settings.cancelView.titleFont, size: settings.cancelView.titleSize)
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
 
         cancelView.addSubview(cancelButton)
