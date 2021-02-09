@@ -14,7 +14,6 @@
 		28650D2F1C0DD21A008C1F27 /* TweetbotCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28650D281C0DD21A008C1F27 /* TweetbotCell.xib */; };
 		28650D301C0DD21A008C1F27 /* TwitterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28650D291C0DD21A008C1F27 /* TwitterCell.xib */; };
 		28650D311C0DD21A008C1F27 /* YoutubeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28650D2A1C0DD21A008C1F27 /* YoutubeCell.xib */; };
-		28A21F1E1C0E7DEE009FC30F /* ActionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A21F1D1C0E7DEE009FC30F /* ActionData.swift */; };
 		28AD9C781C03F34F0044164E /* SkypeExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AD9C771C03F34F0044164E /* SkypeExampleViewController.swift */; };
 		28AD9C7D1C04C63D0044164E /* XLActionController.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 28B3B8891BFA858D007337A2 /* XLActionController.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		28B3B85A1BFA7EEC007337A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B3B8591BFA7EEC007337A2 /* AppDelegate.swift */; };
@@ -88,7 +87,6 @@
 		28650D281C0DD21A008C1F27 /* TweetbotCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TweetbotCell.xib; sourceTree = "<group>"; };
 		28650D291C0DD21A008C1F27 /* TwitterCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TwitterCell.xib; sourceTree = "<group>"; };
 		28650D2A1C0DD21A008C1F27 /* YoutubeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YoutubeCell.xib; sourceTree = "<group>"; };
-		28A21F1D1C0E7DEE009FC30F /* ActionData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionData.swift; sourceTree = "<group>"; };
 		28AD9C771C03F34F0044164E /* SkypeExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkypeExampleViewController.swift; sourceTree = "<group>"; };
 		28B3B8561BFA7EEC007337A2 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28B3B8591BFA7EEC007337A2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -135,19 +133,12 @@
 		28650D231C0DD21A008C1F27 /* CustomActionControllers */ = {
 			isa = PBXGroup;
 			children = (
-				28A21F1D1C0E7DEE009FC30F /* ActionData.swift */,
-				28650D251C0DD21A008C1F27 /* PeriscopeCell.xib */,
-				B297A9151C0E17AA00AF9559 /* Periscope.swift */,
-				28650D261C0DD21A008C1F27 /* SkypeCell.xib */,
-				B297A91A1C0E191600AF9559 /* Skype.swift */,
-				28650D271C0DD21A008C1F27 /* SpotifyCell.xib */,
-				B297A91F1C0E193B00AF9559 /* Spotify.swift */,
-				28650D281C0DD21A008C1F27 /* TweetbotCell.xib */,
-				B297A9231C0E195F00AF9559 /* Tweetbot.swift */,
-				28650D291C0DD21A008C1F27 /* TwitterCell.xib */,
-				B297A9261C0E198200AF9559 /* Twitter.swift */,
-				28650D2A1C0DD21A008C1F27 /* YoutubeCell.xib */,
-				B297A9291C0E19A500AF9559 /* Youtube.swift */,
+				C74DEDAE25D2C27D009A9DFA /* Youtube */,
+				C74DEDAD25D2C276009A9DFA /* Twitter */,
+				C74DEDAC25D2C268009A9DFA /* Tweetbot */,
+				C74DEDAB25D2C25A009A9DFA /* Spotify */,
+				C74DEDAA25D2C24D009A9DFA /* Skype */,
+				C74DEDA925D2C241009A9DFA /* Periscope */,
 			);
 			path = CustomActionControllers;
 			sourceTree = "<group>";
@@ -208,6 +199,60 @@
 				28B3B88B1BFA858D007337A2 /* XLActionControllerTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		C74DEDA925D2C241009A9DFA /* Periscope */ = {
+			isa = PBXGroup;
+			children = (
+				28650D251C0DD21A008C1F27 /* PeriscopeCell.xib */,
+				B297A9151C0E17AA00AF9559 /* Periscope.swift */,
+			);
+			path = Periscope;
+			sourceTree = "<group>";
+		};
+		C74DEDAA25D2C24D009A9DFA /* Skype */ = {
+			isa = PBXGroup;
+			children = (
+				28650D261C0DD21A008C1F27 /* SkypeCell.xib */,
+				B297A91A1C0E191600AF9559 /* Skype.swift */,
+			);
+			path = Skype;
+			sourceTree = "<group>";
+		};
+		C74DEDAB25D2C25A009A9DFA /* Spotify */ = {
+			isa = PBXGroup;
+			children = (
+				28650D271C0DD21A008C1F27 /* SpotifyCell.xib */,
+				B297A91F1C0E193B00AF9559 /* Spotify.swift */,
+			);
+			path = Spotify;
+			sourceTree = "<group>";
+		};
+		C74DEDAC25D2C268009A9DFA /* Tweetbot */ = {
+			isa = PBXGroup;
+			children = (
+				28650D281C0DD21A008C1F27 /* TweetbotCell.xib */,
+				B297A9231C0E195F00AF9559 /* Tweetbot.swift */,
+			);
+			path = Tweetbot;
+			sourceTree = "<group>";
+		};
+		C74DEDAD25D2C276009A9DFA /* Twitter */ = {
+			isa = PBXGroup;
+			children = (
+				28650D291C0DD21A008C1F27 /* TwitterCell.xib */,
+				B297A9261C0E198200AF9559 /* Twitter.swift */,
+			);
+			path = Twitter;
+			sourceTree = "<group>";
+		};
+		C74DEDAE25D2C27D009A9DFA /* Youtube */ = {
+			isa = PBXGroup;
+			children = (
+				28650D2A1C0DD21A008C1F27 /* YoutubeCell.xib */,
+				B297A9291C0E19A500AF9559 /* Youtube.swift */,
+			);
+			path = Youtube;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -365,7 +410,6 @@
 				B297A9161C0E17AA00AF9559 /* Periscope.swift in Sources */,
 				28B3B8801BFA8566007337A2 /* TwitterExampleViewController.swift in Sources */,
 				28B3B87D1BFA8566007337A2 /* PeriscopeExampleViewController.swift in Sources */,
-				28A21F1E1C0E7DEE009FC30F /* ActionData.swift in Sources */,
 				28AD9C781C03F34F0044164E /* SkypeExampleViewController.swift in Sources */,
 				28B3B85A1BFA7EEC007337A2 /* AppDelegate.swift in Sources */,
 				B297A91B1C0E191600AF9559 /* Skype.swift in Sources */,
@@ -536,7 +580,7 @@
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Example/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_SWIFT_FLAGS = "-DXLACTIONCONTROLLER_EXAMPLE";
+				OTHER_SWIFT_FLAGS = "-DIMPORT_BASE_XLACTIONCONTROLLER";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -554,7 +598,7 @@
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Example/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_SWIFT_FLAGS = "-DXLACTIONCONTROLLER_EXAMPLE";
+				OTHER_SWIFT_FLAGS = "-DIMPORT_BASE_XLACTIONCONTROLLER";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
