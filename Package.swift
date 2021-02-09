@@ -8,7 +8,7 @@ func getExampleTarget(name: String) -> Target {
                    path: "Example/CustomActionControllers/\(name)",
                    sources: ["\(name).swift"],
                    resources: [Resource.process("\(name)Cell.xib")],
-                   swiftSettings: [SwiftSetting.define("XLACTIONCONTROLLER_EXAMPLE")])
+                   swiftSettings: [SwiftSetting.define("IMPORT_BASE_XLACTIONCONTROLLER")])
 }
 
 let package = Package(
