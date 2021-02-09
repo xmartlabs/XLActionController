@@ -68,10 +68,10 @@
 		28E1915D1BFA618E00066B1C = {
 			isa = PBXGroup;
 			children = (
-				C74DED9925D2B82A009A9DFA /* Package.swift */,
 				EA2CFE281FBD2FBB00CAE00E /* Resource */,
 				28E191691BFA618E00066B1C /* Source */,
 				28E191751BFA618F00066B1C /* Tests */,
+				C74DEDDE25D319F7009A9DFA /* Package */,
 				28E191681BFA618E00066B1C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -107,6 +107,14 @@
 				28E191781BFA618F00066B1C /* Info.plist */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		C74DEDDE25D319F7009A9DFA /* Package */ = {
+			isa = PBXGroup;
+			children = (
+				C74DED9925D2B82A009A9DFA /* Package.swift */,
+			);
+			name = Package;
 			sourceTree = "<group>";
 		};
 		EA2CFE281FBD2FBB00CAE00E /* Resource */ = {
@@ -385,7 +393,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 5.0.2;
+				MARKETING_VERSION = 5.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.XLActionController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -408,7 +416,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 5.0.2;
+				MARKETING_VERSION = 5.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.XLActionController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

@@ -1,10 +1,10 @@
 language: objective-c
-osx_image: xcode11
+osx_image: xcode12
 branches:
   only:
     - master
 env:
-  - DESTINATION="OS=13.0,name=iPhone 11" SCHEME="XLActionController" SDK=iphonesimulator
+  - DESTINATION="OS=14.0,name=iPhone 12" SCHEME="XLActionController" SDK=iphonesimulator
 script:
   - set -o pipefail
   - xcodebuild -version

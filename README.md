@@ -442,7 +442,7 @@ dependency manager for Cocoa.
 Specify XLActionController into your project's Carthage:
 
 ```
-github "xmartlabs/XLActionController" ~> 5.0.2
+github "xmartlabs/XLActionController" ~> 5.1.0
 ```
 
 ### Manually as Embedded Framework
