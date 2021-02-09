@@ -31,7 +31,7 @@ Pod::Spec.new do |spec|
   subspecs.each do |name|
     spec.subspec name do |subspec|
       subspec.dependency 'XLActionController/Core'
-      subspec.source_files = ["Example/CustomActionControllers/#{name}.swift", "Example/CustomActionControllers/ActionData.swift", "Example/CustomActionControllers/#{name}*.xib"]
+      subspec.source_files = ["Example/CustomActionControllers/#{name}/#{name}.swift", "Example/CustomActionControllers/#{name}/#{name}*.xib"]
     end
   end
 
