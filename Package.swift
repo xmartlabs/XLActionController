@@ -7,7 +7,8 @@ func getExampleTarget(name: String) -> Target {
                    dependencies: [Target.Dependency.target(name: "XLActionController")],
                    path: "Example/CustomActionControllers/\(name)",
                    sources: ["\(name).swift"],
-                   resources: [Resource.process("\(name)Cell.xib")])
+                   resources: [Resource.process("\(name)Cell.xib")],
+                   swiftSettings: [SwiftSetting.define("XLACTIONCONTROLLER_EXAMPLE")])
 }
 
 let package = Package(
