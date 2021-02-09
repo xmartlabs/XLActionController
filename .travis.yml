@@ -4,7 +4,7 @@ branches:
   only:
     - master
 env:
-  - DESTINATION="OS=14.0,name=iPhone 12" SCHEME="XLActionController" SDK=iphonesimulator
+  - DESTINATION="platform=iOS Simulator,OS=14.0,name=iPhone 11" SCHEME="XLActionController" SDK=iphonesimulator
 script:
   - set -o pipefail
   - xcodebuild -version
