@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+### [5.1.0](https://github.com/xmartlabs/XLActionController/releases/tag/5.1.0)
+
+* Added the ability to adjust Cancel View's Title font and size. (#145)
+* Support for SPM (#144, #146)
+
 ### [5.0.2](https://github.com/xmartlabs/XLActionController/releases/tag/5.0.2)
 
 * Fix incorrect top inset and content offset (#126)
