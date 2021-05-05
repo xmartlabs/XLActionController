@@ -95,7 +95,7 @@ public struct ActionControllerSettings {
         public var titleColor = UIColor.white
         /**
           * A Boolean value that determines whether the collection view can be partially covered by the 
-          * cancel view when it is pulled down. Its default value is `true`
+          * cancel view when it is pulled down. Its default value is `false`
           */
         public var hideCollectionViewBehindCancelView = false
     }
