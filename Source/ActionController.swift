@@ -277,6 +277,7 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
                 contentHeight += settings.cancelView.height
             }
         }
+        contentHeight += collectionView.contentInset.bottom
 
         // set up collection view initial position taking into account top content inset
         collectionView.frame = view.bounds
