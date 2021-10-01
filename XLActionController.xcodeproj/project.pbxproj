@@ -68,7 +68,7 @@
 		28E1915D1BFA618E00066B1C = {
 			isa = PBXGroup;
 			children = (
-				EA2CFE281FBD2FBB00CAE00E /* Resource */,
+				C7ABB55727073FD300D4D428 /* Supporting Files */,
 				28E191691BFA618E00066B1C /* Source */,
 				28E191751BFA618F00066B1C /* Tests */,
 				C74DEDDE25D319F7009A9DFA /* Package */,
@@ -88,6 +88,7 @@
 		28E191691BFA618E00066B1C /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				EA2CFE281FBD2FBB00CAE00E /* Resource */,
 				C74DEDA225D2C060009A9DFA /* ActionData.swift */,
 				28B3B84B1BFA6E39007337A2 /* XLActionController.h */,
 				28B3B8361BFA668F007337A2 /* ActionCell.swift */,
@@ -95,7 +96,6 @@
 				28B3B8391BFA668F007337A2 /* ActionControllerSettings.swift */,
 				28B3B83A1BFA668F007337A2 /* DynamicCollectionViewFlowLayout.swift */,
 				28B3B83C1BFA668F007337A2 /* Action.swift */,
-				28E1916C1BFA618F00066B1C /* Info.plist */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -115,6 +115,14 @@
 				C74DED9925D2B82A009A9DFA /* Package.swift */,
 			);
 			name = Package;
+			sourceTree = "<group>";
+		};
+		C7ABB55727073FD300D4D428 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				28E1916C1BFA618F00066B1C /* Info.plist */,
+			);
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		EA2CFE281FBD2FBB00CAE00E /* Resource */ = {
@@ -389,7 +397,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -412,7 +420,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
