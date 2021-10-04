@@ -7,7 +7,7 @@ func getExampleTarget(name: String) -> Target {
                    dependencies: [Target.Dependency.target(name: "XLActionController")],
                    path: "Example/CustomActionControllers/\(name)",
                    sources: ["\(name).swift"],
-                   resources: [Resource.process("\(name)Cell.xib")],
+                //    resources: [Resource.process("\(name)Cell.xib")],
                    swiftSettings: [SwiftSetting.define("IMPORT_BASE_XLACTIONCONTROLLER")])
 }
 
@@ -26,8 +26,7 @@ let package = Package(
         .library(name: "XLActionControllerYoutube", targets: ["XLActionController_Youtube"])
     ],
     targets: [
-        .target(name: "XLActionController", path: "Source",
-                resources: [Resource.process("Resource/ActionCell.xib")]),
+        .target(name: "XLActionController", path: "Source"),
         getExampleTarget(name: "Periscope"),
         getExampleTarget(name: "Skype"),
         getExampleTarget(name: "Spotify"),
