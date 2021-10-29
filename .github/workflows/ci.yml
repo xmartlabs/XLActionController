@@ -1,0 +1,22 @@
+name: XLActionController CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  iOS:
+    runs-on: macOS-latest
+    strategy:
+      matrix:
+        destination: ['platform=iOS Simulator,OS=14.4,name=iPhone 11']
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build and test library
+      run: set -o pipefail && xcodebuild -project XLActionController.xcodeproj -scheme 'XLActionController' -sdk 'iphonesimulator' -destination "${{ matrix.destination }}" -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c
+    - name: Build Example Debug
+      run: set -o pipefail && xcodebuild -project Example.xcodeproj -scheme 'Example' -sdk 'iphonesimulator' -destination "${{ matrix.destination }}" -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty -c
+    - name: Build Example Release
+      run: set -o pipefail && xcodebuild -project Example.xcodeproj -scheme 'Example' -sdk 'iphonesimulator' -destination "${{ matrix.destination }}" -configuration Release ONLY_ACTIVE_ARCH=NO build | xcpretty -c
