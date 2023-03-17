@@ -1,4 +1,4 @@
-# XLActionController
+![XLActionController](https://raw.githubusercontent.com/xmartlabs/XLActionController/master/XLActionController.png)
 
 <p align="left">
 <a href="https://travis-ci.org/xmartlabs/XLActionController"><img src="https://travis-ci.org/xmartlabs/XLActionController.svg?branch=master" alt="Build status" /></a>
